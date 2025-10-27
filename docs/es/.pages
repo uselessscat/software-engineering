@@ -1,0 +1,4 @@
+nav:
+  - Inicio: index.md
+  - Ruta operacional: 001-operational-path.md
+  - Sistemas de cómputo: 007-computing-systems

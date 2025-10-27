@@ -1,0 +1,62 @@
+site_name: Software Engineering
+site_url: https://uselessscat.github.io/software-engineering/
+repo_url: https://github.com/uselessscat/software-engineering
+
+watch:
+  - docs
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.tracking
+    - navigation.indexes
+    - navigation.path
+    - navigation.top
+    - search.highlight
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - attr_list
+  - md_in_html
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - strip-number-prefix:
+      pattern: "^\\d+-"
+      strict: true
+      strip_links: false
+  - awesome-pages
+  - i18n:
+      docs_structure: folder 
+      languages:
+        - locale: es
+          name: Español
+          default: true
+        - locale: en
+          name: English
+#  - kroki:
+#      ServerURL: http://localhost:8001
+#      FileTypes:
+#        - svg
+#      TagFormat: svg
+#      HttpMethod: POST
+#  - with-pdf
+  - search
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.js
+  - https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/contrib/auto-render.min.js
+  - https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.6.0/dist/panzoom.min.js
+  - js/katex-init.js
+  - js/kroki-viewer.js
+
+extra_css:
+  - https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css
+  - css/kroki-viewer.css
