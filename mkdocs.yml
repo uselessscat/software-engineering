@@ -34,20 +34,21 @@ plugins:
       strip_links: false
   - awesome-pages
   - i18n:
-      docs_structure: folder 
+      docs_structure: folder
+      fallback_to_default: false
       languages:
         - locale: es
           name: Español
           default: true
         - locale: en
           name: English
-#  - kroki:
-#      ServerURL: http://localhost:8001
-#      FileTypes:
-#        - svg
-#      TagFormat: svg
-#      HttpMethod: POST
-#  - with-pdf
+  #  - kroki:
+  #      ServerURL: http://localhost:8001
+  #      FileTypes:
+  #        - svg
+  #      TagFormat: svg
+  #      HttpMethod: POST
+  #  - with-pdf
   - search
 
 extra_javascript:
@@ -55,8 +56,8 @@ extra_javascript:
   - https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/contrib/auto-render.min.js
   - https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.6.0/dist/panzoom.min.js
   - js/katex-init.js
-  - js/kroki-viewer.js
+  #  - js/kroki-viewer.js
 
 extra_css:
   - https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css
-  - css/kroki-viewer.css
+  #  - css/kroki-viewer.css
