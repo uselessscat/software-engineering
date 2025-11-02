@@ -1,56 +1,70 @@
-# Bienvenida
+---
+title: Inicio
+description: Tu mapa conciso y progresivo para dominar la Ingeniería de Software y la computación.
+hide:
+  - navigation
+  - toc
+---
+<div align="center" markdown>
+# Ingeniería de Software y computación
 
-Esta es mi guía. Soporta **KaTeX**, **Mermaid**, **PlantUML** y **draw.io**, y exporta a **PDF**.
+Tu mapa conciso y progresivo para dominar la Ingeniería de Software y la computación.
 
-Fórmula inline: $e^{i\pi}+1=0$.
+[Empezar ahora](/){ .md-button .md-button--primary }
+[Ver temario](operational-path/){ .md-button }
+</div>
+</br>
+<div class="grid cards" markdown>
+-   :material-brain: **Fundamentos**
 
-!!! type "optional explicit title within double quotes"
-    Any number of others indented markdown elements.
+    Matemáticas discretas, lógica, estructuras de datos, complejidad y diseño de algoritmos.
 
-    This is the second paragraph.
+    [:octicons-arrow-right-24: Ir a Fundamentos](fundamentos/discretas/)
 
-## asdssss
+-   :material-cpu-64-bit: **Computación y Sistemas**
+  
+    Arquitectura, sistemas operativos, concurrencia, redes, distribuido, contenedores y cloud.
 
-asd
-Bloque:
-$$
-\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}.
-$$
+    [:octicons-arrow-right-24: Ir a Sistemas](sistemas/arquitectura/)
 
-:material-home:
+-   :material-domain: **Arquitectura de software**
+  
+    Estilos (capas, hexagonal, microservicios), patrones (CQRS, EDA), calidad (modularidad, escalabilidad, observabilidad) y documentación (C4).
 
-```kroki-mermaid
-sequenceDiagram
-    Alice->>John: Hello John, how are you?
-    John-->>Alice: Great!
-    Alice-)John: See you later!
-```
+    [:octicons-arrow-right-24: Ir a Arquitectura de software](arquitectura-software/)
 
-```kroki-plantuml
-@startuml
-Alice -> Bob : Hola
-Bob --> Alice : Qué tal
-@enduml
-```
+-   :material-hammer-wrench: **Desarrollo de software**
+  
+    Linux, shell, Git, pruebas, calidad, packaging, CI/CD y buenas prácticas.
 
-```markdown
-# Alfabetos y lenguajes
-Contenido…
-```
+    [:octicons-arrow-right-24: Ir a Desarrollo](dev/linux/)
 
-(Soportado por Material.) :contentReference[oaicite:6]{index=6}
+-   :material-server: **Infra & DevOps (opcional)**
+  
+    Docker/Podman, Kubernetes básico, observabilidad, logging/metrics/tracing.
 
-```markdown
-Ecuación de Euler: $e^{i\pi}+1=0$.
+    [:octicons-arrow-right-24: Ir a Infra](infra/)
 
-$$
-\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
-$$
-```
+-   :material-abacus: **Ciencia de Datos & HPC (opcional)**
+  
+    NumPy, vectorización, paralelismo, GPU (intro), data pipelines.
 
-### asdasd a
+    [:octicons-arrow-right-24: Ir a CD/HPC](cd-hpc/)
+</div>
 
-```python
-def hola_mundo():
-    print("Hola, mundo!")
-```
+## Rutas sugeridas
+
+=== "Ruta básica (60–90 h)"
+    1. Fundamentos → Discretas → EDA y Complejidad  
+    2. Sistemas → SO → Redes  
+    3. Práctica → Linux → Git → Testing
+
+=== "Ruta sistemas (90–120 h)"
+    1. Fundamentos → EDA/Complejidad  
+    2. Sistemas → SO/Concurrencia → Distribuidos  
+    3. Infra → Contenedores → Observabilidad
+
+=== "Ruta computacional (90–120 h)"
+    1. Fundamentos → EDA/Complejidad  
+    2. CD/HPC → Vectorización → GPU (intro)  
+    3. Práctica → CI/CD

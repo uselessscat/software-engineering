@@ -7,6 +7,7 @@ watch:
 
 theme:
   name: material
+  custom_dir: overrides
   features:
     - content.code.copy
     - navigation.tracking
@@ -23,6 +24,8 @@ markdown_extensions:
   - md_in_html
   - pymdownx.arithmatex:
       generic: true
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
@@ -42,22 +45,23 @@ plugins:
           default: true
         - locale: en
           name: English
-  #  - kroki:
-  #      ServerURL: http://localhost:8001
-  #      FileTypes:
-  #        - svg
-  #      TagFormat: svg
-  #      HttpMethod: POST
-  #  - with-pdf
+#  - kroki:
+#      ServerURL: http://localhost:8001
+#      FileTypes:
+#        - svg
+#      TagFormat: svg
+#      HttpMethod: POST
+#  - with-pdf
   - search
 
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.js
   - https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/contrib/auto-render.min.js
   - https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.6.0/dist/panzoom.min.js
-  - js/katex-init.js
-  #  - js/kroki-viewer.js
+  - assets/javascripts/katex-init.js
+#  - js/kroki-viewer.js
 
 extra_css:
   - https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css
-  #  - css/kroki-viewer.css
+  - assets/stylesheets/lists.css
+#  - css/kroki-viewer.css
