@@ -19,37 +19,37 @@ Tu mapa conciso y progresivo para dominar la Ingeniería de Software y la comput
 
     Matemáticas discretas, lógica, estructuras de datos, complejidad y diseño de algoritmos.
 
-    [:octicons-arrow-right-24: Ir a Fundamentos](fundamentos/discretas/)
+    [:octicons-arrow-right-24: Ir a Fundamentos](general-overview.md)
 
 -   :material-cpu-64-bit: **Computación y Sistemas**
   
     Arquitectura, sistemas operativos, concurrencia, redes, distribuido, contenedores y cloud.
 
-    [:octicons-arrow-right-24: Ir a Sistemas](sistemas/arquitectura/)
+    [:octicons-arrow-right-24: Ir a Sistemas](general-overview.md)
 
 -   :material-domain: **Arquitectura de software**
   
     Estilos (capas, hexagonal, microservicios), patrones (CQRS, EDA), calidad (modularidad, escalabilidad, observabilidad) y documentación (C4).
 
-    [:octicons-arrow-right-24: Ir a Arquitectura de software](arquitectura-software/)
+    [:octicons-arrow-right-24: Ir a Arquitectura de software](general-overview.md)
 
 -   :material-hammer-wrench: **Desarrollo de software**
   
     Linux, shell, Git, pruebas, calidad, packaging, CI/CD y buenas prácticas.
 
-    [:octicons-arrow-right-24: Ir a Desarrollo](dev/linux/)
+    [:octicons-arrow-right-24: Ir a Desarrollo](general-overview.md)
 
 -   :material-server: **Infra & DevOps (opcional)**
   
     Docker/Podman, Kubernetes básico, observabilidad, logging/metrics/tracing.
 
-    [:octicons-arrow-right-24: Ir a Infra](infra/)
+    [:octicons-arrow-right-24: Ir a Infra](general-overview.md)
 
 -   :material-abacus: **Ciencia de Datos & HPC (opcional)**
   
     NumPy, vectorización, paralelismo, GPU (intro), data pipelines.
 
-    [:octicons-arrow-right-24: Ir a CD/HPC](cd-hpc/)
+    [:octicons-arrow-right-24: Ir a CD/HPC](general-overview.md)
 </div>
 
 ## Rutas sugeridas
