@@ -1,4 +1,8 @@
 nav:
-  - Inicio: index.md
-  - Ruta operacional: 001-operational-path.md
-  - Sistemas de cómputo: 007-computing-systems
+  - general-overview.md
+  - guide-structure.md
+  - operational-path.md
+  - professional-path.md
+  - role-based-path.md
+  - recommended-paths.md
+  - Fundamentos de Cs: 001-cs-fundamentals

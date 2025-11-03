@@ -1,56 +1,71 @@
-# Welcome
+---
+title: Home
+description: Your concise and progressive roadmap to mastering Software Engineering and Computing.
+hide:
+  - navigation
+  - toc
+---
+<div align="center" markdown>
+# Software Engineering and Computing
 
-This is my guide. It supports **KaTeX**, **Mermaid**, **PlantUML**, and **draw.io**, and exports to **PDF**.
+Your concise and progressive roadmap to mastering Software Engineering and Computing.
 
-Fórmula inline: $e^{i\pi}+1=0$.
+[Start now](general-overview.md){ .md-button .md-button--primary }
+[View syllabus](operational-path.md){ .md-button }
 
-!!! type "optional explicit title within double quotes"
-    Any number of others indented markdown elements.
+</div>
+</br>
+<div class="grid cards" markdown>
+-   :material-brain: **Fundamentals**
 
-    This is the second paragraph.
+    Discrete mathematics, logic, data structures, complexity, and algorithm design.
 
-## asdssss
+    [:octicons-arrow-right-24: Go to Fundamentals](fundamentos/discretas/)
 
-asd
-Bloque:
-$$
-\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}.
-$$
+-   :material-cpu-64-bit: **Computing and Systems**
 
-:material-home:
+    Architecture, operating systems, concurrency, networks, distributed systems, containers, and cloud.
 
-```kroki-mermaid
-sequenceDiagram
-    Alice->>John: Hello John, how are you?
-    John-->>Alice: Great!
-    Alice-)John: See you later!
-```
+    [:octicons-arrow-right-24: Go to Systems](sistemas/arquitectura/)
 
-```kroki-plantuml
-@startuml
-Alice -> Bob : Hola
-Bob --> Alice : Qué tal
-@enduml
-```
+-   :material-domain: **Software Architecture**
 
-```markdown
-# Alfabetos y lenguajes
-Contenido…
-```
+    Styles (layered, hexagonal, microservices), patterns (CQRS, EDA), quality (modularity, scalability, observability), and documentation (C4).
 
-(Soportado por Material.) :contentReference[oaicite:6]{index=6}
+    [:octicons-arrow-right-24: Go to Software Architecture](arquitectura-software/)
 
-```markdown
-Ecuación de Euler: $e^{i\pi}+1=0$.
+-   :material-hammer-wrench: **Software Development**
 
-$$
-\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
-$$
-```
+    Linux, shell, Git, testing, quality, packaging, CI/CD, and best practices.
 
-### asdasd a
+    [:octicons-arrow-right-24: Go to Development](dev/linux/)
 
-```python
-def hola_mundo():
-    print("Hola, mundo!")
-```
+-   :material-server: **Infra & DevOps (optional)**
+
+    Docker/Podman, basic Kubernetes, observability, logging/metrics/tracing.
+
+    [:octicons-arrow-right-24: Go to Infra](infra/)
+
+-   :material-abacus: **Data Science & HPC (optional)**
+
+    NumPy, vectorization, parallelism, GPU (intro), data pipelines.
+
+    [:octicons-arrow-right-24: Go to DS/HPC](cd-hpc/)
+</div>
+
+## Suggested Paths
+
+=== "Basic Path (60–90 h)"
+    1. Fundamentals → Discrete Math → Data Structures & Complexity
+    2. Systems → OS → Networks
+    3. Practice → Linux → Git → Testing
+
+=== "Systems Path (90–120 h)"
+    1. Fundamentals → Data Structures/Complexity
+    2. Systems → OS/Concurrency → Distributed
+    3. Infra → Containers → Observability
+
+=== "Computational Path (90–120 h)"
+    1. Fundamentals → Data Structures/Complexity
+    2. DS/HPC → Vectorization → GPU (intro)
+    3. Practice → CI/CD

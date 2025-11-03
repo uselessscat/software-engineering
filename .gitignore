@@ -11,3 +11,6 @@ wheels/
 
 # Tools
 .mypy_cache/
+
+# Generated
+site/

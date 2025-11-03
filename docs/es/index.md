@@ -10,8 +10,8 @@ hide:
 
 Tu mapa conciso y progresivo para dominar la Ingeniería de Software y la computación.
 
-[Empezar ahora](/){ .md-button .md-button--primary }
-[Ver temario](operational-path/){ .md-button }
+[Empezar ahora](general-overview.md){ .md-button .md-button--primary }
+[Ver temario](operational-path.md){ .md-button }
 </div>
 </br>
 <div class="grid cards" markdown>

@@ -1,14 +1,12 @@
----
-title: Ruta operacional
-description: Ruta completa para formar a un ingeniero de software capaz de diseñar, construir, operar y mejorar sistemas de software modernos.
----
+# Ruta operacional
+
 1. Fundamentos de Ciencias de la Computación
     1. Historia y evolución de la computación
         1. bla bla
 
     2. Matemáticas Discretas y Lógica
         1. Sistemas Numéricos y Representación de Datos
-            1. Sistemas posicionales (binario/decimal/hex) y conversión mental/algorítmica
+            1. Sistemas posicionales y conversión
             2. Enteros en complemento a 2: rango, sumas/restas y *overflow*
             3. Punto fijo vs. punto flotante (IEEE 754): sign/exponent/mantissa
             4. Modos de redondeo y error (ULP); cancelación simple
@@ -49,29 +47,21 @@ description: Ruta completa para formar a un ingeniero de software capaz de dise�
             4. Distribuciones Bernoulli, Binomial, Geométrica, Poisson (uso típico)
             5. Esperanza/varianza; indicadores y linealidad de la esperanza
             6. Cotas de Markov/Chebyshev (estimaciones gruesas)
-        7. Teoría de Grafos
-            1. Modelos: simples/dirigidos; grado, caminos, ciclos, conectividad
-            2. Representaciones (listas vs. matrices) y costos asociados
-            3. Árboles y propiedades; DFS/BFS como ideas estructurales
-            4. Árboles generadores mínimos (idea de optimalidad)
-            5. Grafos bipartitos; emparejamientos (noción)
-            6. Caminos más cortos (planteamiento matemático)
-            7. Coloreo (noción para *scheduling* y asignación)
-        8. Relaciones y Funciones
+        7. Relaciones y Funciones
             1. Relaciones: reflexiva, simétrica, transitiva
             2. Clausuras (reflexiva/simétrica/transitiva) y algoritmo de Warshall (idea)
             3. Equivalencias y particiones asociadas
             4. Órdenes parciales/totales y diagramas de Hasse
             5. Funciones: dominio/codominio, inyectiva/sobreyectiva/biyectiva
             6. Composición y monotonicidad
-        9. Álgebra Booleana
+        8. Álgebra Booleana
             1. Axiomas y teoremas; principio de dualidad
             2. CNF/DNF y correspondencia con lógica proposicional
             3. Conjuntos funcionalmente completos (NAND/NOR)
             4. Mapas de Karnaugh (2–4 variables) para simplificación
             5. Método de Quine–McCluskey (esquema)
             6. Modelado de circuitos combinacionales (nivel lógico)
-        10. Recurrencias y Funciones Generatrices
+        9. Recurrencias y Funciones Generatrices
             1. Recurrencias lineales con coeficientes constantes
             2. Ecuación característica y raíces múltiples
             3. No homogéneas (coeficiente anónimo/particular simple)
@@ -80,35 +70,35 @@ description: Ruta completa para formar a un ingeniero de software capaz de dise�
             6. Resolución de recurrencias vía generatrices
             7. Esquema maestro (enunciado) para *divide & conquer*
             8. Ejemplos clásicos: Fibonacci y conteo simple
-        11. Teoría de Números y Aritmética Modular
+        10. Teoría de Números y Aritmética Modular
             1. mcd y algoritmo de Euclides; identidad de Bézout
             2. Congruencias y anillos 𝑍ₙ; inverso modular
             3. Teorema chino del resto y composición de módulos
             4. φ de Euler y teorema de Euler; Fermat pequeño (uso)
             5. Exponenciación modular eficiente (idea matemática)
             6. Hashing modular y dispersión (intuición)
-        12. Álgebra Lineal para Computación (Discreta)
+        11. Álgebra Lineal para Computación (Discreta)
             1. Vectores/matrices sobre GF(2) y operaciones
             2. Sistemas lineales mod 2; rango–nulidad (enunciado)
             3. Matrices de incidencia/adyacencia y laplaciana de grafos
             4. Producto interno discreto/ortogonalidad (idea)
             5. Relación con códigos lineales (noción de síndrome)
             6. Representación matricial de relaciones/transformaciones
-        13. Teoría de la Información (Discreta)
+        12. Teoría de la Información (Discreta)
             1. Entropía H(X) y propiedades clave (cadena, subaditividad)
             2. Información mutua I(X;Y) y dependencia
             3. Códigos prefijo y desigualdad de Kraft–McMillan
             4. Huffman (óptimo de longitud media) y aritmética (idea)
             5. Teorema fuente de Shannon (enunciado) y límites de compresión
             6. Tasas de compresión y redundancia práctica
-        14. Optimización Discreta y Poliedros
+        13. Optimización Discreta y Poliedros
             1. Programación lineal (forma estándar) y dualidad (enunciado)
             2. Flujos y cortes; teorema max-flow/min-cut (formulación)
             3. Matching en grafos (noción) y aplicaciones
             4. Poliedros integrales (visión) y relajaciones
             5. Submodularidad y algoritmo voraz (optimalidad en clases clave)
             6. Programación entera: idea de cortes/redondeo (alto nivel)
-        15. Cadenas de Markov y Caminatas Aleatorias (Discretas)
+        14. Cadenas de Markov y Caminatas Aleatorias (Discretas)
             1. Matriz de transición P y distribución tras n pasos (Pⁿ)
             2. Clasificación de estados: recurrente/transiente/periódico
             3. Distribución estacionaria y balance detallado
@@ -386,7 +376,7 @@ description: Ruta completa para formar a un ingeniero de software capaz de dise�
             15. Árboles de sufijos
         5. Grafos
             1. Representación de grafos (matriz de adyacencia, lista de adyacencia)
-            2. Grafos dirigidos y no dirigidos
+            2. Grafos dirigidos y no dirigidos; grado, caminos, ciclos, conectividad
             3. Grafos ponderados
             4. Árboles de expansión mínima
             5. Caminos mínimos
@@ -399,6 +389,8 @@ description: Ruta completa para formar a un ingeniero de software capaz de dise�
             12. Conectividad y puentes
             13. Grafos dinámicos y online
             14. Grafos probabilísticos
+            15. Coloreo
+
         6. Hashing y tablas hash
             1. Funciones hash
             2. Colisiones y métodos de resolución
