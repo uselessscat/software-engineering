@@ -1,4 +1,4 @@
-# Sistemas Posicionales y Conversión entre Bases
+# Sistemas Posicionales
 
 Los sistemas posicionales son la base de toda representación numérica utilizada en computación. Permiten expresar números mediante símbolos y posiciones asociadas a potencias de una base. Comprender su funcionamiento es esencial para entender cómo se representan, almacenan y procesan los datos dentro de un sistema digital.
 
@@ -19,9 +19,10 @@ Los sistemas posicionales son la base de toda representación numérica utilizad
 
 ### Dígitos
 
-Un sistema numérico posicional se construye a partir de dos componentes fundamentales: los dígitos (símbolos permitidos) y la base (o _radix_, que determina cuántos símbolos existen y cómo se interpretan las posiciones).
+Un sistema numérico posicional se construye a partir de dos componentes fundamentales: los **dígitos** (símbolos permitidos) y la **base** (o _radix_, que determina cuántos símbolos existen y cómo se interpretan las posiciones).
 
 Los dígitos son los símbolos elementales usados para representar valores dentro de una base determinada.
+
 En una base $b$, los dígitos válidos son los números enteros desde 0 hasta $b-1$.
 
 Por ejemplo:
@@ -41,7 +42,8 @@ $$
 
 ### Bases
 
-La **base** $b$ de un sistema numérico indica cuántos dígitos distintos existen y qué peso tiene cada posición. Cada posición representa una potencia distinta de la base.
+La base $b$ de un sistema numérico indica cuántos dígitos distintos existen y qué peso tiene cada posición. Cada posición representa una potencia distinta de la base.
+
 El valor total del número se calcula sumando cada dígito multiplicado por la potencia correspondiente:
 
 $$
@@ -68,11 +70,12 @@ $$
 
 ### Potencias Posicionales
 
-Cada posición en un número tiene un peso posicional que depende de su distancia al punto (decimal o binario).
+Cada posición en un número tiene un **peso posicional** que depende de su distancia al punto (decimal o binario).
+
 A la izquierda del punto, las potencias de la base son positivas; a la derecha, negativas:
 
 $$
-(d_{n-1} \dots d_1 d_0 . d_{-1} d_{-2} \dots d_{-m})_b = \sum_{i=-(m)}^{n-1} d_i \cdot b^i
+(d_{n-1} \dots d_1 d_0 . d_{-1} d_{-2} \dots d_{-m})_b = \sum_{i=-m}^{n-1} d_i \cdot b^i
 $$
 
 **Ejemplo:**
@@ -87,12 +90,19 @@ En hardware digital, cada _bit_ representa un dígito en base 2. Agrupaciones de
 
 - 3 bits → base 8 (octal)
 - 4 bits → base 16 (hexadecimal)
-  
+
 Esta estructura jerárquica facilita la conversión rápida entre sistemas y la interpretación binaria de los datos en memoria.
+
+!!! info Bit
+    Un bit es la unidad más básica de información en computación y telecomunicaciones, representando un estado binario: 0 o 1.
+
+    El término “bit” fue acuñado hacia la segunda mitad de la década de 1940 por John W. Tukey mientras trabajaba en Bell Labs, como abreviatura de binary digit.
+
+    El uso del término se popularizó gracias al trabajo de Claude E. Shannon en su artículo “A Mathematical Theory of Communication” de 1948[^bit][^bit2].
 
 ### Comportamiento de las Bases
 
-Puedes pensar en la base como la “regla de conteo” del sistema:
+Se puede pensar en la base como la “regla de conteo” del sistema:
 
 - En base 10, después del 9, se reinicia con 0 y se agrega un 1 a la izquierda → 10.
 - En base 2, después del 1, se reinicia con 0 y se agrega un 1 → $10_{2}$ ($=2_{10}$).
@@ -104,18 +114,20 @@ Puedes pensar en la base como la “regla de conteo” del sistema:
 
 Usa los símbolos {0, 1}. Es el sistema nativo de las computadoras porque representa fácilmente los dos estados eléctricos: encendido y apagado.
 
-**Ejemplo:**  
+**Ejemplo:**
+
 $$
-(1101)_2 = 1\cdot2^3 + 1\cdot2^2 + 0\cdot2^1 + 1\cdot2^0 = 13_{10}
+(1101)_2 = 1 \cdot 2^3 + 1 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0 = 13_{10}
 $$
 
 ### Octal (Base 8)
 
 Usa los símbolos {0–7}. Cada dígito octal representa 3 bits binarios.
 
-**Ejemplo:**  
+**Ejemplo:**
+
 $$
-(57)_8 = 5\cdot8^1 + 7\cdot8^0 = 47_{10}
+(57)_8 = 5 \cdot 8^1 + 7 \cdot 8^0 = 47_{10}
 $$
 
 ### Decimal (Base 10)
@@ -126,10 +138,16 @@ Sistema habitual en el uso cotidiano. Las computadoras lo emulan mediante aritm�
 
 Usa los símbolos {0–9, A–F}. Cada dígito hexadecimal representa 4 bits binarios (_nibble_).
 
-**Ejemplo:**  
+**Ejemplo:**
+
 $$
-(2F)_{16} = 2\cdot16^1 + 15\cdot16^0 = 47_{10}
+(2F)_{16} = 2 \cdot 16^1 + 15 \cdot 16^0 = 47_{10}
 $$
+
+!!! info "Sobre 0x"
+    El prefijo 0x para denotar números hexadecimales proviene del lenguaje C (década de 1970).
+
+    Dennis Ritchie y Brian Kernighan lo introdujeron para simplificar la escritura de literales hexadecimales, y luego se heredó a C++, Java, Python, Rust, JavaScript, etc.
 
 ## Conversión entre Bases
 
@@ -138,12 +156,13 @@ $$
 Se multiplica cada bit por su potencia de 2 correspondiente y se suman los resultados.
 
 $$
-(10101)_2 = 1\cdot2^4 + 0\cdot2^3 + 1\cdot2^2 + 0\cdot2^1 + 1\cdot2^0 = 21_{10}
+(10101)_2 = 1 \cdot 2^4 + 0 \cdot 2^3 + 1 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0 = 21_{10}
 $$
 
 ### De Decimal a Binario
 
-Se divide sucesivamente entre 2, registrando los restos hasta obtener un cociente 0.  
+Se divide sucesivamente entre 2, registrando los restos hasta obtener un cociente 0.
+
 El número binario se forma leyendo los restos de abajo hacia arriba.
 
 $$
@@ -167,5 +186,142 @@ $$
 \rightarrow
 1101\;1110\;1011\;1101
 \rightarrow
-(\text{DEBD})_{16}
+0x\text{DEBD}
 $$
+
+### Parte Fraccionaria
+
+Para convertir la parte fraccionaria de un número decimal a otra base, se multiplica repetidamente por la base hasta que el resultado sea cero o se repita un patrón.
+
+Cada entero obtenido en cada paso corresponde a un dígito en la parte fraccionaria del resultado.
+
+Por ejemplo, para expresar $(0.625)_{10}$ en base 2:
+
+$$
+\begin{array}{rcl}
+0.625 \times 2 &=& 1.25 \quad &\Rightarrow& d_{-1} = 1 \\
+0.25 \times 2  &=& 0.5  \quad &\Rightarrow& d_{-2} = 0 \\
+0.5 \times 2   &=& 1.0  \quad &\Rightarrow& d_{-3} = 1
+\end{array}
+$$
+
+Por lo tanto:
+
+$$
+(0.625)_{10} = (0.101)_2
+$$
+
+## Representación Fraccionaria y Errores
+
+No todas las fracciones decimales poseen una representación binaria finita. Esto ocurre porque algunas razones de potencias de 10 no son múltiplos exactos de potencias de 2.
+
+Por ejemplo:
+
+$$
+0.1_{10} = 0.0001100110011\ldots_2
+$$
+
+El patrón _0011_ se repite indefinidamente.
+Este tipo de fracciones generan **errores de redondeo** cuando se almacenan en formato binario de precisión finita (como _IEEE 754_).
+
+!!! info "IEEE 754"
+    El estándar IEEE 754 define formatos para representar números en coma flotante (floating-point, números con punto decimal variable), incluyendo cómo manejar la precisión y los errores de redondeo.
+
+!!! warning "Errores de Redondeo"
+    Estos errores se acumulan en cálculos iterativos o financieros cuando se utilizan representaciones binarias. Se recomienda usar aritmética decimal o de precisión extendida cuando la exactitud sea crítica.
+
+### Ejemplo completo: Decimal → Binario → Hexadecimal
+
+**Paso 1: Conversión a binario**
+
+Dividimos $345_{10}$ entre 2 sucesivamente, guardando los restos:
+
+$$
+\begin{array}{rcl}
+345 / 2 &=& 172 \quad r_0 = 1 \\
+172 / 2 &=& 86  \quad r_1 = 0 \\
+86  / 2 &=& 43  \quad r_2 = 0 \\
+43  / 2 &=& 21  \quad r_3 = 1 \\
+21  / 2 &=& 10  \quad r_4 = 1 \\
+10  / 2 &=& 5   \quad r_5 = 0 \\
+5   / 2 &=& 2   \quad r_6 = 1 \\
+2   / 2 &=& 1   \quad r_7 = 0 \\
+1   / 2 &=& 0   \quad r_8 = 1
+\end{array}
+$$
+
+Leyendo los restos en orden inverso:
+
+$$
+(345)_{10} = (101011001)_2
+$$
+
+**Paso 2: Agrupación en nibbles**
+
+Agrupamos los bits en grupos de 4 desde la derecha y debido a que cada nibble representa un dígito hexadecimal podemos convertirlos directamente:
+
+$$
+1,0101,1001 \Rightarrow 0x159
+$$
+
+**Resultado final:**
+
+$$
+345_{10} = 101011001_2 = 159_{16} = 0x159
+$$
+
+---
+
+## Ejercicios
+
+1. Convierte $101110_2$ a decimal y hexadecimal.
+
+    ??? "Ver solución"
+
+        $$
+        (101110)_2 = 1·2^5 + 0·2^4 + 1·2^3 + 1·2^2 + 1·2^1 + 0·2^0 = 46_{10}
+        $$
+
+        Agrupando: `101110 → 0010 1110 = 0x2E`.
+
+        **Respuesta:** $46_{10}, 0x2E_{16}$
+
+2. Convierte $ 0.8125_{10} $ a binario.
+
+    ??? "Ver solución"
+
+        $$
+        \begin{array}{rcl}
+        0.8125 \times 2 &=& 1.625 &\Rightarrow& d_{-1}=1\\
+        0.625 \times 2 &=& 1.25 &\Rightarrow& d_{-2}=1\\
+        0.25 \times 2 &=& 0.5 &\Rightarrow& d_{-3}=0\\
+        0.5 \times 2 &=& 1.0 &\Rightarrow& d_{-4}=1
+        \end{array}
+        $$
+
+        **Respuesta:** $(0.8125)_{10} = (0.1101)_2$
+
+3. Expresa $(3A.2C)_{16}$ en binario y luego en decimal.
+
+    ??? "Ver solución"
+
+        Hex → bin:
+        3 → 0011, A → 1010, 2 → 0010, C → 1100
+        $$
+        (3A.2C)_{16} = (111010.00101100)_2
+        $$
+
+        Bin → dec:
+        Parte entera: $ 58_{10} $
+        Parte fraccional: $ 0.171875_{10} $
+        → $ 58.171875_{10} $
+
+---
+
+## Lectura adicional
+
+- Some book
+
+[^bit]: Merriam-Webster Dictionary. (n.d.). Bit (Definition). <https://www.merriam-webster.com/dictionary/bit>
+
+[^bit2]: Linfo.org. (2024). Definition of Bit – Binary Digit. <https://www.linfo.org/bit.html>

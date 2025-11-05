@@ -17,6 +17,7 @@ theme:
     - content.action.view
     - content.code.copy
     - content.footer.last-updated
+    - content.tooltips
     - navigation.footer
     - navigation.indexes
     - navigation.top
@@ -25,10 +26,12 @@ theme:
 
 markdown_extensions:
   - admonition
-  - toc:
-      permalink: true
   - attr_list
   - md_in_html
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.snippets
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.tabbed:
@@ -36,6 +39,8 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - toc:
+      permalink: true
 
 plugins:
   - awesome-pages
@@ -74,4 +79,5 @@ extra_javascript:
 extra_css:
   - https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css
   - assets/stylesheets/lists.css
+  - assets/stylesheets/tables.css
 #  - css/kroki-viewer.css

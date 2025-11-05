@@ -14,3 +14,6 @@ wheels/
 
 # Generated
 site/
+
+# OS
+.DS_Store

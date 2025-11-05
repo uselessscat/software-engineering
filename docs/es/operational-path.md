@@ -9138,9 +9138,9 @@
             5. Infraestructura como código segura
             6. Automatización de cumplimiento2
 
-    4. Cumplimiento y mejora
-        1. Ética, legalidad y práctica profesional
-        2. Responsabilidad profesional en ingeniería de software
+13. Cumplimiento y mejora
+    1. Ética, legalidad y práctica profesional
+        1. Responsabilidad profesional en ingeniería de software
             1. Calidad y confiabilidad del producto entregado
             2. Seguridad de usuarios y datos
                 1. Manejo de datos sensibles
@@ -9149,7 +9149,7 @@
             3. Transparencia de limitaciones técnicas
             4. Diligencia debida en cambios de alto impacto
             5. Deber de escalamiento cuando existe riesgo crítico
-        3. Privacidad y manejo responsable de datos
+        2. Privacidad y manejo responsable de datos
             1. Principios de minimización de datos
             2. Retención y eliminación segura
                 1. Políticas de retención por tipo de dato
@@ -9160,7 +9160,7 @@
             4. Acceso interno con privilegio mínimo
             5. Anonimización y seudonimización de datos
             6. Uso ético de datos de usuarios
-        4. Propiedad intelectual y licenciamiento de software
+        3. Propiedad intelectual y licenciamiento de software
             1. Licencias de código abierto y compatibilidad
                 1. Licencias permisivas
                 2. Licencias copyleft
@@ -9170,7 +9170,7 @@
             3. Contribuciones internas a OSS
             4. Reutilización de código interno entre proyectos
             5. Protección de know-how estratégico
-        5. Cumplimiento normativo y estándares de la industria
+        4. Cumplimiento normativo y estándares de la industria
             1. Estándares de seguridad de información
             2. Regulaciones sectoriales
             3. Normas de calidad y certificaciones
@@ -9179,7 +9179,7 @@
                 3. Auditorías recurrentes
             4. Requisitos de auditoría externa
             5. Trazabilidad y logging de cumplimiento
-        6. Riesgos de dependencia de un único proveedor y cierre tecnológico
+        5. Riesgos de dependencia de un único proveedor y cierre tecnológico
             1. Evaluación de lock-in en infraestructura
             2. Portabilidad de datos y servicios
                 1. Formatos estándar
@@ -9188,7 +9188,7 @@
             3. Estrategias multi-cloud o multi-proveedor
             4. Costos de salida y migración
             5. Planes de continuidad si el proveedor falla
-        7. Sesgos algorítmicos y transparencia en sistemas automatizados
+        6. Sesgos algorítmicos y transparencia en sistemas automatizados
             1. Identificación de sesgos en datos de entrenamiento
             2. Evaluación de impacto en grupos de usuarios
             3. Explicabilidad de decisiones automatizadas
@@ -9197,7 +9197,7 @@
                 2. Seguimiento de fairness metrics
                 3. Alarmas de comportamiento anómalo
             5. Mecanismos de apelación y corrección
-        8. Accesibilidad e inclusión en diseño y experiencia de usuario
+        7. Accesibilidad e inclusión en diseño y experiencia de usuario
             1. Lineamientos de accesibilidad en interfaces
                 1. Navegación por teclado
                 2. Contraste visual adecuado
@@ -9207,7 +9207,7 @@
             3. Soporte multiplataforma y multicanal
             4. Tests de usabilidad con grupos diversos
             5. Lenguaje claro y comprensible
-        9. Gobernanza de software libre y colaboración abierta
+        8. Gobernanza de software libre y colaboración abierta
             1. Modelos de gobernanza comunitaria
             2. Políticas de aportes internos a proyectos públicos
                 1. Aprobación interna previa
@@ -9216,7 +9216,7 @@
             3. Publicación de herramientas internas reutilizables
             4. Gestión de vulnerabilidades en dependencias abiertas
             5. Relaciones con mantenedores externos
-        10. Protección de datos personales y trazabilidad de acceso
+        9. Protección de datos personales y trazabilidad de acceso
             1. Control de acceso basado en rol
             2. Registro de accesos a datos sensibles
                 1. Quién accedió
@@ -9226,16 +9226,16 @@
             3. Alertas ante acceso inusual
             4. Separación de datos personales y operacionales
             5. Principio de menor privilegio
-        11. Reproducibilidad técnica y científica
-            1. Versionado de código y datos
-            2. Entornos de ejecución controlados
+    2. Reproducibilidad técnica y científica
+        1. Versionado de código y datos
+            1. Entornos de ejecución controlados
                 1. Infraestructura declarativa
                 2. Contenedores versionados
                 3. Dependencias congeladas
-            3. Evidencia experimental verificable
-            4. Pipelines deterministas y repetibles
-            5. Publicación interna de resultados replicables
-        12. Comunicación honesta y responsable con las partes interesadas
+            2. Evidencia experimental verificable
+            3. Pipelines deterministas y repetibles
+            4. Publicación interna de resultados replicables
+        2. Comunicación honesta y responsable con las partes interesadas
             1. Informe claro de riesgos y limitaciones
             2. Comunicación temprana de incidentes relevantes
                 1. A quién se informa
@@ -9244,7 +9244,7 @@
             3. Reportes de estado sin maquillaje técnico
             4. Mensajes coordinados con liderazgo
             5. Transparencia frente a fallos de seguridad
-        13. Impacto social y ambiental del software
+        3. Impacto social y ambiental del software
             1. Huella energética de la infraestructura
                 1. Consumo energético por carga
                 2. Eficiencia de cómputo
@@ -9253,7 +9253,7 @@
             3. Efectos sociales de la automatización
             4. Impacto en trabajo humano y mercado laboral
             5. Externalidades negativas no técnicas
-        14. Soberanía de datos y cumplimiento regional
+        4. Soberanía de datos y cumplimiento regional
             1. Localización geográfica de datos
                 1. Regiones permitidas
                 2. Redundancia geográfica
@@ -9262,7 +9262,7 @@
             3. Procesamiento transfronterizo de información
             4. Requisitos de auditoría estatal
             5. Limitaciones de exportación de datos
-        15. Gestión responsable de IA generativa
+        5. Gestión responsable de IA generativa
             1. Uso aprobado de modelos internos y externos
             2. Protección de información confidencial al usar IA
             3. Revisión humana obligatoria en decisiones críticas
@@ -9271,7 +9271,7 @@
                 3. Decisiones que afectan usuarios finales
             4. Gestión de propiedad intelectual generada por IA
             5. Registro de prompts y outputs sensibles
-    5. Innovación, investigación y mejora continua
+    3. Innovación, investigación y mejora continua
         1. Evaluación crítica de nuevas tecnologías
             1. Viabilidad técnica y de negocio
             2. Riesgo de inmadurez tecnológica
@@ -9390,7 +9390,7 @@
             3. Rotación de problemas técnicos desafiantes
             4. Incentivos al aprendizaje y al riesgo calculado
             5. Publicación interna de experimentos destacados
-    6. Auditoría, métricas y optimización de procesos
+    4. Auditoría, métricas y optimización de procesos
         1. Métricas de entrega y flujo de trabajo
             1. Lead time de cambio a producción
                 1. Tiempo desde code commit a deploy
