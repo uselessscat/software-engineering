@@ -834,391 +834,391 @@
     9. Redes y protocolos
         1. Fundamentos de redes (modelo OSI y TCP/IP)
             1. Modelos de referencia y capas
-                1. Modelo OSI (físico, enlace, red, transporte, sesión, presentación, aplicación)
-                2. Modelo TCP/IP (enlace, internet, transporte, aplicación)
-                3. Encapsulación y desencapsulación
-                4. Unidades de datos por capa (tramas, paquetes, segmentos)
-                5. MTU y fragmentación
-                6. RFC, estandarización y gobernanza de protocolos
-                7. Interoperabilidad entre capas y modularidad
-                8. Separación de plano de control y plano de datos
-                9. Dominio de broadcast vs dominio de colisión
-                10. Latencia, throughput y pérdida de paquetes como métricas clave
+            2. Modelo OSI (físico, enlace, red, transporte, sesión, presentación, aplicación)
+            3. Modelo TCP/IP (enlace, internet, transporte, aplicación)
+            4. Encapsulación y desencapsulación
+            5. Unidades de datos por capa (tramas, paquetes, segmentos)
+            6. MTU y fragmentación
+            7. RFC, estandarización y gobernanza de protocolos
+            8. Interoperabilidad entre capas y modularidad
+            9. Separación de plano de control y plano de datos
+            10. Dominio de broadcast vs dominio de colisión
+            11. Latencia, throughput y pérdida de paquetes como métricas clave
         2. Direccionamiento y ruteo
             1. Direcciones y encaminamiento de red
-                1. Direccionamiento IPv4 y notación CIDR
-                2. Direccionamiento IPv6 y espacio extendido
-                3. Subnetting y VLSM
-                4. NAT y PAT (traducción y multiplexación de direcciones)
-                5. DHCP y asignación dinámica
-                6. Resolución de direcciones (ARP / NDP)
-                7. Ruteo estático
-                8. Ruteo dinámico (RIP, OSPF, IS-IS, BGP)
-                9. ECMP (Equal-Cost Multi-Path)
-                10. Anycast / unicast / multicast / broadcast
-                11. MPLS y encaminamiento basado en etiquetas
+            2. Direccionamiento IPv4 y notación CIDR
+            3. Direccionamiento IPv6 y espacio extendido
+            4. Subnetting y VLSM
+            5. NAT y PAT (traducción y multiplexación de direcciones)
+            6. DHCP y asignación dinámica
+            7. Resolución de direcciones (ARP / NDP)
+            8. Ruteo estático
+            9. Ruteo dinámico (RIP, OSPF, IS-IS, BGP)
+            10. ECMP (Equal-Cost Multi-Path)
+            11. Anycast / unicast / multicast / broadcast
+            12. MPLS y encaminamiento basado en etiquetas
         3. Capa de enlace de datos
             1. Enlace local y acceso al medio
-                1. Ethernet (cableado y conmutado)
-                2. CSMA/CD y control de colisión
-                3. VLAN (802.1Q) y segmentación lógica de capa 2
-                4. Trunking y etiquetado de VLAN
-                5. STP / RSTP / MSTP para evitar bucles
-                6. PPP / HDLC y enlaces punto a punto
-                7. Redes punto a punto vs redes broadcast
-                8. Control de flujo a nivel de enlace (PAUSE frames)
-                9. Agregación de enlaces (LACP / bonding)
-                10. Seguridad a nivel de puerto (port security / 802.1X)
+            2. Ethernet (cableado y conmutado)
+            3. CSMA/CD y control de colisión
+            4. VLAN (802.1Q) y segmentación lógica de capa 2
+            5. Trunking y etiquetado de VLAN
+            6. STP / RSTP / MSTP para evitar bucles
+            7. PPP / HDLC y enlaces punto a punto
+            8. Redes punto a punto vs redes broadcast
+            9. Control de flujo a nivel de enlace (PAUSE frames)
+            10. Agregación de enlaces (LACP / bonding)
+            11. Seguridad a nivel de puerto (port security / 802.1X)
         4. Capa de red
             1. Encaminamiento y entrega entre redes
-                1. IP (IPv4 / IPv6) y direccionamiento lógico
-                2. ICMP / ICMPv6 para diagnóstico y control
-                3. Ruteadores y tablas de ruteo
-                4. TTL / Hop Limit y prevención de loops
-                5. Fragmentación y reensamblado de paquetes
-                6. QoS a nivel IP (DSCP / ToS)
-                7. Túneles (GRE, IP-in-IP)
-                8. NAT traversal y penetración de firewalls
-                9. Forwarding y filtrado en capa 3
-                10. Seguridad básica en capa de red (filtros L3)
+            2. IP (IPv4 / IPv6) y direccionamiento lógico
+            3. ICMP / ICMPv6 para diagnóstico y control
+            4. Ruteadores y tablas de ruteo
+            5. TTL / Hop Limit y prevención de loops
+            6. Fragmentación y reensamblado de paquetes
+            7. QoS a nivel IP (DSCP / ToS)
+            8. Túneles (GRE, IP-in-IP)
+            9. NAT traversal y penetración de firewalls
+            10. Forwarding y filtrado en capa 3
+            11. Seguridad básica en capa de red (filtros L3)
         5. Capa de transporte
             1. Entrega extremo a extremo confiable o no confiable
-                1. TCP y control orientado a conexión
-                2. UDP y transporte liviano sin conexión
-                3. Multiplexación por puertos lógicos
-                4. Establecimiento de conexión (3-way handshake)
-                5. Control de flujo basado en ventana
-                6. Retransmisión, ACKs y confiabilidad
-                7. Segmentación y reordenamiento
-                8. Chequeo de integridad (checksums)
-                9. Conexiones persistentes y keepalive
-                10. Control de congestión acoplado al transporte
+            2. TCP y control orientado a conexión
+            3. UDP y transporte liviano sin conexión
+            4. Multiplexación por puertos lógicos
+            5. Establecimiento de conexión (3-way handshake)
+            6. Control de flujo basado en ventana
+            7. Retransmisión, ACKs y confiabilidad
+            8. Segmentación y reordenamiento
+            9. Chequeo de integridad (checksums)
+            10. Conexiones persistentes y keepalive
+            11. Control de congestión acoplado al transporte
         6. Capa de aplicación
             1. Protocolos de aplicación y servicios de alto nivel
-                1. DNS y resolución de nombres
-                2. HTTP/1.1 y modelo request/response
-                3. HTTP/2 y multiplexación de streams
-                4. HTTP/3 y transporte sobre QUIC
-                5. TLS y cifrado extremo a extremo
-                6. SMTP / IMAP / POP3 para correo
-                7. gRPC y contratos binarios sobre HTTP/2
-                8. WebSockets y comunicación persistente
-                9. NTP y sincronización horaria
-                10. DHCP como servicio de configuración de red
+            2. DNS y resolución de nombres
+            3. HTTP/1.1 y modelo request/response
+            4. HTTP/2 y multiplexación de streams
+            5. HTTP/3 y transporte sobre QUIC
+            6. TLS y cifrado extremo a extremo
+            7. SMTP / IMAP / POP3 para correo
+            8. gRPC y contratos binarios sobre HTTP/2
+            9. WebSockets y comunicación persistente
+            10. NTP y sincronización horaria
+            11. DHCP como servicio de configuración de red
         7. Control de congestión y calidad de servicio (QoS)
             1. Gestión del tráfico y priorización
-                1. Algoritmos de congestión TCP (Reno, Cubic, BBR)
-                2. Shaping vs policing de tráfico
-                3. Clasificación y marcado (DSCP / CoS)
-                4. Programación de colas (PQ, WFQ, DRR)
-                5. RED / ECN y señalización temprana de congestión
-                6. Rate limiting por flujo / cliente / clase
-                7. Priorización de tráfico de baja latencia / tiempo real
-                8. SLA y colas dedicadas por clase de servicio
-                9. Control adaptativo de buffer (bufferbloat mitigation)
-                10. Telemetría de congestión para ajuste dinámico
+            2. Algoritmos de congestión TCP (Reno, Cubic, BBR)
+            3. Shaping vs policing de tráfico
+            4. Clasificación y marcado (DSCP / CoS)
+            5. Programación de colas (PQ, WFQ, DRR)
+            6. RED / ECN y señalización temprana de congestión
+            7. Rate limiting por flujo / cliente / clase
+            8. Priorización de tráfico de baja latencia / tiempo real
+            9. SLA y colas dedicadas por clase de servicio
+            10. Control adaptativo de buffer (bufferbloat mitigation)
+            11. Telemetría de congestión para ajuste dinámico
         8. Seguridad de red
             1. Protección de infraestructura y datos en tránsito
-                1. Firewalls (stateful / stateless)
-                2. Listas de control de acceso (ACL)
-                3. TLS / mTLS y cifrado punto a punto
-                4. IPsec (AH / ESP) y túneles seguros
-                5. VPN de capa 2 / capa 3
-                6. Segmentación de red y microsegmentación
-                7. IDS / IPS (detección y prevención de intrusiones)
-                8. Zero Trust y autenticación continua
-                9. Protección contra spoofing / hijacking / MITM
-                10. Filtrado egress / ingress y control de salida
+            2. Firewalls (stateful / stateless)
+            3. Listas de control de acceso (ACL)
+            4. TLS / mTLS y cifrado punto a punto
+            5. IPsec (AH / ESP) y túneles seguros
+            6. VPN de capa 2 / capa 3
+            7. Segmentación de red y microsegmentación
+            8. IDS / IPS (detección y prevención de intrusiones)
+            9. Zero Trust y autenticación continua
+            10. Protección contra spoofing / hijacking / MITM
+            11. Filtrado egress / ingress y control de salida
         9. Redes definidas por software (SDN) y virtualización de red
             1. Redes programables y control centralizado
-                1. Separación de plano de control y plano de datos
-                2. OpenFlow y control de forwarding
-                3. Controladores SDN centralizados
-                4. vSwitch (por ejemplo, Open vSwitch)
-                5. Encapsulación VXLAN / NVGRE / Geneve
-                6. SDN en data centers y nubes privadas
-                7. Service function chaining y service insertion
-                8. NFV (Network Function Virtualization)
-                9. Overlays L2/L3 virtualizados a gran escala
-                10. Políticas declarativas de red y seguridad como código
+            2. Separación de plano de control y plano de datos
+            3. OpenFlow y control de forwarding
+            4. Controladores SDN centralizados
+            5. vSwitch (por ejemplo, Open vSwitch)
+            6. Encapsulación VXLAN / NVGRE / Geneve
+            7. SDN en data centers y nubes privadas
+            8. Service function chaining y service insertion
+            9. NFV (Network Function Virtualization)
+            10. Overlays L2/L3 virtualizados a gran escala
+            11. Políticas declarativas de red y seguridad como código
         10. Observabilidad y troubleshooting de red
             1. Monitoreo, diagnóstico y análisis
-                1. Ping / traceroute / mtr y rastreo de saltos
-                2. Captura de paquetes (tcpdump, Wireshark)
-                3. Inspección de sockets y puertos abiertos (netstat / ss / lsof -i)
-                4. Telemetría de red (SNMP / NetFlow / sFlow)
-                5. Métricas de interfaz (errores, drops, colisiones)
-                6. Latencia, jitter y pérdida de paquetes
-                7. Monitoreo activo vs pasivo
-                8. Logs de firewall / IDS / balanceador
-                9. Mapas de topología y dependencias de servicio
-                10. Alertas tempranas y correlación de incidentes
+            2. Ping / traceroute / mtr y rastreo de saltos
+            3. Captura de paquetes (tcpdump, Wireshark)
+            4. Inspección de sockets y puertos abiertos (netstat / ss / lsof -i)
+            5. Telemetría de red (SNMP / NetFlow / sFlow)
+            6. Métricas de interfaz (errores, drops, colisiones)
+            7. Latencia, jitter y pérdida de paquetes
+            8. Monitoreo activo vs pasivo
+            9. Logs de firewall / IDS / balanceador
+            10. Mapas de topología y dependencias de servicio
+            11. Alertas tempranas y correlación de incidentes
         11. Redes de baja latencia
             1. Optimización extrema de la ruta de datos
-                1. Bypass del stack del kernel (DPDK, RDMA)
-                2. Jumbo frames y tuning de MTU
-                3. Interrupt coalescing y reducción de interrupciones
-                4. Afinidad de IRQ / pinning de colas de NIC
-                5. NIC offloading (checksum offload, TSO, LRO)
-                6. User-space networking y polling dedicado
-                7. Fibra óptica y enlaces directos de baja latencia
-                8. Rutas determinísticas y controladas (private peering)
-                9. Minimización de colas intermedias (buffer tuning)
-                10. Sincronización temporal precisa entre nodos críticos
+            2. Bypass del stack del kernel (DPDK, RDMA)
+            3. Jumbo frames y tuning de MTU
+            4. Interrupt coalescing y reducción de interrupciones
+            5. Afinidad de IRQ / pinning de colas de NIC
+            6. NIC offloading (checksum offload, TSO, LRO)
+            7. User-space networking y polling dedicado
+            8. Fibra óptica y enlaces directos de baja latencia
+            9. Rutas determinísticas y controladas (private peering)
+            10. Minimización de colas intermedias (buffer tuning)
+            11. Sincronización temporal precisa entre nodos críticos
         12. SDN (Software Defined Networking)
             1. Control lógico central de la red
-                1. Control centralizado del ruteo
-                2. APIs programables de red
-                3. Network slicing y segmentación lógica
-                4. Reconfiguración dinámica de paths
-                5. Políticas de seguridad declarativas y auditables
-                6. Topologías virtuales multi-tenant
-                7. Automatización de balanceo y failover
-                8. Integración con orquestadores (Kubernetes / NFV MANO)
-                9. Telemetría en tiempo real para optimización
-                10. Ajuste de QoS bajo demanda por aplicación o flujo
+            2. Control centralizado del ruteo
+            3. APIs programables de red
+            4. Network slicing y segmentación lógica
+            5. Reconfiguración dinámica de paths
+            6. Políticas de seguridad declarativas y auditables
+            7. Topologías virtuales multi-tenant
+            8. Automatización de balanceo y failover
+            9. Integración con orquestadores (Kubernetes / NFV MANO)
+            10. Telemetría en tiempo real para optimización
+            11. Ajuste de QoS bajo demanda por aplicación o flujo
         13. Redes distribuidas
             1. Topologías sin punto único de control
-                1. Redes peer-to-peer (P2P)
-                2. Protocolos de gossip / difusión epidémica
-                3. Consistencia eventual en difusión de estado
-                4. Overlays estructurados (DHT)
-                5. Overlays no estructurados (flooding / random walk)
-                6. Ruteo en malla y multi-hop cooperativo
-                7. Federaciones y dominios autónomos
-                8. Redes de borde / edge computing distribuido
-                9. CDNs y proximidad de contenido
-                10. Mitigación de particiones y enlaces inestables
+            2. Redes peer-to-peer (P2P)
+            3. Protocolos de gossip / difusión epidémica
+            4. Consistencia eventual en difusión de estado
+            5. Overlays estructurados (DHT)
+            6. Overlays no estructurados (flooding / random walk)
+            7. Ruteo en malla y multi-hop cooperativo
+            8. Federaciones y dominios autónomos
+            9. Redes de borde / edge computing distribuido
+            10. CDNs y proximidad de contenido
+            11. Mitigación de particiones y enlaces inestables
         14. Redes tolerantes a fallo / entornos hostiles
             1. Redes resilientes en condiciones adversas
-                1. Ruteo tolerante a disrupciones (DTN)
-                2. Almacenamiento intermedio store-and-forward
-                3. Redes con enlaces intermitentes / alta latencia
-                4. Protocolos oportunistas y entrega demorada
-                5. Replicación redundante agresiva
-                6. Tolerancia a particiones y reconexiones parciales
-                7. Multipath routing resiliente
-                8. Enlaces satelitales / RF / ad-hoc
-                9. Autoconfiguración sin infraestructura fija
-                10. Seguridad robusta frente a nodos no confiables
+            2. Ruteo tolerante a disrupciones (DTN)
+            3. Almacenamiento intermedio store-and-forward
+            4. Redes con enlaces intermitentes / alta latencia
+            5. Protocolos oportunistas y entrega demorada
+            6. Replicación redundante agresiva
+            7. Tolerancia a particiones y reconexiones parciales
+            8. Multipath routing resiliente
+            9. Enlaces satelitales / RF / ad-hoc
+            10. Autoconfiguración sin infraestructura fija
+            11. Seguridad robusta frente a nodos no confiables
         15. Transporte moderno
             1. Evolución de transporte confiable y seguro
-                1. QUIC y transporte cifrado sobre UDP
-                2. HTTP/3 sobre QUIC
-                3. Multipath TCP (MPTCP)
-                4. SCTP y multistreaming
-                5. Cero retorno inicial (0-RTT / Zero-RTT)
-                6. Control de congestión consciente de latencia (BBR)
-                7. Offload criptográfico en el transporte
-                8. Conexiones persistentes multiplexadas
-                9. Migración de conexión entre interfaces/redes
-                10. Priorización de flujos dentro de una misma conexión
+            2. QUIC y transporte cifrado sobre UDP
+            3. HTTP/3 sobre QUIC
+            4. Multipath TCP (MPTCP)
+            5. SCTP y multistreaming
+            6. Cero retorno inicial (0-RTT / Zero-RTT)
+            7. Control de congestión consciente de latencia (BBR)
+            8. Offload criptográfico en el transporte
+            9. Conexiones persistentes multiplexadas
+            10. Migración de conexión entre interfaces/redes
+            11. Priorización de flujos dentro de una misma conexión
     10. Modelos cliente-servidor y peer-to-peer
         1. Arquitectura cliente-servidor tradicional
             1. Componentes clásicos y despliegos básicos
-                1. Cliente delgado vs cliente grueso
-                2. Servidor monolítico centralizado
-                3. Separación front-end / back-end
-                4. Balanceadores de carga al frente del servidor
-                5. Escalamiento vertical vs escalamiento horizontal
-                6. Manejo de sesiones y autenticación en servidor
-                7. Arquitecturas multi-tier (presentación / lógica / datos)
-                8. Caching frontal (reverse proxy)
-                9. Alta disponibilidad con réplicas activas
-                10. Persistencia centralizada de estado
+            2. Cliente delgado vs cliente grueso
+            3. Servidor monolítico centralizado
+            4. Separación front-end / back-end
+            5. Balanceadores de carga al frente del servidor
+            6. Escalamiento vertical vs escalamiento horizontal
+            7. Manejo de sesiones y autenticación en servidor
+            8. Arquitecturas multi-tier (presentación / lógica / datos)
+            9. Caching frontal (reverse proxy)
+            10. Alta disponibilidad con réplicas activas
+            11. Persistencia centralizada de estado
         2. Stateless vs stateful
             1. Manejo de estado entre solicitudes
-                1. Sesiones persistentes en memoria del servidor
-                2. Sticky sessions y afinidad con instancia
-                3. Almacenamiento externo de sesión (cache distribuida / KV store)
-                4. Idempotencia y repetición segura de llamadas
-                5. Tolerancia a reinicios y rotación de instancias
-                6. Persistencia de contexto en el cliente (tokens firmados)
-                7. Cookies / JWT como transporte de sesión
-                8. Escalabilidad horizontal de servicios stateless
-                9. Consistencia del estado compartido entre nodos
-                10. Migración gradual desde stateful a stateless
+            2. Sesiones persistentes en memoria del servidor
+            3. Sticky sessions y afinidad con instancia
+            4. Almacenamiento externo de sesión (cache distribuida / KV store)
+            5. Idempotencia y repetición segura de llamadas
+            6. Tolerancia a reinicios y rotación de instancias
+            7. Persistencia de contexto en el cliente (tokens firmados)
+            8. Cookies / JWT como transporte de sesión
+            9. Escalabilidad horizontal de servicios stateless
+            10. Consistencia del estado compartido entre nodos
+            11. Migración gradual desde stateful a stateless
         3. Microservicios y servicios desacoplados
             1. Diseño por dominio y despliegue independiente
-                1. Servicios independientes con límites claros de responsabilidad
-                2. API Gateway como fachada unificada
-                3. Autenticación y cifrado mutuo (mTLS entre servicios)
-                4. Service mesh para routing y seguridad
-                5. Circuit breakers y tolerancia a fallos internos
-                6. Despliegue independiente por servicio / equipo
-                7. Observabilidad por servicio (tracing distribuido)
-                8. Contratos explícitos (OpenAPI / protobuf)
-                9. Bases de datos separadas por servicio
-                10. Versionado independiente de cada servicio
+            2. Servicios independientes con límites claros de responsabilidad
+            3. API Gateway como fachada unificada
+            4. Autenticación y cifrado mutuo (mTLS entre servicios)
+            5. Service mesh para routing y seguridad
+            6. Circuit breakers y tolerancia a fallos internos
+            7. Despliegue independiente por servicio / equipo
+            8. Observabilidad por servicio (tracing distribuido)
+            9. Contratos explícitos (OpenAPI / protobuf)
+            10. Bases de datos separadas por servicio
+            11. Versionado independiente de cada servicio
         4. Comunicación síncrona vs asíncrona
             1. Patrones de intercambio de mensajes
-                1. Request/response HTTP tradicional
-                2. gRPC síncrono y contratos binarios
-                3. RPC binario propietario
-                4. Mensajería asíncrona basada en colas
-                5. Event-driven y event sourcing
-                6. Streaming bidireccional y tiempo real
-                7. Retries con backoff exponencial
-                8. Timeouts y cancelación propagada
-                9. Garantías de entrega at-least-once / exactly-once
-                10. Encapsulación de fallos entre servicios lentos
+            2. Request/response HTTP tradicional
+            3. gRPC síncrono y contratos binarios
+            4. RPC binario propietario
+            5. Mensajería asíncrona basada en colas
+            6. Event-driven y event sourcing
+            7. Streaming bidireccional y tiempo real
+            8. Retries con backoff exponencial
+            9. Timeouts y cancelación propagada
+            10. Garantías de entrega at-least-once / exactly-once
+            11. Encapsulación de fallos entre servicios lentos
         5. Pub/Sub y colas de mensajes
             1. Comunicación desacoplada y entrega confiable
-                1. Colas persistentes
-                2. Topics con múltiples suscriptores
-                3. Garantías de entrega (at-least-once / at-most-once / exactly-once)
-                4. Particionamiento de topics y escalabilidad horizontal
-                5. Orden de mensajes dentro de una partición
-                6. Retención histórica y replay de eventos
-                7. Backpressure y control de consumo
-                8. Dead-letter queues para mensajes tóxicos
-                9. Priorización de flujos críticos
-                10. Aislamiento por tenant o por tipo de mensaje
+            2. Colas persistentes
+            3. Topics con múltiples suscriptores
+            4. Garantías de entrega (at-least-once / at-most-once / exactly-once)
+            5. Particionamiento de topics y escalabilidad horizontal
+            6. Orden de mensajes dentro de una partición
+            7. Retención histórica y replay de eventos
+            8. Backpressure y control de consumo
+            9. Dead-letter queues para mensajes tóxicos
+            10. Priorización de flujos críticos
+            11. Aislamiento por tenant o por tipo de mensaje
         6. Peer-to-peer
             1. Redes distribuidas sin autoridad central
-                1. Redes sin servidor central
-                2. Tablas hash distribuidas (DHT)
-                3. Descubrimiento inicial (bootstrap peers)
-                4. NAT traversal y hole punching
-                5. Gossip / difusión epidémica
-                6. Replicación distribuida de datos entre nodos pares
-                7. Incentivos y reputación entre nodos
-                8. Consistencia eventual y reconciliación
-                9. Privacidad y anonimización en P2P
-                10. Resistencia a censura y particiones
+            2. Redes sin servidor central
+            3. Tablas hash distribuidas (DHT)
+            4. Descubrimiento inicial (bootstrap peers)
+            5. NAT traversal y hole punching
+            6. Gossip / difusión epidémica
+            7. Replicación distribuida de datos entre nodos pares
+            8. Incentivos y reputación entre nodos
+            9. Consistencia eventual y reconciliación
+            10. Privacidad y anonimización en P2P
+            11. Resistencia a censura y particiones
         7. Coordinación y descubrimiento de servicios
             1. Mecanismos para ubicar y mantener servicios disponibles
-                1. Registro de servicios (service registry)
-                2. Heartbeats y health checks
-                3. Descubrimiento basado en DNS
-                4. Descubrimiento mediante sidecar / agente local
-                5. Elección de líder y roles dinámicos (líder / seguidor)
-                6. Bloqueos distribuidos y exclusión mutua
-                7. Configuración distribuida dinámica
-                8. Versionado de configuración y rollout gradual
-                9. Relojes lógicos y control de versiones
-                10. Reconfiguración automática tras fallos
+            2. Registro de servicios (service registry)
+            3. Heartbeats y health checks
+            4. Descubrimiento basado en DNS
+            5. Descubrimiento mediante sidecar / agente local
+            6. Elección de líder y roles dinámicos (líder / seguidor)
+            7. Bloqueos distribuidos y exclusión mutua
+            8. Configuración distribuida dinámica
+            9. Versionado de configuración y rollout gradual
+            10. Relojes lógicos y control de versiones
+            11. Reconfiguración automática tras fallos
         8. Patrones de resiliencia
             1. Estrategias para resistir fallos parciales
-                1. Circuit breaker
-                2. Bulkhead isolation (aislar recursos)
-                3. Timeouts y reintentos controlados
-                4. Fallbacks y degradación elegante (graceful degradation)
-                5. Rate limiting y protección contra sobrecarga
-                6. Autoescalado reactivo según presión
-                7. Canary releases y blue-green deployments
-                8. Chaos testing / fault injection
-                9. Retries idempotentes y deduplicación
-                10. Telemetría temprana para rollback rápido
+            2. Circuit breaker
+            3. Bulkhead isolation (aislar recursos)
+            4. Timeouts y reintentos controlados
+            5. Fallbacks y degradación elegante (graceful degradation)
+            6. Rate limiting y protección contra sobrecarga
+            7. Autoescalado reactivo según presión
+            8. Canary releases y blue-green deployments
+            9. Chaos testing / fault injection
+            10. Retries idempotentes y deduplicación
+            11. Telemetría temprana para rollback rápido
         9. Versionado y compatibilidad de interfaces
             1. Evolución segura de contratos y APIs
-                1. Versionado de API (v1, v2, etc.)
-                2. Compatibilidad retroactiva (backward compatibility)
-                3. Compatibilidad hacia adelante (forward compatibility)
-                4. Evolución de esquemas y contratos de datos
-                5. Feature flags y toggles de comportamiento
-                6. Deprecación gradual y ventanas de retirada
-                7. Negociación de contenido (content negotiation)
-                8. Escritura y lectura dual (dual write / dual read)
-                9. Canales beta / pre-release para clientes selectos
-                10. Sincronización de cambios entre frontend y backend
+            2. Versionado de API (v1, v2, etc.)
+            3. Compatibilidad retroactiva (backward compatibility)
+            4. Compatibilidad hacia adelante (forward compatibility)
+            5. Evolución de esquemas y contratos de datos
+            6. Feature flags y toggles de comportamiento
+            7. Deprecación gradual y ventanas de retirada
+            8. Negociación de contenido (content negotiation)
+            9. Escritura y lectura dual (dual write / dual read)
+            10. Canales beta / pre-release para clientes selectos
+            11. Sincronización de cambios entre frontend y backend
     11. Consistencia y tolerancia a fallos
         1. Teorema CAP y trade-offs
             1. Propiedades y límites en sistemas distribuidos
-                1. Consistency (coherencia vista única de datos)
-                2. Availability (respuesta sin error)
-                3. Partition tolerance (sobrevivir a particiones)
-                4. CA vs CP vs AP como decisiones de diseño
-                5. Impacto de las particiones de red en disponibilidad
-                6. Sistemas orientados a disponibilidad alta
-                7. Sistemas orientados a coherencia estricta
-                8. Trade-offs operacionales vs trade-offs teóricos
-                9. Interpretación práctica de CAP en nubes reales
-                10. Relación con PACELC (latencia vs consistencia)
+            2. Consistency (coherencia vista única de datos)
+            3. Availability (respuesta sin error)
+            4. Partition tolerance (sobrevivir a particiones)
+            5. CA vs CP vs AP como decisiones de diseño
+            6. Impacto de las particiones de red en disponibilidad
+            7. Sistemas orientados a disponibilidad alta
+            8. Sistemas orientados a coherencia estricta
+            9. Trade-offs operacionales vs trade-offs teóricos
+            10. Interpretación práctica de CAP en nubes reales
+            11. Relación con PACELC (latencia vs consistencia)
         2. Modelos de consistencia
             1. Garantías de visibilidad y orden de actualizaciones
-                1. Consistencia fuerte
-                2. Consistencia eventual
-                3. Consistencia causal
-                4. Read-your-writes
-                5. Monotonic reads / monotonic writes
-                6. Linearizabilidad
-                7. Consistencia secuencial (sequential consistency)
-                8. Snapshot isolation
-                9. Serializabilidad
-                10. Sesgo regional / lectura local preferente
+            2. Consistencia fuerte
+            3. Consistencia eventual
+            4. Consistencia causal
+            5. Read-your-writes
+            6. Monotonic reads / monotonic writes
+            7. Linearizabilidad
+            8. Consistencia secuencial (sequential consistency)
+            9. Snapshot isolation
+            10. Serializabilidad
+            11. Sesgo regional / lectura local preferente
         3. Relojes y ordenamiento de eventos
             1. Tiempo y causalidad en sistemas distribuidos
-                1. Relojes físicos
-                2. Relojes lógicos (Lamport clocks)
-                3. Vector clocks y orden parcial
-                4. Versionado multiversión (MVCC)
-                5. Orden total vs orden parcial de eventos
-                6. Causalidad y relación happens-before
-                7. Skew y drift de reloj físico
-                8. Sincronización de tiempo distribuida (NTP/PTP)
-                9. Marcas de tiempo lógicas en almacenamiento distribuido
-                10. Resolución de conflictos basados en timestamp
+            2. Relojes físicos
+            3. Relojes lógicos (Lamport clocks)
+            4. Vector clocks y orden parcial
+            5. Versionado multiversión (MVCC)
+            6. Orden total vs orden parcial de eventos
+            7. Causalidad y relación happens-before
+            8. Skew y drift de reloj físico
+            9. Sincronización de tiempo distribuida (NTP/PTP)
+            10. Marcas de tiempo lógicas en almacenamiento distribuido
+            11. Resolución de conflictos basados en timestamp
         4. Consenso y replicación
             1. Acordar un estado consistente entre múltiples nodos
-                1. Replicación primaria-secundaria (líder-seguidor)
-                2. Replicación multi-líder (multi-master)
-                3. Replicación sin líder (gossip / eventual)
-                4. Raft (consenso con log replicado)
-                5. Paxos (consenso tolerante a fallos de nodo)
-                6. Quórums de lectura / escritura
-                7. Write-ahead log (WAL) y replay
-                8. Consistencia de metadatos críticos
-                9. Reelección de líder y continuidad de servicio
-                10. Propagación de confirmaciones y commit distribuido
+            2. Replicación primaria-secundaria (líder-seguidor)
+            3. Replicación multi-líder (multi-master)
+            4. Replicación sin líder (gossip / eventual)
+            5. Raft (consenso con log replicado)
+            6. Paxos (consenso tolerante a fallos de nodo)
+            7. Quórums de lectura / escritura
+            8. Write-ahead log (WAL) y replay
+            9. Consistencia de metadatos críticos
+            10. Reelección de líder y continuidad de servicio
+            11. Propagación de confirmaciones y commit distribuido
         5. Alta disponibilidad y failover
             1. Diseño para continuidad operativa
-                1. Failover automático vs failover manual
-                2. Redundancia activa-activa
-                3. Redundancia activa-pasiva
-                4. Balanceo de carga con health checks
-                5. Replicación geográfica y multi-región
-                6. Zonas de disponibilidad y dominios de fallo
-                7. Circuit breakers y corte selectivo de dependencia
-                8. Degradación controlada de funcionalidades
-                9. Escalamiento automático ante degradación
-                10. Ejercicios de DR (disaster recovery) programados
+            2. Failover automático vs failover manual
+            3. Redundancia activa-activa
+            4. Redundancia activa-pasiva
+            5. Balanceo de carga con health checks
+            6. Replicación geográfica y multi-región
+            7. Zonas de disponibilidad y dominios de fallo
+            8. Circuit breakers y corte selectivo de dependencia
+            9. Degradación controlada de funcionalidades
+            10. Escalamiento automático ante degradación
+            11. Ejercicios de DR (disaster recovery) programados
         6. Tolerancia a fallos bizantinos
             1. Sobrevivir a nodos maliciosos o arbitrarios
-                1. Modelo bizantino vs modelo crash-stop
-                2. Replicación tolerante a fallos bizantinos (BFT)
-                3. PBFT y variantes de consenso bizantino
-                4. Firmas criptográficas y autenticación de mensajes
-                5. Quórums bizantinos
-                6. Canales autenticados y cifrados
-                7. Detección de nodos maliciosos / desviantes
-                8. Reconfiguración dinámica bajo adversarios
-                9. Costo computacional y de latencia del BFT
-                10. Casos de uso críticos (finanzas, control de infraestructura)
+            2. Modelo bizantino vs modelo crash-stop
+            3. Replicación tolerante a fallos bizantinos (BFT)
+            4. PBFT y variantes de consenso bizantino
+            5. Firmas criptográficas y autenticación de mensajes
+            6. Quórums bizantinos
+            7. Canales autenticados y cifrados
+            8. Detección de nodos maliciosos / desviantes
+            9. Reconfiguración dinámica bajo adversarios
+            10. Costo computacional y de latencia del BFT
+            11. Casos de uso críticos (finanzas, control de infraestructura)
         7. Estrategias de recuperación
             1. Volver a un estado sano después de un fallo
-                1. Retries con backoff exponencial
-                2. Idempotencia en reintentos
-                3. Reproducción de logs (replay de operaciones)
-                4. Snapshots y checkpoints periódicos
-                5. Rollback y roll-forward coordinado
-                6. Re-sincronización de réplicas atrasadas
-                7. Reconciliación de estados divergentes
-                8. Autocuración / self-healing
-                9. Alertas automáticas y escalamiento humano
-                10. Pruebas y simulacros de recuperación planificada
+            2. Retries con backoff exponencial
+            3. Idempotencia en reintentos
+            4. Reproducción de logs (replay de operaciones)
+            5. Snapshots y checkpoints periódicos
+            6. Rollback y roll-forward coordinado
+            7. Re-sincronización de réplicas atrasadas
+            8. Reconciliación de estados divergentes
+            9. Autocuración / self-healing
+            10. Alertas automáticas y escalamiento humano
+            11. Pruebas y simulacros de recuperación planificada
         8. Diseño de sistemas idempotentes
             1. Operaciones repetibles sin efectos no deseados
-                1. Operaciones sin efectos secundarios repetidos
-                2. Identificadores únicos de operación (request ID)
-                3. Exactly-once vs at-least-once como garantía práctica
-                4. Procesamiento transaccional distribuido
-                5. Acciones compensatorias (compensating actions)
-                6. Mensajería con deduplicación
-                7. Semántica write-once
-                8. Estados conmutativos y CRDTs
-                9. Event sourcing con replay seguro
-                10. Auditoría y trazabilidad de cada mutación
+            2. Operaciones sin efectos secundarios repetidos
+            3. Identificadores únicos de operación (request ID)
+            4. Exactly-once vs at-least-once como garantía práctica
+            5. Procesamiento transaccional distribuido
+            6. Acciones compensatorias (compensating actions)
+            7. Mensajería con deduplicación
+            8. Semántica write-once
+            9. Estados conmutativos y CRDTs
+            10. Event sourcing con replay seguro
+            11. Auditoría y trazabilidad de cada mutación
     12. Algoritmos distribuidos
         1. Modelos de comunicación
             1. Sistema síncrono
