@@ -1,20 +1,21 @@
 nav:
+  - index.md
   - general-overview.md
   - guide-structure.md
   - operational-path.md
   - professional-path.md
   - role-based-path.md
   - recommended-paths.md
-  - Fundamentos de Cs: 001-cs-fundamentals
-  - Análisis y Diseño de software: 002-sw-analysis-design
+  - Fundamentos de CS: 001-cs-fundamentals
+  - Análisis y diseño de software: 002-sw-analysis-design
   - Desarrollo de software: 003-programming
   - Backend y servicios: 008-backend
-  - Frontend, UX/UI: 009-frontend
-  - Desarrollo móvil y embebido: 010-mobile-embedded
+  - Frontend y UX/UI: 009-frontend
+  - Mobile y embedded: 010-mobile-embedded
   - Computación científica y HPC: 011-scientific-computing
   - Datos y ML: 012-data-ml
   - Seguridad: 013-security
   - Calidad y auditoría: 014-quality-audit
-  - Operación en producción: 015-ops
+  - Operaciones: 015-ops
   - Gestión técnica: 016-management
   - Cumplimiento y mejora: 017-continuous-improvement

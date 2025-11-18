@@ -93,7 +93,7 @@ En hardware digital, cada _bit_ representa un dígito en base 2. Agrupaciones de
 
 Esta estructura jerárquica facilita la conversión rápida entre sistemas y la interpretación binaria de los datos en memoria.
 
-!!! info Bit
+!!! info "Bit"
     Un bit es la unidad más básica de información en computación y telecomunicaciones, representando un estado binario: 0 o 1.
 
     El término “bit” fue acuñado hacia la segunda mitad de la década de 1940 por John W. Tukey mientras trabajaba en Bell Labs, como abreviatura de binary digit.

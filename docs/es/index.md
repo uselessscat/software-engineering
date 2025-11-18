@@ -39,13 +39,13 @@ Tu mapa conciso y progresivo para dominar la Ingeniería de Software y la comput
 
     [:octicons-arrow-right-24: Ir a Desarrollo](general-overview.md)
 
--   :material-server: **Infra & DevOps (opcional)**
+-   :material-server: **Infra & DevOps**
   
     Docker/Podman, Kubernetes básico, observabilidad, logging/metrics/tracing.
 
     [:octicons-arrow-right-24: Ir a Infra](general-overview.md)
 
--   :material-abacus: **Ciencia de Datos & HPC (opcional)**
+-   :material-abacus: **Ciencia de Datos & HPC**
   
     NumPy, vectorización, paralelismo, GPU (intro), data pipelines.
 

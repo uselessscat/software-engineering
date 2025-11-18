@@ -44,10 +44,6 @@ markdown_extensions:
 
 plugins:
   - awesome-pages
-  - strip-number-prefix:
-      pattern: "^\\d+-"
-      strict: true
-      strip_links: false
   - i18n:
       docs_structure: folder
       fallback_to_default: false
@@ -57,6 +53,10 @@ plugins:
           default: true
         - locale: en
           name: English
+  - strip-number-prefix:
+      pattern: "^\\d+-"
+      strict: true
+      strip_links: false
   - git-revision-date-localized:
       enable_creation_date: true
       fallback_to_build_date: true

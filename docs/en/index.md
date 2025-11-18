@@ -40,13 +40,13 @@ Your concise and progressive roadmap to mastering Software Engineering and Compu
 
     [:octicons-arrow-right-24: Go to Development](general-overview.md)
 
--   :material-server: **Infra & DevOps (optional)**
+-   :material-server: **Infra & DevOps**
 
     Docker/Podman, basic Kubernetes, observability, logging/metrics/tracing.
 
     [:octicons-arrow-right-24: Go to Infra](general-overview.md)
 
--   :material-abacus: **Data Science & HPC (optional)**
+-   :material-abacus: **Data Science & HPC**
 
     NumPy, vectorization, parallelism, GPU (intro), data pipelines.
 
