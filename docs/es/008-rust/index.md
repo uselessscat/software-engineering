@@ -215,56 +215,56 @@
          7. `'static`
          8. Lifetimes en closures
       10. Enumeraciones (`enum`)
-      11. Variantes sin datos
-      12. Variantes tipo tupla
-      13. Variantes tipo struct
-      14. Patrones exhaustivos con `match`
-      15. `Option<T>`
-      16. `Result<T, E>`
-      17. `Ordering`
-      18. `Never type` (`!`)
-      19. Structs
-      20. Structs con campos nombrados
-      21. Tuple structs
-      22. Unit structs
-      23. `pub` y visibilidad de campos
-      24. Inicialización con sintaxis `{ campo: valor }`
-      25. Actualización de struct (`..otro`)
-      26. Propiedad de campos y movimientos parciales
-      27. Empaquetar datos y semántica de valor
-      28. Traits básicos
-      29. `Copy`
-      30. `Clone`
-      31. `Debug`
-      32. `Display`
-      33. `Default`
-      34. `PartialEq` / `Eq`
-      35. `PartialOrd` / `Ord`
-      36. `Hash`
-      37. `Send`
-      38. `Sync`
-      39. `Unpin`
-      40. `Sized`
-      41. Conversión y coerción
-      42. `From` / `Into`
-      43. `TryFrom` / `TryInto`
-      44. `AsRef` / `AsMut`
-      45. `Borrow`
-      46. `Deref` / `DerefMut`
-      47. Auto-deref en llamadas a métodos
-      48. Conversión numérica con `as`
-      49. Conversión de slices entre tipos compatibles
-      50. Pattern matching de destructuración
-      51. `let` + patrones
-      52. `if let`
-      53. `while let`
-      54. Patrones en parámetros de función
-      55. Patrones en `match`
-      56. Patrones anidados en structs y enums
-      57. Patrones con guardas (`if`)
-      58. Patrones con `@`
-      59. Patrones con `_`
-      60. Patrones de rango (`..=`)
+          11. Variantes sin datos
+          12. Variantes tipo tupla
+          13. Variantes tipo struct
+          14. Patrones exhaustivos con `match`
+          15. `Option<T>`
+          16. `Result<T, E>`
+          17. `Ordering`
+          18. `Never type` (`!`)
+      11. Structs
+          1. Structs con campos nombrados
+          2. Tuple structs
+          3. Unit structs
+          4. `pub` y visibilidad de campos
+          5. Inicialización con sintaxis `{ campo: valor }`
+          6. Actualización de struct (`..otro`)
+          7. Propiedad de campos y movimientos parciales
+          8. Empaquetar datos y semántica de valor
+      12. Traits básicos
+          1. `Copy`
+          2. `Clone`
+          3. `Debug`
+          4. `Display`
+          5. `Default`
+          6. `PartialEq` / `Eq`
+          7. `PartialOrd` / `Ord`
+          8. `Hash`
+          9. `Send`
+          10. `Sync`
+          11. `Unpin`
+          12. `Sized`
+      13. Conversión y coerción
+          1. `From` / `Into`
+          2. `TryFrom` / `TryInto`
+          3. `AsRef` / `AsMut`
+          4. `Borrow`
+          5. `Deref` / `DerefMut`
+          6. Auto-deref en llamadas a métodos
+          7. Conversión numérica con `as`
+          8. Conversión de slices entre tipos compatibles
+      14. Pattern matching de destructuración
+          1. `let` + patrones
+          2. `if let`
+          3. `while let`
+          4. Patrones en parámetros de función
+          5. Patrones en `match`
+          6. Patrones anidados en structs y enums
+          7. Patrones con guardas (`if`)
+          8. Patrones con `@`
+          9. Patrones con `_`
+          10. Patrones de rango (`..=`)
    2. Operadores
       1. Operadores aritméticos (`+`, `-`, `*`, `/`, `%`)
       2. Operadores de asignación compuesta (`+=`, `-=`, `*=`, `/=`, `%=`)
@@ -428,51 +428,51 @@
       10. Macros de test (`#[test]`)
       11. Macros de derivación automática (`#[derive(Clone, Debug, ...)]`)
    10. Atributos de Compilación Condicional
-   11. `#[cfg(target_os = "linux")]`
-   12. `#[cfg(target_arch = "x86_64")]`
-   13. `#[cfg(feature = "foo")]`
-   14. `#[cfg(test)]`
-   15. `#[cfg(debug_assertions)]`
-   16. `#[cfg_attr(...)]`
-   17. `cfg_if!` (macro de conveniencia)
-   18. Builds multiplataforma con `cfg`
-   19. Código específico de arquitectura
-   20. Desactivación de partes inseguras en WASM
-   21. Estándares de Estilo
-   22. Formato con `rustfmt`
-   23. Organización de `use`
-   24. Nomenclatura de tipos (`PascalCase`)
-   25. Nomenclatura de variables y funciones (`snake_case`)
-   26. Constantes (`SCREAMING_SNAKE_CASE`)
-   27. División en módulos pequeños
-   28. Comentarios `///` para docs públicas
-   29. Comentarios `//!` a nivel de crate
-   30. Comentarios de implementación `//`
-   31. `#[allow]` vs `#[deny]` para lints
-   32. Políticas internas de `clippy`
-   33. Reglas de API públicas estables
-   34. Visibilidad mínima (`pub` vs `pub(crate)`)
-   35. Convenciones de Proyecto
-   36. `src/main.rs`
-   37. `src/lib.rs`
-   38. `src/bin/*.rs`
-   39. `Cargo.toml`
-   40. `Cargo.lock`
-   41. `README.md`
-   42. `LICENSE`
-   43. `rust-toolchain.toml`
-   44. `benches/`
-   45. `examples/`
-   46. `tests/`
-   47. `build.rs`
-   48. `target/`
-   49. Módulos internos `mod.rs` vs `foo.rs`
-   50. Estructura por dominio
-   51. Estructura por capas (core, infra, api)
-   52. Reexportar APIs en `lib.rs`
-   53. `#[deny(missing_docs)]`
-   54. Versionado del crate
-   55. Features opcionales y `default-features = false`
+       1. `#[cfg(target_os = "linux")]`
+       2. `#[cfg(target_arch = "x86_64")]`
+       3. `#[cfg(feature = "foo")]`
+       4. `#[cfg(test)]`
+       5. `#[cfg(debug_assertions)]`
+       6. `#[cfg_attr(...)]`
+       7. `cfg_if!` (macro de conveniencia)
+       8. Builds multiplataforma con `cfg`
+       9. Código específico de arquitectura
+       10. Desactivación de partes inseguras en WASM
+   11. Estándares de Estilo
+       1. Formato con `rustfmt`
+       2. Organización de `use`
+       3. Nomenclatura de tipos (`PascalCase`)
+       4. Nomenclatura de variables y funciones (`snake_case`)
+       5. Constantes (`SCREAMING_SNAKE_CASE`)
+       6. División en módulos pequeños
+       7. Comentarios `///` para docs públicas
+       8. Comentarios `//!` a nivel de crate
+       9. Comentarios de implementación `//`
+       10. `#[allow]` vs `#[deny]` para lints
+       11. Políticas internas de `clippy`
+       12. Reglas de API públicas estables
+       13. Visibilidad mínima (`pub` vs `pub(crate)`)
+   12. Convenciones de Proyecto
+       1. `src/main.rs`
+       2. `src/lib.rs`
+       3. `src/bin/*.rs`
+       4. `Cargo.toml`
+       5. `Cargo.lock`
+       6. `README.md`
+       7. `LICENSE`
+       8. `rust-toolchain.toml`
+       9. `benches/`
+       10. `examples/`
+       11. `tests/`
+       12. `build.rs`
+       13. `target/`
+       14. Módulos internos `mod.rs` vs `foo.rs`
+       15. Estructura por dominio
+       16. Estructura por capas (core, infra, api)
+       17. Reexportar APIs en `lib.rs`
+       18. `#[deny(missing_docs)]`
+       19. Versionado del crate
+       20. Features opcionales y `default-features = false`
 3. Estructuras y manipulación de datos
    1. Colecciones Estándar
       1. `Vec<T>`
@@ -632,59 +632,59 @@
       13. Smart pointers específicos de librería
       14. RAII y liberación determinista con `Drop`
    10. Iteradores
-   11. `Iterator` trait
-   12. `.next()`
-   13. `for` sobre iteradores
-   14. Adaptadores (`map`, `filter`, `flat_map`)
-   15. `enumerate`
-   16. `zip`
-   17. `chain`
-   18. `rev`
-   19. `take`, `skip`
-   20. `collect`
-   21. Colección en `Vec`
-   22. Colección en `HashMap`
-   23. Iteradores infinitos y `std::iter::repeat`
-   24. `std::iter::from_fn`
-   25. `inspect`
-   26. `fold`
-   27. `try_fold`
-   28. Propiedad vs referencia en iteradores
-   29. Iteradores que consumen (`into_iter`)
-   30. Iteradores prestados (`iter`, `iter_mut`)
-   31. Iteradores paralelos (`rayon`)
-   32. Iteradores async (`Stream` en ecosistema async)
-   33. Expresiones Funcionales y Pipelines
-   34. `.map(...)`
-   35. `.filter(...)`
-   36. `.filter_map(...)`
-   37. `.find(...)`
-   38. `.any(...)`
-   39. `.all(...)`
-   40. `.position(...)`
-   41. `.fold(...)`
-   42. `.reduce(...)`
-   43. `.group_by(...)` (crates externos)
-   44. Transformaciones in-place vs alocar nuevos `Vec`
-   45. Reutilización de buffers
-   46. Zero-copy usando slices
-   47. Evitar clonados innecesarios
-   48. `Cow` en pipelines de texto
-   49. Seguridad y Manejo Binario
-   50. `std::mem::transmute` (uso inseguro)
-   51. `std::mem::replace`
-   52. `std::mem::take`
-   53. `MaybeUninit<T>`
-   54. Layout de memoria (`#[repr(C)]`, `#[repr(packed)]`)
-   55. Alineación (`align_of`, `align_to`)
-   56. Lectura/escritura de bytes con `byteorder`
-   57. Endianness explícito
-   58. Acceso crudo con punteros (`*const T`, `*mut T`)
-   59. `slice::from_raw_parts`
-   60. `ptr::copy_nonoverlapping`
-   61. Control de aliasing en `unsafe`
-   62. Serialización binaria para FFI
-   63. Mapear estructuras Rust a C
+       1. `Iterator` trait
+       2. `.next()`
+       3. `for` sobre iteradores
+       4. Adaptadores (`map`, `filter`, `flat_map`)
+       5. `enumerate`
+       6. `zip`
+       7. `chain`
+       8. `rev`
+       9. `take`, `skip`
+       10. `collect`
+       11. Colección en `Vec`
+       12. Colección en `HashMap`
+       13. Iteradores infinitos y `std::iter::repeat`
+       14. `std::iter::from_fn`
+       15. `inspect`
+       16. `fold`
+       17. `try_fold`
+       18. Propiedad vs referencia en iteradores
+       19. Iteradores que consumen (`into_iter`)
+       20. Iteradores prestados (`iter`, `iter_mut`)
+       21. Iteradores paralelos (`rayon`)
+       22. Iteradores async (`Stream` en ecosistema async)
+   11. Expresiones Funcionales y Pipelines
+       1. `.map(...)`
+       2. `.filter(...)`
+       3. `.filter_map(...)`
+       4. `.find(...)`
+       5. `.any(...)`
+       6. `.all(...)`
+       7. `.position(...)`
+       8. `.fold(...)`
+       9. `.reduce(...)`
+       10. `.group_by(...)` (crates externos)
+       11. Transformaciones in-place vs alocar nuevos `Vec`
+       12. Reutilización de buffers
+       13. Zero-copy usando slices
+       14. Evitar clonados innecesarios
+       15. `Cow` en pipelines de texto
+   12. Seguridad y Manejo Binario
+       1. `std::mem::transmute` (uso inseguro)
+       2. `std::mem::replace`
+       3. `std::mem::take`
+       4. `MaybeUninit<T>`
+       5. Layout de memoria (`#[repr(C)]`, `#[repr(packed)]`)
+       6. Alineación (`align_of`, `align_to`)
+       7. Lectura/escritura de bytes con `byteorder`
+       8. Endianness explícito
+       9. Acceso crudo con punteros (`*const T`, `*mut T`)
+       10. `slice::from_raw_parts`
+       11. `ptr::copy_nonoverlapping`
+       12. Control de aliasing en `unsafe`
+       13. Serialización binaria para FFI
+       14. Mapear estructuras Rust a C
 4. Programación estructurada y modular
    1. Programación Orientada a Datos y Traits
       1. Structs como tipos de datos centrales
@@ -860,31 +860,31 @@
       29. Tests de `unsafe` correctness
       30. Validación de invariantes de memoria
    10. Depuración
-   11. `dbg!` macro
-   12. `println!` debug
-   13. `Debug` derivado (`#[derive(Debug)]`)
-   14. Revisar panic backtraces (`RUST_BACKTRACE=1`)
-   15. `gdb`
-   16. `lldb`
-   17. Depuración con VS Code (CodeLLDB)
-   18. Breakpoints en código Rust
-   19. Inspección de variables y lifetimes
-   20. Desensamblado de código generado
-   21. Inspección de ensamblador (`rustc --emit asm`)
-   22. Inspección de MIR (`rustc --emit mir`, nightly)
-   23. Inspección de LLVM IR (`--emit llvm-ir`)
-   24. Validación de alineación de punteros
-   25. Detección de UB potencial usando `miri`
-   26. Análisis con sanitizers (ASan, UBSan)
-   27. Chequeo de data races con ThreadSanitizer
-   28. Validación de límites con AddressSanitizer
-   29. Depuración de bloqueo mutuo (deadlock)
-   30. Depuración de rendimiento con `perf`
-   31. Flamegraphs
-   32. Inspección de heap con herramientas externas
-   33. Registros de tracing con `tracing` + `tokio-console`
-   34. Pruebas de estrés para reproducir condiciones de carrera
-   35. Auditoría manual de `unsafe`
+       1. `dbg!` macro
+       2. `println!` debug
+       3. `Debug` derivado (`#[derive(Debug)]`)
+       4. Revisar panic backtraces (`RUST_BACKTRACE=1`)
+       5. `gdb`
+       6. `lldb`
+       7. Depuración con VS Code (CodeLLDB)
+       8. Breakpoints en código Rust
+       9. Inspección de variables y lifetimes
+       10. Desensamblado de código generado
+       11. Inspección de ensamblador (`rustc --emit asm`)
+       12. Inspección de MIR (`rustc --emit mir`, nightly)
+       13. Inspección de LLVM IR (`--emit llvm-ir`)
+       14. Validación de alineación de punteros
+       15. Detección de UB potencial usando `miri`
+       16. Análisis con sanitizers (ASan, UBSan)
+       17. Chequeo de data races con ThreadSanitizer
+       18. Validación de límites con AddressSanitizer
+       19. Depuración de bloqueo mutuo (deadlock)
+       20. Depuración de rendimiento con `perf`
+       21. Flamegraphs
+       22. Inspección de heap con herramientas externas
+       23. Registros de tracing con `tracing` + `tokio-console`
+       24. Pruebas de estrés para reproducir condiciones de carrera
+       25. Auditoría manual de `unsafe`
 5. Estructuras avanzadas y programación funcional
    1. Programación Funcional y Estilo Declarativo
       1. Rust como lenguaje orientado a expresiones

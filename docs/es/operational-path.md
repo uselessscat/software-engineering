@@ -2215,14 +2215,11 @@
         1. Ver rutas de aprendizaje de lenguajes de programación
             1. Python
             2. JavaScript / TypeScript
-            3. Rust
-            4. Bash / shell scripting
-            5. Go
-            6. Java / JVM
-            7. C / C++
-            8. Kotlin
-            9. SQL y lenguajes de consulta
-            10. Lenguajes orientados a sistemas distribuidos / backend de alto rendimiento
+            3. SQL
+            4. Shell
+            5. Rust
+            6. Dart
+            7. Elixir
         2. Compiladores, intérpretes y construcción de lenguajes
             1. Análisis léxico, análisis sintáctico, análisis semántico
             2. Representación intermedia (IR) y optimización
