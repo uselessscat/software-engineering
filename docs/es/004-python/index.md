@@ -1,63 +1,7 @@
 # Python
 
 1. Introduction
-   1. History of Python
-      1. Origins and development by Guido van Rossum (1989–1991)
-      2. Evolution from Python 1.x → 2.x → 3.x
-      3. Design philosophy (PEP 20 — The Zen of Python)
-      4. Open source governance and the Python Software Foundation (PSF)
-      5. Python Enhancement Proposals (PEPs) and community process
-      6. Major milestones (Unicode, async, typing, pattern matching)
-   2. Python Versions and Compatibility
-      1. Python 2 vs Python 3 differences and migration
-      2. Maintenance and end-of-life policies
-      3. Long-term support (LTS) versions
-      4. Semantic versioning and release cadence
-      5. Version detection (`sys.version`, `platform.python_version()`)
-      6. Backward and forward compatibility (PEP 563, PEP 585)
-   3. Installing Python
-      1. Official installers (python.org, Microsoft Store, Homebrew, apt, dnf)
-      2. Platform-specific installation (Windows, macOS, Linux)
-      3. Source builds and configuration options
-      4. Multiple Python versions and environment isolation
-      5. Verifying installation and PATH configuration
-      6. Package managers (`apt`, `brew`, `choco`, `scoop`)
-      7. Alternative distributions (`Anaconda`, `Miniconda`, `ActivePython`)
-   4. Running Python Scripts and REPL
-      1. REPL basics (`python`, `python -i`, `exit()`)
-      2. Script execution (`python script.py`, `python -m module`)
-      3. Interactive debugging and inspection (`help()`, `dir()`)
-      4. Command-line flags and options (`-O`, `-B`, `-m`, `-X`)
-      5. Shell integration (`ipython`, `bpython`, `ptpython`)
-      6. Jupyter notebooks and interactive kernels
-      7. Input/output redirection and pipes
-   5. IDEs and Code Editors
-      1. Full IDEs (`PyCharm`, `VS Code`, `Spyder`, `Thonny`)
-      2. Lightweight editors (`Sublime Text`, `Atom`, `Vim`, `Emacs`)
-      3. REPL integration and interactive terminals
-      4. Code completion and IntelliSense
-      5. Linters and formatters integration
-      6. Debugging tools and breakpoints
-      7. Notebooks and mixed-language environments (`Jupyter`, `Colab`)
-   6. Virtual Environments
-      1. Environment creation (`venv`, `virtualenv`)
-      2. Activation and deactivation
-      3. Project isolation and dependency management
-      4. Environment configuration files (`pyvenv.cfg`)
-      5. Integration with editors and build tools
-      6. Cross-platform management (`conda`, `tox`, `nox`)
-      7. Reproducibility and sharing (`requirements.txt`, `lock` files)
-   7. Package Management (pip)
-      1. Installing, upgrading, uninstalling packages (`pip install`)
-      2. Requirements files (`requirements.txt`, constraints)
-      3. Package discovery and search (`pip search`, `pip index`)
-      4. Local and editable installs (`pip install -e`)
-      5. Dependency resolution (`pip check`, `pipdeptree`)
-      6. Source distributions vs wheels
-      7. Virtual environment integration
-      8. Caching and offline installs (`pip download`, `pip cache`)
-      9. Custom indexes and mirrors (`--index-url`, `--extra-index-url`)
-      10. Package auditing and signing (`pip-audit`, `hash-checking-mode`)
+
 2. Fundamentals
    1. Basic Data Types
       1. Variables and assignments

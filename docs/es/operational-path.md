@@ -20,7 +20,7 @@
             3. Subconjuntos, particiones y conjunto potencia
             4. Familias indexadas; unión/intersección indexadas
             5. Cardinalidad finita/numerable (visión útil para conteo)
-        3. Lógica Proposicional y de Predicadosformales
+        3. Lógica Proposicional y de Predicados formales
             1. Sintaxis/semántica; tablas de verdad y equivalencias útiles
             2. Reglas de inferencia (MP, MT) y validez de argumentos
             3. Cuantificadores ∀, ∃; alcance y negación de cuantificadores
@@ -2074,33 +2074,17 @@
             10. Reglas de ownership por módulo
             11. Catálogo interno de servicios y librerías
             12. Distribución binaria vs distribución de código fuente
+        13. Internacionalización y diseño global
+            1. Timezones
+            2. Formatos culturales
+            3. Pluralización
 
 3. Programación y desarrollo de software
     1. Linux, entornos y automatización
         1. Fundamentos de sistemas tipo Unix
-            1. Filosofía Unix y diseño modular
-            2. Sistema de archivos jerárquico y rutas absolutas vs relativas
-            3. Permisos de usuario, grupo y otros
-            4. Propietarios, grupos y modos de archivo (r/w/x)
-            5. Procesos y espacios de usuario vs kernel
-            6. Señales y estados de proceso
-            7. Pipes y redirecciones estándar (stdin, stdout, stderr)
-            8. Scripts ejecutables y el shebang (`#!/usr/bin/env ...`)
-            9. Diferencias básicas entre Linux, macOS y WSL
-            10. Sistemas de archivos montados y puntos de montaje
+
         2. Comandos esenciales de línea de comando
-            1. Navegación del sistema de archivos (`ls`, `cd`, `pwd`, `tree`)
-            2. Inspección de contenido (`cat`, `less`, `head`, `tail`, `wc`)
-            3. Manipulación de archivos y directorios (`cp`, `mv`, `rm`, `mkdir`, `touch`)
-            4. Búsqueda de archivos (`find`, `locate`)
-            5. Búsqueda dentro de archivos (`grep`, flags comunes y regex básicas)
-            6. Transformación de texto (`cut`, `sort`, `uniq`, `tr`, `sed`, `awk`)
-            7. Compresión y empaquetado (`tar`, `gzip`, `zip`, `unzip`)
-            8. Descarga y transferencia de datos (`curl`, `wget`, `scp`, `rsync`)
-            9. Gestión de permisos y propiedad (`chmod`, `chown`, `chgrp`)
-            10. Consultar ayuda y manuales (`man`, `--help`, `info`)
-            11. Expansión de comodines y globbing (`*`, `?`, `{}`)
-            12. Historial y repetición de comandos
+
         3. Gestión de paquetes y entornos del sistema
             1. Gestores de paquetes del sistema (apt, dnf, pacman, brew)
             2. Instalación, actualización y desinstalación de paquetes
@@ -2112,6 +2096,17 @@
             8. Políticas de seguridad al instalar software de terceros
             9. Auditoría de integridad de paquetes y firmas
             10. Reproducibilidad y bloqueo de versiones a nivel sistema
+            11. Diferencias profundas entre distros (DEB, RPM, Pacman, Nix)
+            12. Paquetes firmados vs repos inseguros
+            13. Backports, repos testing y repos unstable
+            14. Compilación de paquetes desde source (SRPM, PKGBUILD)
+            15. “Pinning” de versiones y reglas de prioridad de repos
+            16. Gestión de runtimes del sistema (Java, Python, Ruby) a nivel OS
+            17. Introducción a Nix/NixOS como modelo declarativo
+            18. Sandboxing del sistema (Flatpak, Bubblewrap)
+            19. Control de versiones semántico aplicado al sistema
+            20. Auditoría de dependencias del sistema (origen, checksum, sbom)
+
         4. Servicios del sistema, tareas programadas y demonios
             1. Procesos en background y foreground
             2. Administración de servicios con `systemd` (`systemctl start/stop/status`)
@@ -2123,6 +2118,17 @@
             8. Ejecución al arranque del sistema
             9. Políticas de restart y watchdog de servicios críticos
             10. Gestión y rotación de logs de servicios en background
+            11. Dependencias entre units (`After=`, `Before=`, `Requires=`, `Wants=`)
+            12. Socket activation y lazy start
+            13. Aislamiento de servicios con systemd (cgroups, namespaces)
+            14. Seguridad aplicada a services (`NoNewPrivileges`, `PrivateTmp`, etc.)
+            15. Creación de servicios portables (user services vs system services)
+            16. Plantillas de units (`@.service`)
+            17. Systemd-journald: configuración detallada
+            18. Diagnóstico de fallas (`systemd-analyze`, `systemctl status -l`)
+            19. Integración con logrotate
+            20. Gestión de servicios multiusuario / sesiones (`loginctl`)
+
         5. Variables de entorno y configuración
             1. Variables de entorno globales y locales
             2. Exportación y alcance (`export`, subshells)
@@ -2134,6 +2140,17 @@
             8. Inyección de variables de entorno en procesos y servicios
             9. Carga de variables de entorno en despliegues CI/CD
             10. Protección de secretos en entornos compartidos / shells multiusuario
+            11. Variables inmutables y variables de solo lectura
+            12. Scripts de login vs scripts de interacción
+            13. Entorno heredado por subprocesos (parent → child)
+            14. Collisions y shadowing de PATH
+            15. Archivos `/etc/environment`, `/etc/profile`, `/etc/profile.d`
+            16. Configuración declarativa en contenedores (ENV, ARG)
+            17. Variables de entorno en systemd (`Environment=`, drop-ins)
+            18. Variables temporales con `env VAR=`
+            19. Herramientas para secret management (pass, gopass, sops)
+            20. Estándares XDG y ubicación de configuración moderna
+
         6. Supervisión de procesos y recursos
             1. Listado de procesos (`ps`, `top`, `htop`)
             2. Uso de CPU, memoria y disco
@@ -2145,6 +2162,17 @@
             8. Limitación de recursos por proceso (`ulimit`)
             9. Aislamiento y control de consumo con cgroups / namespaces
             10. Detección de memory leaks y crecimiento anómalo de RSS
+            11. Procesos zombies y órfanos (gestión y detección)
+            12. Señales avanzadas y reenvío de señales en pipelines
+            13. Monitoreo de namespaces y cgroups en tiempo real
+            14. Perfilado de IO (`iotop`, `iostat`, `pidstat`)
+            15. Debugging de deadlocks básicos
+            16. Page cache, buffer cache y comportamiento del OOM killer
+            17. Priorización avanzada con `nice` y `renice`
+            18. Contadores del kernel (`/proc`, `/sys`)
+            19. Recolección de métricas para grafana/prometheus
+            20. Monitorización en clústeres (solo conceptual)
+
         7. Redes y puertos
             1. Conceptos básicos de red (IP, DNS, routing)
             2. Inspección de interfaces de red y direcciones IP
@@ -2156,6 +2184,17 @@
             8. Servicios locales vs servicios expuestos públicamente
             9. Escaneo y verificación de puertos expuestos (auditoría de superficie)
             10. Diagnóstico de bloqueo por firewall / NAT / routing asimétrico
+            11. Conceptos de firewall avanzados (nftables vs iptables)
+            12. Validación de rutas (`ip route`, `ip rule`)
+            13. Multicast y broadcast
+            14. NAT, forwarding, hairpinning
+            15. Sockets en userland: TCP, UDP y Unix sockets
+            16. Inspección de tráfico (`tcpdump`, `wireshark` básico)
+            17. TLS, certificados y verificación desde CLI (`openssl`)
+            18. Diagnóstico DNS profundo (registro A, AAAA, CNAME, TXT, MX)
+            19. Test de latencia, jitter y pérdida
+            20. Políticas de firewall por aplicación (ufw firewalld)
+
         8. Seguridad y control de acceso
             1. Usuarios y grupos
             2. Elevación de privilegios (`sudo`, política de sudoers)
@@ -2167,6 +2206,17 @@
             8. Aislamiento de procesos y sandboxing
             9. Hardening básico del sistema y superficies de ataque
             10. Auditoría de acceso y rotación periódica de credenciales
+            11. PAM: arquitectura y módulos
+            12. Polkit, roles y autorización granular
+            13. Seguridad de SSH avanzada (`sshd_config`, hardening)
+            14. Control de acceso con ACLs extendidas (`setfacl`, `getfacl`)
+            15. SELinux / AppArmor (conceptual + modos de operación)
+            16. Sandboxing con `firejail` / `bwrap`
+            17. Seguridad en systemd (`ProtectSystem=`, `ProtectHome=`)
+            18. Escaneo de vulnerabilidades (`lynis`, `clamav`)
+            19. Rotación segura de claves SSH
+            20. Verificación de integridad del sistema (tripwire, aide)
+
         9. Automatización y scripting en la línea de comando
             1. Alias y funciones de shell
             2. Scripting en Bash y shells compatibles
@@ -2178,6 +2228,17 @@
             8. Manejo de errores y `set -euo pipefail`
             9. Interoperabilidad entre shell y otros lenguajes (Python, awk, etc.)
             10. Ejecución remota de scripts
+            11. Here-strings y here-docs avanzados
+            12. Scripting robusto con `trap` y cleanup
+            13. Logging estructurado dentro de scripts
+            14. Scripts con dependencias externas manejadas por entorno
+            15. Modularización de scripts (source, librerías)
+            16. Estándares POSIX sh vs Bash (portabilidad)
+            17. Generación dinámica de pipelines
+            18. Integración con JSON (`jq`) y YAML (`yq`)
+            19. Manipulación de APIs desde shell
+            20. Scripting seguro (validación de input, evitar globbing accidental)
+
         10. Personalización del entorno de trabajo
             1. Prompt personalizado y contexto en tiempo real
             2. Uso de `tmux`/multiplexores de terminal
@@ -2189,6 +2250,17 @@
             8. Búsqueda global de símbolos/código desde terminal
             9. Sincronización y versionado de dotfiles entre máquinas
             10. Mostrar rama git/estado CI/estado de despliegue en el prompt
+            11. Integración con herramientas de búsqueda (`ripgrep`, `ag`)
+            12. ZLE en zsh (editor lineal avanzado)
+            13. Keybindings personalizados (vi-mode, emacs-mode)
+            14. Configuración portable con frameworks (oh-my-zsh, prezto)
+            15. Gestión de themes y prompts con starship
+            16. Workflow avanzado en tmux (sessions, panes, resurrect)
+            17. Patrones de organización de dotfiles con `stow`
+            18. Alias inteligentes contextuales
+            19. Integración con linters y formatters desde CLI
+            20. Perfiles por máquina / entorno
+
         11. Diagnóstico de rendimiento
             1. Cuellos de botella de CPU
             2. Cuellos de botella de memoria y swapping
@@ -2200,6 +2272,17 @@
             8. Perfilado de kernel y userland (perf/ftrace/eBPF)
             9. Pruebas de throughput/red (iperf, etc.)
             10. Línea base histórica de rendimiento para comparación
+            11. CPU profiling con perf record/report
+            12. Flamegraphs y profiling visual
+            13. Latencias del scheduler
+            14. Hugepages y gestión de memoria de alto rendimiento
+            15. Análisis de contención en locks
+            16. Page faults (mayor y menor) y análisis detallado
+            17. BPF/eBPF (introducción conceptual)
+            18. Análisis de IO profundo (block layer)
+            19. Network profiling (`ss`, `ip netns`)
+            20. Métricas para tuning de servicios de alto throughput
+
         12. Auditoría del sistema y logs
             1. Logs del sistema (`journalctl`, `/var/log`)
             2. Rotación y retención de logs
@@ -2211,6 +2294,17 @@
             8. Alertas tempranas y monitoreo continuo
             9. Centralización y reenvío de logs a sistemas SIEM
             10. Retención para cumplimiento normativo y forense
+            11. Estructura completa de `/var/log` y convenciones
+            12. Logs del kernel vs logs de userland  
+            13. Journal persistente vs volátil  
+            14. Filtrado avanzado de journalctl (`--since`, `-u`, `-g`)  
+            15. Log forwarding (`rsyslog`, journald forwarding)  
+            16. Logs estructurados (JSON logging)  
+            17. Auditoría profunda con `auditd`  
+            18. Correlación multi-servicio mediante IDs de request  
+            19. Análisis automatizado con regex y `awk/sed`  
+            20. Integración con SIEM modernos (Splunk, ELK, Wazuh)  
+
     2. Fundamentos de lenguajes de programación
         1. Ver rutas de aprendizaje de lenguajes de programación
             1. Python
@@ -2529,7 +2623,22 @@
             8. Depuración remota con breakpoints sobre entornos cloud
             9. Auditoría y control de acceso a entornos compartidos
             10. Limpieza y rotación automática de entornos efímeros viejos
-    4. Control de versiones y colaboración
+        13. Contenedores para desarrollo y empaquetado básico
+            1. Fundamentos de contenedores y runtimes OCI
+            2. Construcción eficiente de imágenes (multi-stage, caching)
+            3. Ejecución local con Docker/Podman
+            4. Docker Compose y entornos multi-servicio para desarrollo
+            5. Volúmenes, redes locales y depuración en contenedores
+            6. Empaquetado reproducible de servicios
+    4. Observabilidad de aplicaciones
+        1. Logging estructurado y contextualizado en el código
+        2. Métricas de aplicación (counters, gauges, histograms)
+        3. Instrumentación OpenTelemetry para tracing
+        4. Propagación de contexto entre servicios
+        5. Healthchecks, readiness y liveness a nivel de aplicación
+        6. Integración con APMs y herramientas de monitoreo
+        7. Pruebas y validación de observabilidad en entornos locales
+    5. Control de versiones y colaboración
         1. Fundamentos de control de versiones distribuido
             1. Commits como snapshots inmutables
             2. Árbol de commits y DAG de historial
@@ -2651,6 +2760,12 @@
             8. Reconstrucción de incidentes de seguridad a partir del historial
             9. Evidencia para certificaciones y cumplimiento legal
             10. Conservación y archivado de ramas históricas / snapshots estables
+        12. Operaciones de mantenimiento
+            1. Semántica de deprecación
+            2. Eliminación segura de código legacy
+            3. Refactors progresivos
+            4. Compatibilidad transitoria
+            5. Flags de migración
 
 4. Desarrollo backend y servicios
     1. Frameworks web y diseño de APIs
@@ -3587,7 +3702,117 @@
             10. Revisión cruzada diseño–producto–ingeniería
 
 6. Desarrollo móvil y embebido
-    1.
+    1. Fundamentos de plataformas móviles
+        1. Arquitecturas iOS y Android
+        2. Ciclo de vida de aplicaciones móviles
+        3. Componentes del sistema operativo
+        4. Permisos, sandboxing y políticas de seguridad
+    2. Desarrollo nativo para Android e iOS
+        1. Android: Activities, Fragments, ViewModels y Jetpack
+        2. iOS: UIKit/SwiftUI, ViewControllers y Combine
+        3. Gestión de recursos, assets y densidades de pantalla
+        4. Navegación, gesture systems y patrones de UI nativa
+        5. Integración con sensores del dispositivo
+        6. Pipelines de compilación, signing y distribución
+    3. Desarrollo multiplataforma
+        1. Flutter: widgets, states, isolates y rendering engine
+        2. React Native: bridge, hooks, TurboModules
+        3. Capacitor/Cordova: integración web-native
+        4. Reutilización de lógica de negocio y módulos nativos
+        5. Sincronización de estado entre plataformas
+        6. Control de performance y perfiles comparativos
+    4. Red, datos y sincronización
+        1. Consumo de APIs móviles
+        2. Sincronización offline-first y manejo de caché
+        3. Persistencia local: SQLite, Room, CoreData
+        4. Almacenamiento seguro y cifrado local
+        5. Streaming, eventos en tiempo real y WebSockets
+        6. Eficiencia energética y uso de red
+    5. Optimización de performance en entornos móviles
+        1. Ciclo de renderizado, jank y frames perdidos
+        2. Administración de memoria y objetos de alto costo
+        3. Interacciones pesadas: imágenes, listas, gráficos
+        4. Energía y consumo: perfiles de batería y wake locks
+        5. Reducción de latencia percibida y animaciones fluidas
+        6. Técnicas avanzadas de profiling (Systrace, Instruments)
+    6. Integración con hardware del dispositivo
+        1. Sensores: GPS, acelerómetro, giroscopio
+        2. Cámara, multimedia, codecs y flujos AV
+        3. Bluetooth, BLE y comunicación con periféricos
+        4. NFC, pagos móviles y seguridad asociada
+        5. Biometría: huellas, rostro y enclaves seguros
+    7. Servicios móviles y tareas del sistema
+        1. Notificaciones push y locales
+        2. Background tasks y restricciones del sistema
+        3. Widgets, live activities y experiencias externas
+        4. Integración con servicios del fabricante
+    8. Calidad, validación y confiabilidad
+        1. Testing de UI y snapshot testing
+        2. Testing funcional, integración y contratos
+        3. Pruebas de performance y uso de batería
+        4. Telemetría, trazas y observabilidad móvil
+        5. Estrategias de despliegue gradual y feature rollout
+    9. Publicación y operación
+        1. Firmado de apps y manejo de claves
+        2. Build pipelines, CI/CD móvil y automatización
+        3. Store compliance (App Store / Play Store)
+        4. Versionado, compatibilidad y migración de datos
+        5. Monitoreo post-despliegue y retroalimentación
+    10. Fundamentos de computación embebida
+        1. Arquitecturas de microcontroladores y SoCs
+        2. ISA, buses internos, memoria y periferia
+        3. Restricciones de tiempo real, energía y espacio
+        4. Modelos de concurrencia en hardware restringido
+    11. Electrónica básica y hardware
+        1. Señales analógicas y digitales
+        2. Sensores, actuadores y conversión A/D – D/A
+        3. Protocolos de hardware (UART, SPI, I2C, CAN)
+        4. Diseño de PCB, fuentes y regulación de energía
+    12. Sistemas operativos embebidos
+        1. RTOS: tareas, colas, semáforos y prioridades
+        2. Sistemas bare-metal: inicialización, arranque y drivers
+        3. Gestión de interrupciones y latencias de ISR
+        4. Manejo de memoria, heap restringido y buffers fijos
+    13. Programación de bajo nivel
+        1. C/C++ para microcontroladores
+        2. Ensamblador, registros y mapeo de memoria
+        3. Drivers, HAL y capas de abstracción
+        4. Optimización por tamaño, ciclos y límites térmicos
+    14. Comunicación y redes en dispositivos
+        1. Redes industriales y buses deterministas
+        2. Protocolos IoT: MQTT, CoAP, LwM2M
+        3. Radiofrecuencia: WiFi, ZigBee, LoRaWAN, BLE
+        4. Topologías mesh, gateways y edge computing
+    15. Sistemas IoT y plataformas conectadas
+        1. Diseño de dispositivos conectados
+        2. Telemetría, comandos remotos y device shadow
+        3. Sincronización segura y actualización OTA
+        4. Protocolos de provisión y enrolamiento
+        5. Integración con nubes IoT (AWS IoT, Azure IoT, GCP IoT)
+    16. Seguridad embebida
+        1. Criptografía en hardware restringido
+        2. Secure boot, chain of trust y root-of-trust
+        3. Protección ante side-channel attacks
+        4. Gestión de llaves, certificados y módulos seguros
+        5. Endurecimiento del firmware y anti-tamper
+    17. Testing y validación de sistemas embebidos
+        1. Testing funcional hardware-software
+        2. Pruebas en entorno simulado y hardware-in-the-loop
+        3. Validación eléctrica y térmica
+        4. Depuración con JTAG/SWD y trazas en tiempo real
+        5. Análisis estático y revisión de firmware
+    18. Convergencia móvil–embebido
+        1. Integración móvil con dispositivos IoT y wearables
+        2. BLE, Thread, Zigbee y Matter como ecosistema unificado
+        3. Sincronización móvil–hardware en tiempo real
+        4. Bridges nativos para comunicar apps móviles con librerías C/C++
+        5. Seguridad extremo a extremo entre dispositivos
+    19. Operación, despliegue y ciclo de vida
+        1. Gestión de versiones de firmware
+        2. Pipelines de build para hardware restringido
+        3. Monitorización en campo y recolección de métricas
+        4. Estrategias de actualización y rollback
+        5. Mantenimiento, fin de vida y reciclaje electrónico
 
 7. Computación científica y HPC
     1. Fundamentos de análisis numérico

@@ -1,31 +1,6 @@
 # SQL
 
 1. Introducción a SQL y PostgreSQL
-   1. Historia y contexto
-      1. Orígenes de SQL y modelo relacional (Codd, años 70)
-      2. Evolución de SQL: estándares ANSI/ISO (SQL-86, SQL-92, SQL:1999, etc.)
-      3. Aparición de PostgreSQL (POSTGRES en Berkeley) y transición a código abierto
-      4. Filosofía de diseño de PostgreSQL (extensibilidad, estándares, robustez)
-      5. Casos de uso típicos: OLTP, OLAP ligero, aplicaciones web, GIS
-   2. Ecosistema PostgreSQL
-      1. Proyecto principal, ciclo de releases y políticas de soporte
-      2. Comunidad, mailing lists, conferencias (PGCon, PGDay)
-      3. Distribuciones y forks (vanilla, Amazon RDS, Aurora, etc.)
-      4. Extensiones populares (PostGIS, pg_partman, pgCron, pg_stat_statements)
-      5. Herramientas cliente y GUI (psql, pgAdmin, DBeaver, DataGrip)
-   3. Instalación y despliegue básico
-      1. Instalación en Linux (paquetes apt/dnf, repos oficiales)
-      2. Instalación en macOS (Homebrew, instalador gráfico)
-      3. Instalación en Windows (instaladores, WSL)
-      4. Docker y contenedores para desarrollo
-      5. Estructura de archivos: data directory, logs, configuración
-      6. Comandos de servicio: iniciar, detener, reiniciar el servidor
-   4. Primer contacto
-      1. Conectarse con `psql` (local y remoto)
-      2. Crear y listar bases de datos
-      3. Crear usuarios y roles básicos
-      4. Ejecutar consultas simples (`SELECT 1;`)
-      5. Entender el `search_path` y esquemas
 
 2. Modelo Relacional y Conceptos Básicos
    1. Fundamentos del modelo relacional

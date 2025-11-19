@@ -1,48 +1,7 @@
 # Shell
 
 1. Introducción
-   1. Historia de los shells en Unix
-      1. Bourne Shell (sh), csh y ksh
-      2. Bash: origen, GNU y licenciamiento
-      3. POSIX Shell: estandarización y portabilidad
-      4. Evolución de Bash 1.x → 2.x → 3.x → 4.x → 5.x
-      5. Línea temporal de características (arrays, asociativos, coproc, globstar)
-      6. Comunidad, mantenimiento y políticas de releases
-   2. Shells y compatibilidad
-      1. sh vs bash vs dash vs ksh vs zsh
-      2. Conformidad POSIX y “bashismos”
-      3. Detección de shell activo y versión (`$SHELL`, `bash --version`)
-      4. Portabilidad entre distribuciones y BSD/macOS
-      5. BusyBox/Almquist (ash) y entornos mínimos
-      6. Limitaciones en sistemas embebidos
-   3. Instalación y actualización de Bash
-      1. Distribuciones Linux (apt, dnf, pacman, zypper)
-      2. macOS (Homebrew, MacPorts)
-      3. Windows (WSL, MSYS2, Git Bash, Cygwin)
-      4. Compilación desde fuente y opciones comunes
-      5. Selección de shell por defecto (`chsh`, `/etc/shells`)
-      6. Verificación de instalación y PATH
-   4. Ejecutar el shell y scripts
-      1. Sesión interactiva vs no interactiva
-      2. Shebangs (`#!/bin/sh`, `#!/usr/bin/env bash`)
-      3. Ejecución directa, `bash script.sh`, permisos y `chmod +x`
-      4. `source`/`.` vs ejecución en subshell
-      5. Flags y modos (`-c`, `-i`, `-l`, `-O`, `-o`, `-v`, `-x`)
-      6. Entrada/salida estándar, tuberías y redirecciones básicas
-   5. Terminales y línea de comandos
-      1. TTY vs PTY
-      2. Emuladores de terminal (GNOME Terminal, iTerm2, Windows Terminal, kitty, Alacritty)
-      3. Multiplexores (tmux, screen)
-      4. Readline, historial y edición de línea
-      5. Autocompletado y `bash-completion`
-      6. Copiado/pegado, mouse reporting y scrollback
-   6. Editores y herramientas de desarrollo
-      1. Vim, Neovim, Emacs, Nano, VS Code
-      2. LSP/“language server” para shell (bash-language-server)
-      3. Formateadores y linters (shfmt, ShellCheck)
-      4. Integración con depuradores y perfiles de ejecución
-      5. Fragmentos, plantillas y snippets de scripts
-      6. Proyectos de ejemplos y repos de referencia
+
 2. Fundamentos
    1. Conceptos básicos del shell
       1. Comandos, argumentos y opciones

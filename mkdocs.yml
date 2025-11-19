@@ -67,6 +67,7 @@ plugins:
 #      TagFormat: svg
 #      HttpMethod: POST
 #  - with-pdf
+  - pagetree
   - search
 
 extra_javascript:
