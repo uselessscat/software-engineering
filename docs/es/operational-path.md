@@ -2019,6 +2019,7 @@
             10. GitOps
             11. Continuous Delivery / Continuous Deployment
             12. Inner source y colaboración abierta interna
+            13. 12-factor apps
         10. Métricas de productividad y calidad del software
             1. Velocidad de entrega
             2. Lead time de cambios
@@ -2970,7 +2971,7 @@
                         1. Grupo `docker` u otros grupos similares
                         2. Consideraciones de seguridad del socket del runtime
                     3. Pruebas de humo:
-                        1. Ejecutar una imagen mínima para validar la instalación
+                        1. Ejecutar una imagen mínima para validar la instalación (`docker run hello-world`)
                         2. Verificar que se crean namespaces y cgroups correctamente (nivel conceptual)
             3. Modelos de ejecución en desarrollo: root vs rootless
                 1. Cuándo usar contenedores como root en local
@@ -2979,44 +2980,146 @@
             4. Fundamentos prácticos de contenedores y runtimes OCI para dev
                 1. Imagen vs contenedor, capas y `entrypoint` orientado a flujos de build
                 2. Runtimes: containerd, runc, CRI-O (qué suelen encontrar los devs en clusters y entornos locales)
-            5. Construcción eficiente de imágenes
-                1. Multi-stage builds para reducir tamaño
-                2. Caching de capas y orden de instrucciones en el Dockerfile
-                3. Minimización de tamaño de imagen para ciclos rápidos de feedback
-            6. Ejecución local con Docker/Podman
+                3. Comandos básicos de gestión de imágenes
+                    1. Listar imágenes disponibles: `docker images` / `docker image ls`
+                    2. Descargar imágenes oficiales: `docker pull <imagen>:<tag>`
+                    3. Eliminar imágenes: `docker rmi <id|nombre>`
+                    4. Limpiar imágenes sin uso: `docker image prune`
+            5. Ejecución local con Docker/Podman
                 1. Flags útiles para dev (`--rm`, `-v`, `-p`, `--network`)
                 2. Logs y `attach` interactivo
                 3. Ejecución iterativa durante el desarrollo (rebuild + rerun)
-            7. Docker Compose y entornos multi-servicio para desarrollo
-                1. Orquestar app + DB + cola + caché
-                2. Overrides por entorno (`docker-compose.override.yml`)
-                3. Uso de perfiles y variables de entorno para distintas configuraciones
-            8. Volúmenes, redes locales y depuración en contenedores
+                4. Comandos básicos de ejecución de contenedores
+                    1. Crear y ejecutar contenedor:  
+                       `docker run --rm -it <imagen>:<tag> <cmd>`
+                    2. Publicar puertos:  
+                       `docker run -p 8080:80 <imagen>`
+                    3. Montar código fuente (bind mount):  
+                       `docker run -v "$PWD":/app -w /app <imagen> <cmd>`
+                    4. Ver contenedores en ejecución:  
+                       `docker ps`
+                    5. Ver todos los contenedores (incluyendo detenidos):  
+                       `docker ps -a`
+                    6. Detener/arrancar/reiniciar contenedores:  
+                       `docker stop <id>` / `docker start <id>` / `docker restart <id>`
+                    7. Eliminar contenedores:  
+                       `docker rm <id>`
+                    8. Ver logs:  
+                       `docker logs <id>` / `docker logs -f <id>`
+                    9. Entrar a un contenedor con shell:  
+                       `docker exec -it <id> /bin/sh` o `/bin/bash`
+            6. Volúmenes, redes locales y depuración en contenedores
                 1. Volúmenes bind vs named para compartir código y datos
                 2. Redes `bridge`, `host`, redes custom para entornos de desarrollo
                 3. `exec` dentro del contenedor para debugging (shells, herramientas)
-            9. Empaquetado reproducible de servicios
-                1. Imágenes versionadas con tags reproducibles (por commit, tag de git, etc.)
-                2. Manifests básicos de empaquetado (Dockerfile, Compose, charts simples para pre-producción)
-            10. Escaneo de vulnerabilidades en imágenes y hardening básico
-                1. Trivy, Clair, Grype, Anchore, etc.
-                2. Uso de imágenes minimalistas/distroless en entornos de desarrollo y testing
-            11. Gestión de registries para el flujo de desarrollo
-                1. Auth, namespaces y repositorios por proyecto/equipo
-                2. Promoción de imágenes entre entornos (dev → testing → staging)
-                3. Registries típicos: Docker Hub, GHCR, GitLab Registry, Harbor, ECR, GCR, Nexus Repository, Artifactory, etc.
-            12. Patrones de configuración para contenedores (orientados a apps)
+                4. Gestión práctica de volúmenes
+                    1. Listar volúmenes: `docker volume ls`
+                    2. Crear volumen: `docker volume create <nombre>`
+                    3. Inspeccionar volumen: `docker volume inspect <nombre>`
+                    4. Eliminar volumen: `docker volume rm <nombre>`
+                    5. Limpiar volúmenes sin uso: `docker volume prune`
+                5. Gestión práctica de redes
+                    1. Listar redes: `docker network ls`
+                    2. Crear red bridge: `docker network create <nombre>`
+                    3. Conectar contenedor a red: `docker network connect <red> <contenedor>`
+                    4. Ver detalles de red: `docker network inspect <red>`
+            7. Patrones de configuración para contenedores (orientados a apps)
                 1. Variables de entorno, archivos de config y montaje de secretos
                 2. 12-factor app aplicado a aplicaciones en contenedores
                 3. Separar configuración de la imagen para facilitar promoción entre entornos
-            13. Integración de contenedores con CI/CD
+                4. Uso práctico en `docker run` y `docker compose`
+                    1. Variables de entorno: `docker run -e VAR=valor ...`
+                    2. Archivos `.env` en Docker Compose
+                    3. Montaje de archivos de configuración: `-v config.yml:/app/config.yml`
+            8. Docker Compose y entornos multi-servicio para desarrollo
+                1. Orquestar app + DB + cola + caché
+                2. Overrides por entorno (`docker-compose.override.yml`)
+                3. Uso de perfiles y variables de entorno para distintas configuraciones
+                4. Comandos básicos de `docker compose`
+                    1. Levantar stack: `docker compose up` / `docker compose up -d`
+                    2. Detener y bajar stack: `docker compose down`
+                    3. Ver servicios corriendo: `docker compose ps`
+                    4. Ver logs: `docker compose logs` / `docker compose logs -f`
+                    5. Ejecutar comandos dentro de un servicio:  
+                       `docker compose exec <servicio> <cmd>`
+                    6. Correr tareas puntuales:  
+                       `docker compose run --rm <servicio> <cmd>`
+                    7. Build de servicios: `docker compose build`
+                    8. Actualizar imágenes: `docker compose pull`
+            9. Limpieza y mantenimiento básico del entorno Docker local
+                1. Ver uso de espacio: `docker system df`
+                2. Limpiar recursos no usados:
+                    1. `docker system prune` (contenedores detenidos, redes sin uso, imágenes dangling)
+                    2. `docker system prune -a` (incluye imágenes sin referencia por ningún contenedor)
+                3. Eliminar contenedores detenidos en bloque:
+                    1. `docker container prune`
+                4. Estrategias prácticas de housekeeping en máquinas de desarrollo
+                    1. Limpieza periódica (por ejemplo semanal)
+                    2. Mantener solo imágenes/tags activamente usadas en el proyecto
+            10. Construcción eficiente de imágenes
+                1. Multi-stage builds para reducir tamaño
+                2. Caching de capas y orden de instrucciones en el Dockerfile
+                3. Minimización de tamaño de imagen para ciclos rápidos de feedback
+                4. Comandos básicos de build
+                    1. Build estándar: `docker build -t org/app:tag .`
+                    2. Uso de Dockerfile alternativo: `docker build -f Dockerfile.dev -t org/app:dev .`
+                    3. Limitar contexto de build (subdirectorios, `.dockerignore`)
+            11. Empaquetado reproducible de servicios
+                1. Imágenes versionadas con tags reproducibles (por commit, tag de git, etc.)
+                2. Manifests básicos de empaquetado (Dockerfile, Compose, charts simples para pre-producción)
+                3. Flujo práctico de versionado
+                    1. Tag por commit: `org/app:commit-<sha>`
+                    2. Tag estable: `org/app:stable`, `org/app:staging`
+                    3. Política mínima de limpieza de tags antiguos
+            12. Gestión de registries para el flujo de desarrollo
+                1. Auth, namespaces y repositorios por proyecto/equipo
+                2. Promoción de imágenes entre entornos (dev → testing → staging)
+                3. Registries típicos: Docker Hub, GHCR, GitLab Registry, Harbor, ECR, GCR, Nexus Repository, Artifactory, etc.
+                4. Comandos básicos de interacción con registries
+                    1. Login: `docker login <registry>`
+                    2. Pushear imagen:  
+                       `docker push <registry>/<org>/<app>:<tag>`
+                    3. Pullear imagen:  
+                       `docker pull <registry>/<org>/<app>:<tag>`
+                    4. Taggear para otro registry:  
+                       `docker tag org/app:tag registry/org/app:tag`
+            13. Escaneo de vulnerabilidades en imágenes y hardening básico
+                1. Trivy, Clair, Grype, Anchore, etc.
+                2. Uso de imágenes minimalistas/distroless en entornos de desarrollo y testing
+                3. Ejecución práctica de scanner (ejemplo Trivy)
+                    1. Escaneo de imagen local: `trivy image org/app:tag`
+                    2. Fallar build en CI si hay vulnerabilidades críticas
+            14. Integración de contenedores con CI/CD
                 1. Build & push de imágenes desde pipelines (GitLab CI, GitHub Actions, Jenkins, etc.)
                 2. Generación de SBOM y firma de imágenes (Syft, cosign/Sigstore, Notary v2) como parte del pipeline
                 3. Publicación de artefactos listos para ser consumidos por ambientes de testing y staging
-            14. Herramientas CNCF / cloud-native típicas en el ciclo de desarrollo
+                4. Ejemplos mínimos de pasos de pipeline
+                    1. `docker build` + `docker push` en CI
+                    2. Escanear imagen y subir reporte como artefacto
+                    3. Firmar imagen (`cosign sign`) antes de push a registry
+            15. Herramientas CNCF / cloud-native típicas en el ciclo de desarrollo
                 1. BuildKit, Kaniko, buildpacks para builds sin privilegios o en CI
                 2. Harbor como registry enterprise para equipos
                 3. Notation/cosign para firma y verificación de imágenes en workflows de dev/test
+            16. Flujos de trabajo típicos de desarrollo usando Docker
+                1. Probar rápidamente una imagen oficial
+                    1. `docker run --rm -it alpine sh`
+                    2. `docker run --rm -p 6379:6379 redis`
+                2. Desarrollar una app local con bind mount
+                    1. `docker run --rm -it -v "$PWD":/app -w /app python:3.12 bash`
+                    2. Correr tests/lint dentro del contenedor
+                3. Ciclo build–run–debug de una app propia
+                    1. Editar código → `docker build` → `docker run` → revisar logs
+                    2. Usar `docker exec` para inspeccionar contenedor en ejecución
+                4. Levantar entorno completo con Docker Compose
+                    1. `docker compose up -d`
+                    2. Verificar servicios con `docker compose ps` y `logs`
+                5. Reproducir un bug reportado por otro dev
+                    1. Pullear misma imagen/tag que el otro dev
+                    2. Ejecutar mismos comandos `docker run` / `docker compose` descritos en el issue
+                6. Preparar un ejemplo mínimo reproducible
+                    1. Crear Dockerfile y `docker-compose.yml` mínimos
+                    2. Subirlos al repo como carpeta `repro/` o similar
         4. Introducción a CI/CD para desarrollo
             1. Definición de pipeline y stages
                 1. build -> test -> package -> publish
