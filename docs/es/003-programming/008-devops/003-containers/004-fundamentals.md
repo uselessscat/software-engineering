@@ -1,4 +1,4 @@
-# Fundamentos prácticos de contenedores y runtimes OCI para desarrollo
+# Fundamentos prácticos de contenedores
 
 Los contenedores son hoy la unidad básica de empaquetado y ejecución de aplicaciones en entornos de desarrollo y producción. Esta guía aborda los fundamentos prácticos que necesita un desarrollador para entender qué es realmente una imagen, cómo se relaciona con un contenedor, cómo encajan los runtimes OCI (containerd, runc, CRI-O) y cómo gestionar imágenes en el día a día. El foco está en proporcionar una base sólida sobre la cual construir flujos de build y ejecución reproducibles.
 
@@ -6,75 +6,91 @@ Los contenedores son hoy la unidad básica de empaquetado y ejecución de aplica
 
 ## Conceptos clave
 
-**Imagen de contenedor:** Plantilla inmutable que describe un sistema de archivos y metadatos (config, `entrypoint`, variables de entorno) a partir de la cual se pueden crear contenedores.
+**Imagen:** Plantilla inmutable que describe un sistema de archivos y metadatos (config, `entrypoint`, variables de entorno) a partir de la cual se pueden crear contenedores.
 
 **Contenedor:** Instancia en ejecución (o detenida) de una imagen; combina sistema de archivos inmutable más una capa de escritura y aislamiento mediante namespaces/cgroups.
 
-**Capa (layer):** Diferencia incremental sobre una capa base; las imágenes suelen estar compuestas por varias capas apiladas y compartibles entre imágenes.
+**Capa:** Diferencia incremental sobre una capa base; las imágenes suelen estar compuestas por varias capas apiladas y compartibles entre imágenes.
 
 **OCI (Open Container Initiative):** Conjunto de especificaciones estándar para formatos de imagen y runtimes de contenedores, que permite interoperabilidad entre herramientas.
 
 **Runtime OCI:** Componente de bajo nivel que habla con el kernel para crear, arrancar y detener contenedores (ejemplo: `runc`).
 
-**containerd:** Runtime de nivel medio (daemon) que gestiona el ciclo de vida de imágenes y contenedores y delega en un runtime OCI como `runc`.
-
-**CRI-O:** Implementación ligera del Container Runtime Interface (CRI) de Kubernetes que usa un runtime OCI (`runc`, `crun`) para arrancar contenedores.
-
-**ENTRYPOINT:** Comando principal configurado en la imagen que define el proceso “principal” del contenedor.
-
-**CMD:** Valores por defecto (parámetros o comando) que se pasan al `ENTRYPOINT` o definen el comando si no hay `ENTRYPOINT`.
-
-**Registro de contenedores (registry):** Servicio donde se almacenan y distribuyen imágenes (por ejemplo, Docker Hub, registries privados).
+**Registro de contenedores:** Servicio donde se almacenan y distribuyen imágenes (por ejemplo, Docker Hub, registries privados).
 
 ---
 
-## Imágenes, contenedores y capas en el flujo de desarrollo
+## Imágenes, capas y contenedores
 
-### Modelo conceptual: de imagen a contenedor
+### Modelo conceptual
 
-En desarrollo es clave entender que una imagen **no es** un proceso, sino una **plantilla inmutable**. Cada vez que se arranca un contenedor se toma esa plantilla y se agrega una capa de escritura específica de la instancia.
+En desarrollo hay una idea **fundamental**:
 
-Podemos modelar una imagen como un conjunto ordenado de capas:
+* Una **imagen** es un *molde inmutable*.
+* Un **contenedor** es una *instancia en ejecución* de ese molde, con sus propios cambios.
+
+Es decir:
+
+* La **imagen** describe *cómo* se ve el sistema de archivos (SO base, librerías, app, etc.).
+* El **contenedor** es un **proceso** que:
+    * parte desde esa imagen
+    * y encima le agrega una **capa de escritura** donde se guardan los cambios.
+
+Podemos modelar una imagen como un conjunto ordenado de capas de sólo lectura:
 
 $$
 I = (L_0, L_1, \dots, L_n)
 $$
 
-donde cada ( L_i ) representa una capa de sólo lectura. El contenedor agrega una capa de escritura ( L_{\text{rw}} ):
+* $L_0$: capa base (por ejemplo `python:3.12-slim`)
+* $L_1, L_2, \dots, L_n$: capas que se van agregando con cada instrucción del `Dockerfile`.
+
+Cuando creas un contenedor, se agrega **encima** una capa de escritura $L_{\text{rw}}$:
 
 $$
 C = (L_0, L_1, \dots, L_n, L_{\text{rw}})
 $$
 
+* Todas las capas $L_0 \dots L_n$ son **sólo lectura**.
+* La capa $L_{\text{rw}}$ es donde se escriben archivos creados o modificados por el contenedor.
+
 En la práctica:
 
-* La **imagen** se construye en tiempo de build (`docker build`, `podman build`, etc.).
-* El **contenedor** se crea en tiempo de ejecución (`docker run`, `kubectl run`, etc.).
+* La **imagen** se construye en tiempo de *build* (`docker build`, `podman build`, etc.).
+* El **contenedor** se crea y se ejecuta en tiempo de *run* (`docker run`, `kubectl run`, etc.).
 
 #### Ejemplo: imagen vs contenedor
 
-Supongamos que tenemos una imagen `python:3.12-slim`:
+Supongamos que usamos la imagen oficial `python:3.12-slim`:
 
-```bash
+```sh
 # Listar imágenes locales
 docker image ls
 
+# Descargar imagen oficial de Python
+docker pull python:3.12-slim
+
 # Crear un contenedor interactivo desde la imagen
-docker run --name py-demo -it python:3.12-slim python
+docker run --name py-demo --interactive --tty python:3.12-slim python
 ```
 
 En este ejemplo:
 
-* `python:3.12-slim` es la **imagen**.
-* `py-demo` es el **contenedor** (instancia de esa imagen con su propia capa de escritura).
+* `python:3.12-slim` es la **imagen** (el molde).
+* `py-demo` es el **contenedor** (la instancia en ejecución con su propia capa de escritura).
 
 !!! info "Regla mental útil"
 
-    Una imagen es como una clase; el contenedor es como un objeto. Instancias distintas pueden compartir la “definición” (imagen) pero tener estado diferente.
+    Una imagen es como una **clase**.
+
+    Un contenedor es como un **objeto** de esa clase:
+
+    * Muchos contenedores pueden usar la **misma imagen**.
+    * Cada contenedor tiene su **propio estado interno** (archivos creados, logs, etc.) en su capa de escritura.
 
 ### Capas de imagen y caché de build
 
-Las imágenes se construyen como una pila de capas derivadas de las instrucciones del `Dockerfile` (u otro descriptor). Cada instrucción que modifica el sistema de archivos suele crear una nueva capa.
+Las imágenes se construyen como una **pila de capas**, usualmente una por cada instrucción importante del `Dockerfile` que modifica el sistema de archivos.
 
 Ejemplo de `Dockerfile`:
 
@@ -82,7 +98,9 @@ Ejemplo de `Dockerfile`:
 FROM python:3.12-slim
 
 # Crea una capa con dependencias del sistema
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+    && apt-get install -y curl \
+    && rm -rf /var/lib/apt/lists/*
 
 # Crea una capa con dependencias de Python
 COPY requirements.txt /app/
@@ -95,36 +113,67 @@ WORKDIR /app
 CMD ["python", "-m", "src.main"]
 ```
 
-Diagrama ASCII simplificado de capas:
+Cada instrucción clave genera una capa:
 
-| Operación          | Capa                                    |
-| ------------------ | --------------------------------------- |
-| cambios en runtime | L_rw (capa de escritura del contenedor) |
-| COPY src/          | L3                                      |
-| pip install        | L2                                      |
-| apt-get install    | L1                                      |
-| python:3.12-slim   | L0 (imagen base)                        |
+* `FROM`: capa base $L_0$.
+* `RUN apt-get ...`: nueva capa $L_1$.
+* `COPY requirements.txt` y `RUN pip install ...`: nuevas capas (ej. $L_2$).
+* `COPY src/`: nueva capa (ej. $L_3$).
 
-Cuando se reconstruye la imagen:
+Diagrama simplificado de capas:
 
-* Si `requirements.txt` **no cambia**, la capa de `pip install` se reutiliza del caché.
-* Si `requirements.txt` cambia, se invalida L2 y todas las capas posteriores.
+| Operación          | Capa                                               |
+| ------------------ | -------------------------------------------------- |
+| cambios en runtime | $L_{\text{rw}}$ (capa de escritura del contenedor) |
+| `COPY src/`        | $L_3$                                              |
+| `RUN pip install`  | $L_2$                                              |
+| `RUN apt-get`      | $L_1$                                              |
+| `python:3.12-slim` | $L_0$ (imagen base)                                |
+
+#### ¿Por qué importan las capas? Caché de build
+
+Cuando reconstruyes una imagen:
+
+* Docker compara **instrucciones** y **archivos de entrada**.
+* Si todo coincide con un build anterior, **reutiliza la capa** desde el caché.
+* Si algo cambió, invalida esa capa y **todas las que están encima**.
+
+En el ejemplo:
+
+* Si `requirements.txt` **no cambia**, la capa de `RUN pip install ...` puede **reutilizarse**.
+* Si `requirements.txt` **cambia**, se invalida la capa de `pip install` (L2) y también las capas posteriores (por ejemplo L3).
 
 !!! info "Orden de instrucciones y performance"
 
-    Instrucciones que cambian poco (como dependencias del sistema o de Python) conviene ponerlas **antes** que las que cambian mucho (como el código fuente) para maximizar el uso de caché.
+    Para builds rápidos:
+
+    * Pon **primero** las instrucciones que cambian poco:
+    * Sistema base (`FROM`, `apt-get`).
+    * Dependencias de Python (`requirements.txt` + `pip install`).
+    * Pon **después** lo que cambia seguido:
+    * Código fuente (`COPY src/`).
+
+    Así, al cambiar sólo el código:
+
+    * Se reutilizan todas las capas anteriores desde caché.
+    * El build es mucho más rápido.
 
 ### `ENTRYPOINT` y `CMD` orientados a flujos de build y ejecución
 
-En la configuración de una imagen se definen dos conceptos clave:
+Al definir una imagen, tienes dos piezas clave:
 
-* `ENTRYPOINT`: comando **principal** del contenedor.
-* `CMD`: valores por defecto (argumentos o comando) que se pasan al `ENTRYPOINT`.
+* `ENTRYPOINT`: **qué programa** se ejecuta por defecto en el contenedor.
+* `CMD`: **con qué argumentos** (o qué comando por defecto) se ejecuta ese programa.
+
+Piensa así:
+
+* `ENTRYPOINT`: “Siempre quiero que este contenedor corra *esto*”.
+* `CMD`: “Si nadie dice lo contrario, usa *estos parámetros*”.
 
 Reglas prácticas:
 
-* Usa `ENTRYPOINT` para definir “qué hace” el contenedor por defecto (por ejemplo, arrancar la app).
-* Usa `CMD` para definir parámetros por defecto (por ejemplo, puerto, opciones de debug) que pueden sobrescribirse en tiempo de ejecución.
+* Usa `ENTRYPOINT` para definir la **acción principal** del contenedor (ejemplo: levantar la app).
+* Usa `CMD` para definir **valores por defecto** (ejemplo: modo `dev`, puerto, flags de debug) que se puedan cambiar en `docker run`.
 
 Ejemplo de `Dockerfile` orientado a desarrollo:
 
@@ -137,7 +186,7 @@ RUN npm ci
 
 COPY . .
 
-# ENTRYPOINT: siempre ejecuta Node en modo app
+# ENTRYPOINT: siempre ejecuta npm run
 ENTRYPOINT ["npm", "run"]
 
 # CMD: script por defecto, se puede cambiar en docker run
@@ -147,21 +196,44 @@ CMD ["dev"]
 Uso:
 
 ```bash
-# Modo desarrollo por defecto (CMD = dev)
+# Modo desarrollo por defecto (CMD = ["dev"])
 docker run --rm -p 5173:5173 myapp:dev
 
-# Modo build explícito (sobreescribe CMD)
+# Modo build explícito (sobrescribe CMD)
 docker run --rm myapp:dev build
 ```
 
 Aquí:
 
-* `ENTRYPOINT ["npm", "run"]` se mantiene constante.
-* `CMD ["dev"]` se cambia a `build` en tiempo de ejecución para integrarlo en flujos de CI/CD.
+* `ENTRYPOINT ["npm", "run"]` es fijo:
+    * El contenedor siempre ejecuta `npm run ...`.
+* `CMD ["dev"]` es el valor por defecto:
+    * Si no pasas nada, ejecuta `npm run dev`.
+    * Si pasas `build`, ejecuta `npm run build`.
+
+Esto calza muy bien con flujos de desarrollo y CI/CD:
+
+* Mismo contenedor: distintos modos (`dev`, `build`, `test`, etc.).
+* No necesitas imágenes separadas para cada modo.
 
 !!! warning "Cuidado al mezclar ENTRYPOINT y CMD"
 
-    Si defines ambos como cadenas (shell form) o redefines `ENTRYPOINT` al extender una imagen, puedes perder el comportamiento esperado. Prefiere la forma JSON (`["cmd", "arg"]`) y revisa siempre el resultado con `docker image inspect`.
+    Algunos problemas frecuentes:
+
+    * Definir `ENTRYPOINT` o `CMD` usando la **forma de shell**:
+        * Ejemplo: `ENTRYPOINT npm run dev`
+        * Es más difícil de razonar y puede cambiar el manejo de señales.
+    * Extender una imagen y **sobrescribir `ENTRYPOINT` sin querer**:
+        * Al hacer `FROM otra-imagen` y luego definir otro `ENTRYPOINT`, puedes perder el comportamiento original.
+
+!!! info "Buenas prácticas"
+
+    * Prefiere siempre la **forma JSON**:
+        * `ENTRYPOINT ["npm", "run"]`
+        * `CMD ["dev"]`
+    * Revisa la configuración final con:
+        * `docker image inspect nombre-imagen`  
+        y mira qué quedó realmente en `Config.Entrypoint` y `Config.Cmd`.
 
 ---
 
@@ -214,8 +286,8 @@ docker info | grep -i 'Runtimes' -A 2
 
 Kubernetes no sabe hablar directamente con Docker Engine. Usa el **Container Runtime Interface (CRI)** para comunicarse con un runtime. Los dos más comunes son:
 
-* **containerd** (modo CRI).
-* **CRI-O**.
+* **containerd** (modo CRI): runtime de nivel medio (daemon) que gestiona el ciclo de vida de imágenes y contenedores y delega en un runtime OCI como `runc`.
+* **CRI-O**: implementación ligera del Container Runtime Interface (CRI) de Kubernetes que usa un runtime OCI (`runc`, `crun`) para arrancar contenedores.
 
 Ambos, a su vez, usan un runtime OCI (`runc`, `crun`) para arrancar contenedores.
 
@@ -270,11 +342,12 @@ Sin embargo, entender que existe esa capa ayuda a:
 
 ## Comandos básicos de gestión de imágenes
 
-Esta sección cubre lo que un desarrollador usa todos los días para manejar imágenes en su máquina local. Se muestran ejemplos con `docker`, pero la semántica es muy similar en `podman`.
+Esta sección resume lo que **usas todos los días** como dev para manejar imágenes en tu máquina local.  
+Los ejemplos son con `docker`, pero en `podman` la idea es prácticamente la misma.
 
 ### Listar imágenes disponibles
 
-Para ver qué imágenes tienes descargadas:
+Para ver qué imágenes tienes descargadas en tu máquina:
 
 ```bash
 docker images
@@ -291,15 +364,17 @@ myapp-api       dev       5b23dd0a9d10   2 hours ago     210MB
 nginx           1.27      7e4b9e5b7fe8   2 weeks ago     142MB
 ```
 
-Claves:
+Qué significa cada columna:
 
-* `REPOSITORY:TAG` identifica una imagen.
-* `IMAGE ID` es el identificador interno (hash).
-* `SIZE` es el tamaño aproximado total (incluyendo capas compartidas).
+* **REPOSITORY**: nombre “lógico” de la imagen (por ejemplo `python`, `nginx`, `myapp-api`).
+* **TAG**: variante/version de esa imagen (`3.12`, `dev`, `1.27`, etc.).
+* **REPOSITORY:TAG** juntos identifican una imagen (ej: `python:3.12`).
+* **IMAGE ID**: hash interno de la imagen (lo que realmente importa para Docker).
+* **SIZE**: tamaño aproximado de la imagen (considerando capas, incluidas las compartidas).
 
-### Descargar imágenes oficiales: `docker pull <imagen>:<tag>`
+### Descargar imágenes oficiales
 
-Para descargar una imagen desde un registro (por defecto, Docker Hub):
+Para descargar una imagen desde un registro (por defecto, Docker Hub) se usa `docker pull <imagen>:<tag>`:
 
 ```bash
 # Última versión etiquetada como 'latest' (no recomendado en producción)
@@ -312,104 +387,151 @@ docker pull nginx:1.27
 docker pull python:3.12-slim
 ```
 
-También puedes usar un registro explícito:
+También puedes apuntar a otros registros:
 
 ```bash
-# Registro público distinto de Docker Hub
+# Registro público distinto de Docker Hub (GitHub Container Registry)
 docker pull ghcr.io/owner/repo:tag
 
-# Registro privado con host
+# Registro privado con host propio
 docker pull registry.ejemplo.com/miapp/backend:1.0.0
 ```
 
-!!! warning "Evita `latest` en flujos reproducibles"
+!!! warning "Evita `latest` si necesitas reproducibilidad"
 
-    El tag `latest` es mutable; si necesitas reproducibilidad, usa tags específicos (idealmente versionados) o digests (`@sha256:...`).
+    `latest` es sólo un **alias mutable**:
 
-### Eliminar imágenes: `docker rmi <id|nombre>`
+    * Hoy `nginx:latest` puede apuntar a `1.27`.
+    * Mañana puede apuntar a `1.28`.
 
-Para liberar espacio o limpiar imágenes que ya no usas:
+    Para builds reproducibles:
+
+    * Prefiere tags versionados (`1.27`, `1.27.3`, etc.).
+    * O, aún más estricto, usa digest:
+    * `nginx@sha256:<hash-largo>`
+
+### Eliminar imágenes
+
+Para liberar espacio o limpiar imágenes que ya no necesitas se usa `docker rmi <id|nombre>`:
 
 ```bash
 # Por nombre:tag
 docker rmi nginx:1.27
 
-# Por ID (primeros caracteres suelen bastar)
+# Por ID (basta con los primeros caracteres si no hay ambigüedad)
 docker rmi 7e4b9e5b7fe8
 ```
 
-Si la imagen está siendo usada por un contenedor:
+Si la imagen está siendo usada por un contenedor, verás algo así:
 
-```bash
+```text
 Error response from daemon: conflict: unable to delete 7e4b9e5b7fe8 (must be forced) - image is being used by running container ...
 ```
 
-En ese caso:
+En ese caso, el flujo típico es:
 
-1. Detén el contenedor: `docker stop <nombre|id>`.
-2. Elimínalo: `docker rm <nombre|id>`.
-3. Vuelve a ejecutar `docker rmi`.
+1. Detener el contenedor:
 
-Eliminación forzada (útil pero con cuidado):
+   ```bash
+   docker stop <nombre|id>
+   ```
+
+2. Eliminar el contenedor:
+
+   ```bash
+   docker rm <nombre|id>
+   ```
+
+3. Reintentar:
+
+   ```bash
+   docker rmi 7e4b9e5b7fe8
+   ```
+
+Eliminación forzada (con cuidado):
 
 ```bash
 docker rmi -f nginx:1.27
 ```
 
-!!! warning "Forzar la eliminación"
+!!! warning "Forzar eliminación (`-f`)"
 
-    Usar `-f` puede romper scripts o entornos si otros contenedores dependen de la misma imagen. Úsalo sólo cuando sepas exactamente qué estás borrando.
+    `docker rmi -f`:
 
-### Limpiar imágenes sin uso: `docker image prune`
+    * Puede borrar imágenes que aún son útiles para otros contenedores.
+    * Puede romper scripts o entornos locales si asumían que esa imagen existía.
+
+    Úsalo sólo cuando tengas claro qué estás borrando y qué contenedores la usan.
+
+### Limpiar imágenes sin uso
 
 Con el tiempo se acumulan:
 
-* Imágenes “dangling” (sin tag).
+* Imágenes “**dangling**” (sin tag, típicamente restos de builds).
 * Capas huérfanas.
 * Imágenes que ya no tienen contenedores asociados.
 
-Para limpiarlas:
+Para limpiar rápidamente sólo imágenes “dangling” con `docker image prune`:
 
 ```bash
-# Eliminar sólo imágenes dangling (sin tag)
 docker image prune
 ```
 
-El CLI mostrará un resumen de lo que va a borrar y pedirá confirmación.
+El CLI te mostrará:
 
-Limpieza más agresiva (imágenes sin contenedores):
+* Qué se va a borrar.
+* Cuánto espacio se libera.
+* Y pedirá confirmación.
+
+Limpieza más agresiva (imágenes sin contenedores asociados):
 
 ```bash
 docker image prune -a
 ```
 
-Limpieza extendida (imágenes, contenedores detenidos, redes no usadas, etc.):
+Limpieza extendida a más recursos:
 
 ```bash
+# Imágenes dangling, contenedores detenidos, redes no usadas, etc.
 docker system prune
-# o
-docker system prune -a   # aún más agresivo
+
+# Versión aún más agresiva (incluye imágenes sin uso)
+docker system prune -a
 ```
 
 !!! warning "`docker system prune -a`"
 
-    Este comando puede borrar más de lo que deseas (incluyendo contenedores detenidos útiles y redes). Es potente para recuperar espacio, pero no deberías usarlo a ciegas en entornos compartidos.
+    Este comando:
+
+    * Puede borrar contenedores **detenidos pero importantes**.
+    * Puede borrar redes que estabas usando para un entorno de dev.
+
+    Es muy útil para recuperar espacio en discos llenos, pero no deberías usarlo “a ciegas” en una máquina que compartes o donde tengas entornos delicados.
 
 ### Inspeccionar, etiquetar y entender capas
 
-#### Inspeccionar imagen: `docker image inspect`
+#### Inspeccionar una imagen
 
-Para ver metadatos, incluidos `ENTRYPOINT` y `CMD`:
+Para ver detalles internos de una imagen (incluyendo `ENTRYPOINT`, `CMD`, variables de entorno, etc.) se usa `docker image inspect`:
 
 ```bash
 docker image inspect python:3.12-slim | jq '.[0].Config.Entrypoint, .[0].Config.Cmd'
 ```
 
-Esto ayuda a verificar qué comando se ejecutará al hacer `docker run`.
+Esto te ayuda a responder:
 
-#### Ver historial de capas: `docker history`
+* “¿Qué se ejecuta por defecto cuando hago `docker run python:3.12-slim`?”
+* “¿Qué `ENTRYPOINT` y `CMD` quedaron finalmente definidos?”
 
-Para entender cómo se compuso una imagen:
+Si no tienes `jq`, puedes inspeccionar todo y buscar a mano:
+
+```bash
+docker image inspect python:3.12-slim
+```
+
+#### Ver historial de capas
+
+Para entender **cómo** se construyó una imagen (y conectar con el `Dockerfile`) con `docker history`:
 
 ```bash
 docker history myapp:dev
@@ -419,47 +541,377 @@ Salida típica:
 
 ```text
 IMAGE          CREATED         CREATED BY                                      SIZE      COMMENT
-5b23dd0a9d10   2 hours ago     CMD ["python","-m","src.main"]                 0B
-<missing>      2 hours ago     COPY src/ /app/src/                            12MB
-<missing>      2 hours ago     RUN pip install --no-cache-dir -r ...          45MB
-<missing>      3 days ago      /bin/sh -c apt-get update && apt-get install   65MB
-1d3f33b8c2f4   3 days ago      /bin/sh -c #(nop)  CMD ["python3"]            0B
+5b23dd0a9d10   2 hours ago     CMD ["python","-m","src.main"]                  0B
+<missing>      2 hours ago     COPY src/ /app/src/                             12MB
+<missing>      2 hours ago     RUN pip install --no-cache-dir -r ...           45MB
+<missing>      3 days ago      /bin/sh -c apt-get update && apt-get install    65MB
+1d3f33b8c2f4   3 days ago      /bin/sh -c #(nop)  CMD ["python3"]              0B
 ...
 ```
 
+Lectura rápida:
+
+* Cada fila es una **capa**.
+* `CREATED BY` muestra la instrucción que generó la capa (`RUN`, `COPY`, `CMD`, etc.).
+* `SIZE` ayuda a detectar:
+    * Capas gigantes por algún `RUN` mal optimizado.
+    * Dónde se está inflando tu imagen.
+
 #### Etiquetar imágenes: `docker tag`
 
-Para renombrar o preparar un nombre para push:
+`docker tag` **no copia datos**, sólo agrega un nuevo nombre (`REPOSITORY:TAG`) a un mismo `IMAGE ID`.
+
+Ejemplo típico para preparar una imagen para publicar en un registro:
 
 ```bash
-# Renombra localmente (no copia datos, sólo agrega una referencia)
+# Agrega un nuevo tag a una imagen existente
 docker tag myapp:dev registry.ejemplo.com/miapp/backend:1.0.0
 ```
 
-Luego podrás hacer `docker push registry.ejemplo.com/miapp/backend:1.0.0`.
+Ahora puedes hacer:
 
-!!! info "Tags como punteros"
+```bash
+docker push registry.ejemplo.com/miapp/backend:1.0.0
+```
 
-    Piensa los tags como punteros a un `IMAGE ID`. Cambiar o agregar un tag no reconstruye la imagen, sólo agrega o mueve un alias.
+!!! info "Piensa los tags como punteros"
+
+    * Un `IMAGE ID` es el “objeto” real.
+    * Cada `REPOSITORY:TAG` es sólo un **puntero** a ese objeto.
+    * Agregar o cambiar un tag:
+        * No reconstruye la imagen.
+        * No ocupa espacio extra (más allá de metadatos mínimos).
+
+    Esto permite:
+
+    * Tener `myapp:dev`, `myapp:staging` y `myapp:1.0.0` apuntando al mismo `IMAGE ID`.
+    * Rotar tags cuando promueves la misma imagen entre ambientes.
+
+---
+
+## Instrucciones comunes de Dockerfile y su sintaxis
+
+### `FROM` – Imagen base
+
+Define **desde qué imagen** partes. Es **obligatoria** y suele ser la primera instrucción.
+
+```dockerfile
+# Sintaxis básica
+FROM <imagen>[:<tag>]
+
+# Con digest para máxima reproducibilidad
+FROM <imagen>@sha256:<hash>
+
+# Multi-stage build (nombrando una etapa)
+FROM node:20-alpine AS build
+FROM nginx:1.27-alpine AS runtime
+````
+
+Ejemplos:
+
+```dockerfile
+FROM python:3.12-slim
+FROM ubuntu:24.04
+```
+
+!!! info "Multi-stage builds"
+
+    Con `AS nombre` puedes nombrar una etapa y luego copiar artefactos desde ella usando `COPY --from=nombre ...`. Esto ayuda a mantener la imagen final más pequeña.
+
+### `ARG` – Variables de build
+
+Define variables disponibles **sólo durante el build** (no quedan en la imagen como ENV).
+
+```dockerfile
+# Definir argumento con valor por defecto
+ARG APP_ENV=dev
+
+# Usar el argumento en una instrucción
+RUN echo "Building for $APP_ENV"
+```
+
+También se pueden usar en `FROM` (desde Docker 17.05+):
+
+```dockerfile
+ARG PY_VER=3.12-slim
+FROM python:${PY_VER}
+```
+
+En el build:
+
+```bash
+docker build --build-arg APP_ENV=prod -t myapp:prod .
+```
+
+### `RUN` – Ejecutar comandos en el build
+
+Ejecuta comandos en una capa nueva **durante el build**. Es lo que usas para instalar paquetes, compilar, etc.
+
+Formas principales:
+
+```dockerfile
+# Forma shell (más común)
+RUN apt-get update && apt-get install -y curl
+
+# Forma exec (más precisa)
+RUN ["sh", "-c", "apt-get update && apt-get install -y curl"]
+```
+
+Ejemplo completo:
+
+```dockerfile
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+```
+
+!!! info "Una capa por RUN"
+
+    Cada `RUN` crea una **nueva capa**.
+
+    A veces conviene unir varios comandos en un solo `RUN` para reducir capas y tamaño de la imagen.
+
+### `COPY` – Copiar archivos al contenedor
+
+Copia archivos/directorios desde el contexto de build (**tu proyecto**) al sistema de archivos de la imagen.
+
+```dockerfile
+# Sintaxis
+COPY <origen>... <destino>
+
+# Ejemplos
+COPY requirements.txt /app/
+COPY src/ /app/src/
+COPY package*.json /app/
+```
+
+* `<origen>` es relativo al **contexto de build** (`docker build .` → la `.`).
+* `<destino>` es la ruta dentro de la imagen.
+
+### `ADD` – Copiar con extras (usarla con cuidado)
+
+Similar a `COPY`, pero con comportamiento extra:
+
+* Puede descomprimir archivos `.tar`.
+* Puede descargar desde URL.
+
+```dockerfile
+# Sintaxis
+ADD <origen>... <destino>
+
+# Ejemplo con tar
+ADD app.tar.gz /app/
+```
+
+!!! warning "Prefiere `COPY` sobre `ADD`"
+
+    En la mayoría de los casos, `COPY` es lo correcto:
+
+    * Es más predecible.
+    * No tiene “magia” extra.
+
+    Usa `ADD` sólo cuando de verdad necesitas descomprimir `.tar` o descargar desde una URL **y sabes lo que haces**.
+
+### `WORKDIR` – Directorio de trabajo
+
+Define el directorio actual para las instrucciones siguientes (`RUN`, `CMD`, `ENTRYPOINT`, `COPY`, etc.).
+
+```dockerfile
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY src/ .
+```
+
+Se puede usar varias veces, y las rutas pueden ser relativas:
+
+```dockerfile
+WORKDIR /app
+WORKDIR src
+# Ahora estás en /app/src
+```
+
+### `ENV` – Variables de entorno
+
+Define variables de entorno persistentes en la imagen (disponibles en tiempo de ejecución).
+
+Formas:
+
+```dockerfile
+# Forma clave-valor
+ENV APP_ENV=prod
+
+# Varios valores en una sola instrucción
+ENV APP_ENV=prod APP_DEBUG=false
+
+# Forma multilínea
+ENV APP_ENV=prod \
+    APP_DEBUG=false \
+    API_URL=https://api.example.com
+```
+
+Estas variables estarán disponibles dentro del contenedor:
+
+```bash
+docker run --rm myapp:dev env | grep APP_
+```
+
+### `EXPOSE` – Puerto declarado (documentación)
+
+Documenta qué puertos **escucha** tu contenedor. No publica el puerto por sí mismo (eso lo hace `-p` en `docker run`).
+
+```dockerfile
+EXPOSE 80
+EXPOSE 5432/tcp
+EXPOSE 8080/udp
+```
+
+En tiempo de ejecución:
+
+```bash
+# Publica el puerto 80 del contenedor en el 8080 del host
+docker run -p 8080:80 myapp:web
+```
+
+!!! info "`EXPOSE` no abre el puerto"
+
+    `EXPOSE` sirve como **metadato** y ayuda a herramientas como `docker run -P` o `docker-compose`.
+
+    Para exponer realmente el puerto hacia afuera siempre necesitas `-p` o la configuración equivalente en tu orquestador.
+
+### `USER` – Usuario con el que corre el proceso
+
+Cambia el usuario (y opcionalmente el grupo) con el que se ejecutarán las siguientes instrucciones y el proceso final.
+
+```dockerfile
+# Crear usuario y grupo
+RUN groupadd -r app && useradd -r -g app app
+
+# Cambiar usuario
+USER app
+
+# Desde aquí, RUN, CMD, ENTRYPOINT se ejecutan como 'app'
+```
+
+También puede usar IDs numéricos:
+
+```dockerfile
+USER 1000:1000
+```
+
+!!! warning "Evita correr como root en producción"
+
+    Para seguridad, es buena práctica que tu proceso de aplicación **no** corra como `root`.
+
+    Define un usuario dedicado y usa `USER`.
+
+### `CMD` – Comando por defecto
+
+Define el comando por defecto que se ejecuta cuando haces `docker run` sin parámetros extra.
+
+Formas:
+
+```dockerfile
+# Forma exec (recomendada)
+CMD ["python", "-m", "src.main"]
+
+# Forma shell
+CMD python -m src.main
+```
+
+* Solo debe haber **un `CMD` efectivo** (el último sobrescribe a los anteriores).
+* Si el usuario pasa un comando en `docker run`, **reemplaza** al `CMD`.
+
+Ejemplo:
+
+```bash
+docker run myapp:dev            # usa CMD
+docker run myapp:dev bash       # reemplaza CMD por 'bash'
+```
+
+### `ENTRYPOINT` – Punto de entrada fijo
+
+Define el **programa principal** que siempre se ejecuta. `CMD` pasa a ser, típicamente, los argumentos por defecto.
+
+```dockerfile
+# ENTRYPOINT: programa fijo
+ENTRYPOINT ["npm", "run"]
+
+# CMD: argumentos por defecto
+CMD ["dev"]
+```
+
+En tiempo de ejecución:
+
+```bash
+docker run myapp:dev        # ejecuta: npm run dev
+docker run myapp:dev build  # ejecuta: npm run build
+```
+
+!!! info "ENTRYPOINT + CMD como programa + argumentos"
+
+    * `ENTRYPOINT`: programa fijo.
+    * `CMD`: argumentos por defecto (sobrescribibles en `docker run`).
+
+### `HEALTHCHECK` – Verificación de salud
+
+Define cómo Docker puede comprobar si tu contenedor está “sano”.
+
+```dockerfile
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+    CMD curl -f http://localhost:8080/health || exit 1
+```
+
+* `--interval`: cada cuánto se ejecuta.
+* `--timeout`: cuánto espera la respuesta.
+* `--retries`: cuántos fallos seguidos antes de marcar el contenedor como `unhealthy`.
+
+### `LABEL` – Metadatos
+
+Permite agregar metadatos en forma de pares clave-valor.
+
+```dockerfile
+LABEL maintainer="dev@ejemplo.com"
+LABEL com.ejemplo.servicio="myapp-api" \
+      com.ejemplo.version="1.0.0"
+```
+
+Útil para:
+
+* Documentar quién mantiene la imagen.
+* Guardar información de versión, servicio, etc.
+* Hacer filtros en herramientas de CI/CD u orquestadores.
 
 ---
 
 ## Flujo práctico: de Dockerfile a contenedor en ejecución
 
-En esta sección se integra todo: imagen vs contenedor, capas, `ENTRYPOINT/CMD` y gestión básica de imágenes en un flujo reproducible.
+En esta sección juntamos TODO lo anterior y lo aterrizamos paso a paso:
+
+* Creas un proyecto mínimo.
+* Escribes un `Dockerfile`.
+* Construyes una **imagen**.
+* Levantas un **contenedor** y pruebas que funciona.
+
+La idea es que, si nunca has usado Docker, puedas seguir esto casi “en piloto automático”.
+
+---
 
 ### Estructura mínima de un proyecto
 
-Supongamos una API HTTP muy simple en Python:
+Supongamos una API HTTP muy simple en Python.  
+Carpeta del proyecto:
 
 ```text
 mi-app/
 ├── src/
 │   └── main.py
 └── requirements.txt
-```
+````
 
-`src/main.py`:
+#### Archivo `src/main.py`
 
 ```python
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -477,119 +929,260 @@ if __name__ == "__main__":
     server.serve_forever()
 ```
 
-`requirements.txt` (vacío o con dependencias mínimas):
+#### Archivo `requirements.txt`
 
 ```text
 # Deja vacío si no necesitas librerías externas
 ```
 
-### Dockerfile y análisis por capas
+* Este archivo lista las dependencias de Python (por ejemplo `fastapi`, `requests`, etc.).
+* En este ejemplo da lo mismo si está vacío o no, el servidor usa sólo la librería estándar.
 
-`Dockerfile`:
+### Dockerfile y explicación “por capas”
+
+Creamos un archivo `Dockerfile` en la raíz (`mi-app/Dockerfile`):
 
 ```dockerfile
 FROM python:3.12-slim
 
-#) Directorio de trabajo
+# Directorio de trabajo dentro de la imagen
 WORKDIR /app
 
-#) Copiar dependencias de Python (capa estable)
+# Copiar dependencias de Python (capa relativamente estable)
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt || echo "Sin dependencias"
 
-#) Copiar código de la aplicación (capa volátil)
+# Copiar código de la aplicación (capa que cambia seguido)
 COPY src/ /app/src/
 
-#) Configurar ENTRYPOINT/CMD
+# Configurar red y comando por defecto
 EXPOSE 8000
 ENTRYPOINT ["python", "-m", "src.main"]
 CMD []
 ```
 
-Capas generadas (conceptualmente):
+Vamos línea por línea:
 
-1. `FROM python:3.12-slim` → capa base (runtime de Python).
-2. `WORKDIR /app` → pequeña capa de metadatos.
-3. `COPY requirements.txt` + `RUN pip install` → capa de dependencias Python.
-4. `COPY src/` → capa de código.
-5. `EXPOSE` y `ENTRYPOINT/CMD` → config.
+1. `FROM python:3.12-slim`
 
-Si cambias sólo `src/main.py`, se invalidará **sólo** la capa de código; las dependencias se mantienen en caché.
+    * Le dice a Docker: “Parte desde una imagen oficial de Python 3.12, versión liviana”.
+    * Esto ya trae:
+        * Sistema base minimal (Debian/Ubuntu slim).
+        * Python instalado.
 
-!!! info "Optimizar el orden"
+2. `WORKDIR /app`
 
-    Al copiar primero `requirements.txt` y luego el código, evitas reinstalar dependencias cada vez que tocas un archivo fuente.
+    * Cambia el “directorio actual” dentro de la imagen a `/app`.
+    * Desde aquí, todo lo que hagas (COPY, RUN, etc.) se hará relativo a `/app`.
+
+3. Bloque de dependencias:
+
+    ```dockerfile
+    COPY requirements.txt /app/
+    RUN pip install --no-cache-dir -r requirements.txt || echo "Sin dependencias"
+    ```
+
+    * `COPY requirements.txt /app/`:
+        * Copia tu archivo `requirements.txt` desde tu máquina al directorio `/app` dentro de la imagen.
+    * `RUN pip install ...`:
+        * Instala las dependencias listadas.
+        * El `|| echo "Sin dependencias"` hace que el build no falle si el archivo está vacío o pip no encuentra nada que instalar.
+
+    **Idea clave**: esta capa cambia poco (sólo cuando cambias dependencias), entonces Docker puede cachearla y no reinstalar todo cada vez que tocas el código.
+
+4. Bloque de código:
+
+    ```dockerfile
+    COPY src/ /app/src/
+    ```
+
+    * Copia tu carpeta `src/` completa (con `main.py` y otros archivos) al directorio `/app/src` en la imagen.
+    * Esta capa sí cambia seguido (cada vez que tocas el código).
+
+5. Configuración de red y comando por defecto:
+
+    ```dockerfile
+    EXPOSE 8000
+    ENTRYPOINT ["python", "-m", "src.main"]
+    CMD []
+    ```
+
+    * `EXPOSE 8000`:
+        * Documenta que el contenedor va a escuchar en el puerto 8000.
+        * **Ojo**: no abre el puerto hacia tu host por sí solo, eso lo hace `-p` en `docker run`.
+    * `ENTRYPOINT ["python", "-m", "src.main"]`:
+        * Dice: “Cuando alguien ejecute esta imagen, corre `python -m src.main`”.
+        * Es decir, tu servidor HTTP.
+    * `CMD []`:
+        * Lista vacía → no agrega argumentos extra al `ENTRYPOINT`.
+        * Si un día quisieras pasar argumentos por defecto, los pondrías aquí.
+
+#### Capas resultantes (conceptual)
+
+1. `FROM python:3.12-slim` → **capa base** (runtime de Python).
+2. `WORKDIR /app` → capa con pequeña modificación de metadatos.
+3. `COPY requirements.txt` + `RUN pip install` → capa de **dependencias de Python**.
+4. `COPY src/` → capa de **código**.
+5. `EXPOSE`, `ENTRYPOINT`, `CMD` → configuración final.
+
+Si cambias solamente `src/main.py`:
+
+* Docker pudiera reutilizar las capas 1–3 desde caché.
+* Sólo reconstruye desde el `COPY src/` hacia abajo → build más rápido.
+
+!!! info "Orden de instrucciones = velocidad de build"
+
+    * Cosas que casi no cambian (SO, Python, paquetes del sistema, `requirements.txt`) van **arriba**.
+    * Cosas que cambian todo el rato (código fuente) van **abajo**.
+
+    Resultado: cada vez que guardas un `.py` y reconstruyes, Docker no se ve obligado a reinstalar todo.
 
 ### Construir la imagen
 
-Desde la raíz del proyecto:
+Desde la raíz del proyecto (`mi-app/`):
 
 ```bash
-# Construir imagen con tag explícito
+# Construir imagen usando el Dockerfile actual (.)
 docker build -t mi-app:dev .
+```
 
-# Verificar que la imagen existe
+Desglose:
+
+* `docker build`: comando para construir una **imagen**.
+* `-t mi-app:dev`: asigna nombre y tag:
+  * `REPOSITORY = mi-app`
+  * `TAG = dev`
+  * El conjunto es `mi-app:dev`.
+* `.`: “contexto de build”:
+  * Es la carpeta desde donde Docker va a leer archivos (Dockerfile, src, etc.).
+  * Docker empaqueta el contenido de `.` y se lo envía al daemon.
+
+Para verificar que la imagen exista:
+
+```bash
 docker image ls mi-app
 ```
 
-Salida esperada:
+Salida típica:
 
 ```text
 REPOSITORY   TAG   IMAGE ID       CREATED          SIZE
 mi-app       dev   9a7d3f4b1c2d   10 seconds ago   145MB
 ```
 
-Puedes inspeccionar el `ENTRYPOINT` resultante:
+Si quieres ver qué `ENTRYPOINT` y `CMD` quedaron configurados:
 
 ```bash
 docker image inspect mi-app:dev | jq '.[0].Config.Entrypoint, .[0].Config.Cmd'
 ```
 
+---
+
 ### Ejecutar un contenedor en local
 
-Ahora arranca un contenedor:
+Ahora levantas un contenedor basado en esa imagen:
 
 ```bash
 docker run --rm -p 8000:8000 mi-app:dev
 ```
 
-Aquí:
+Desglose:
 
-* `--rm` elimina el contenedor cuando se detenga.
-* `-p 8000:8000` publica el puerto 8000 del contenedor en el 8000 de tu host.
-* `mi-app:dev` especifica la imagen.
+* `docker run`:
+    * Crea un **contenedor nuevo** desde una imagen.
+    * Inicia el proceso principal (acá, `python -m src.main`).
+* `--rm`:
+    * Cuando se detenga el contenedor, Docker lo **borra automáticamente** (no queda “basura”).
+* `-p 8000:8000`:
+    * Mapea: `puerto_host:puerto_contenedor`.
+    * Es decir: el puerto **8000 de tu máquina** apunta al puerto **8000 dentro del contenedor**.
+* `mi-app:dev`:
+    * Es la **imagen** que creaste recién.
 
-Abre en el navegador:
+Si no hay errores, deberías ver en la consola algo como:
+
+```text
+Servidor escuchando en http://0.0.0.0:8000
+```
+
+Ahora abre en el navegador:
 
 ```text
 http://localhost:8000
 ```
 
-Debes ver:
+Y deberías ver:
 
 ```text
 Hola desde un contenedor!
 ```
 
-Para ver logs en otro terminal:
+### Ver contenedores y logs
+
+Desde otra terminal:
 
 ```bash
-# Listar contenedores en ejecución
+# Ver contenedores corriendo
 docker ps
-
-# Ver logs del contenedor
-docker logs <id-o-nombre>
 ```
 
-Cuando detienes el contenedor (Ctrl+C en el terminal donde corre):
+Verás algo así:
 
-* El runtime OCI (`runc`) termina el proceso principal.
-* Docker limpia la capa de escritura (gracias a `--rm`).
-* La imagen `mi-app:dev` permanece disponible para futuros contenedores.
+```text
+CONTAINER ID   IMAGE        COMMAND                  STATUS         PORTS                    NAMES
+abcd1234efgh   mi-app:dev   "python -m src.main"     Up 1 minute    0.0.0.0:8000->8000/tcp   elegant_morse
+```
 
-!!! warning "Evitar usar contenedores como máquinas virtuales"
+Para ver los logs:
 
-    Aunque puedes entrar con `docker exec -it <contenedor> /bin/sh` y “tocar cosas”, recuerda que cualquier cambio manual se pierde al destruir el contenedor y no queda reflejado en la imagen. Para cambios persistentes, modifica el `Dockerfile` y reconstruye.
+```bash
+docker logs <id-o-nombre>
+# Por ejemplo:
+docker logs abcd1234efgh
+```
+
+Ahí verás los prints de tu aplicación (`print("Servidor escuchando...")`, etc.).
+
+Cuando vuelvas a la terminal donde corría `docker run` y presionas `Ctrl+C`:
+
+* Docker envía una señal para detener el proceso principal (`python -m src.main`).
+* El contenedor se apaga.
+* Como usamos `--rm`, Docker:
+    * Borra la **capa de escritura** del contenedor.
+    * Elimina el contenedor.
+* La **imagen** `mi-app:dev` sigue intacta, lista para crear nuevos contenedores.
+
+### Sobre “entrar al contenedor” y modificar cosas
+
+Es **posible** entrar a un contenedor en vivo:
+
+```bash
+docker exec -it <id-o-nombre> /bin/sh
+# o en imágenes más completas:
+docker exec -it <id-o-nombre> bash
+```
+
+Y ahí puedes:
+
+* Ver archivos.
+* Instalar cosas.
+* Editar, etc.
+
+Pero hay un detalle clave:
+
+* Todo lo que hagas ahí queda en la **capa de escritura del contenedor**, no en la imagen.
+* Cuando el contenedor muere (o usas `--rm`), esa capa se pierde.
+
+!!! warning "No uses el contenedor como si fuera una VM permanente"
+
+    Los contenedores son **efímeros**. Cualquier cambio que hagas dentro de un contenedor en ejecución:
+
+    Flujo recomendado:
+
+    1. Pruebas algo manual dentro del contenedor.
+    2. Si te sirve, vuelves al `Dockerfile` y agregas las instrucciones necesarias.
+    3. Reconstruyes la imagen (`docker build ...`).
+    4. Vuelves a levantar el contenedor con los cambios ya en la imagen.
 
 ---
 
