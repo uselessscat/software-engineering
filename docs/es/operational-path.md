@@ -122,7 +122,7 @@
         3. Autómatas y lenguajes regulares
             1. Autómatas finitos deterministas y no deterministas (DFA / NFA)
             2. Transiciones ε y poder del no determinismo
-            3. Construcción por subconjuntos (NFA → DFA)
+            3. Construcción por subconjuntos (NFA -> DFA)
             4. Minimización y equivalencia de autómatas
             5. Expresiones regulares (ER) ↔ autómatas
             6. Propiedades de cierre y decidibilidad
@@ -579,7 +579,7 @@
         11. Syscalls y modos de ejecución
             1. Entrada al kernel (syscall/sysenter/trap)
             2. ABI de llamadas al sistema
-            3. Transición user space → kernel space
+            3. Transición user space -> kernel space
             4. Emulación y compatibilidad de syscalls
             5. Llamadas bloqueantes vs no bloqueantes
             6. Virtualización / contenedorización de syscalls
@@ -632,18 +632,151 @@
             8. Aislamiento de cgroups y cuotas
             9. Seguridad reforzada por política obligatoria
             10. Costos de overhead y densidad por tipo
-        4. Contenedores
-            1. Runtimes de contenedor (Docker, containerd, CRI-O)
-            2. Estándares OCI y compatibilidad de runtimes
-            3. Contenedores rootless y minimización de privilegios
-            4. Pods y agrupación de contenedores
-            5. Volúmenes, mounts y persistencia de estado
-            6. Patrones sidecar y contenedores auxiliares
-            7. Inyección de configuración y secretos
-            8. Versionado y despliegue inmutable
-            9. Políticas de recursos por contenedor
-            10. Reuso de imágenes base comunes
-        5. Namespaces y cgroups
+        4. Fundamentos de contenedores y runtimes OCI
+            1. Contexto y motivación de los contenedores
+                1. Evolución histórica de los mecanismos de aislamiento
+                    1. `chroot` y jaulas (jails) BSD
+                    2. LXC (Linux Containers)
+                    3. Aparición de Docker y el ecosistema cloud-native
+                2. Contenedores vs máquinas virtuales
+                    1. Kernel compartido vs hypervisor
+                    2. Aislamiento a nivel de proceso vs aislamiento de hardware
+                    3. Overhead de recursos, tiempos de arranque y densidad de carga
+            2. Arquitectura básica de contenedores en Linux
+                1. Rol del kernel en el modelo de contenedores
+                    1. No hay “VM” separada: todos los contenedores comparten el mismo kernel del host
+                    2. Aislamiento mediante procesos y control de recursos
+                2. Namespaces
+                    1. PID namespace: árbol de procesos aislado por contenedor
+                    2. NET namespace: interfaces de red, rutas, iptables propias
+                    3. MNT namespace: vista propia de puntos de montaje y filesystem
+                    4. UTS namespace: hostname e información de sistema aislados
+                    5. IPC namespace: colas, semáforos, memoria compartida aislada
+                    6. USER namespace: mapeo de IDs de usuario y soporte rootless
+                    7. CGROUP namespace: vista de grupos de control
+                3. cgroups (control groups)
+                    1. Diferencias entre cgroups v1 y cgroups v2 (visión general)
+                    2. Limitación de CPU, memoria, I/O, número de procesos (PIDs)
+                    3. Accounting y métricas de uso de recursos
+                4. Filesystems copy-on-write y union
+                    1. Concepto de union filesystem y capas superpuestas
+                    2. OverlayFS como implementación típica
+                    3. Impacto en performance y consumo de disco
+                5. Mecanismos de seguridad básicos (nivel conceptual)
+                    1. Linux capabilities (y su reducción para minimizar privilegios)
+                    2. Seccomp-bpf para filtrado de syscalls
+                    3. AppArmor / SELinux como perfiles de confinamiento
+            3. Imagen vs contenedor, capas, entrypoint
+                1. Definición de imagen de contenedor
+                    1. Plantilla inmutable que describe filesystem + metadatos
+                    2. Diferencia conceptual entre imagen, runtime y engine
+                2. Contenedor como instancia en ejecución
+                    1. Imagen + capa writable + proceso(s) = contenedor
+                    2. Aislamiento del proceso como unidad principal de ejecución
+                3. Estructura interna de una imagen (modelo genérico/OCI)
+                    1. Manifiesto (`manifest`)
+                    2. Configuración (`config`) y metadatos
+                    3. Capas empaquetadas (tar blobs)
+                    4. Root filesystem resultante al montar las capas
+                4. Capas de imagen
+                    1. Capas de sólo lectura (read-only)
+                    2. Capa writable asociada a cada contenedor
+                    3. Relación entre capas, cache y reuso de artefactos
+                5. Metadatos relevantes de imagen
+                    1. `ENTRYPOINT`
+                    2. `CMD` y diferencia con `ENTRYPOINT`
+                    3. Argumentos (`args`) en tiempo de ejecución
+                    4. `WORKDIR`, `ENV`, `LABELS`
+                    5. Puertos expuestos y volúmenes declarados como metadata
+                6. Proceso PID 1 del contenedor
+                    1. Comportamiento especial de PID 1 en Linux
+                    2. Manejo de señales (SIGTERM, SIGKILL, etc.)
+                    3. Recolección de procesos hijo (zombies)
+                    4. Relación entre `ENTRYPOINT`, `CMD` y PID 1
+            4. Estándares OCI y ecosistema
+                1. Open Container Initiative (OCI)
+                    1. Origen y motivación (evitar lock-in de formatos propietarios)
+                    2. Relación con CNCF y ecosistema cloud-native
+                2. OCI Image Specification
+                    1. Layout de una imagen en disco
+                    2. Descriptores, media types y digests
+                    3. Contenido direccionable por hash (content-addressable storage)
+                3. OCI Runtime Specification
+                    1. Bundle de contenedor: `rootfs` + `config.json`
+                    2. Estados de un contenedor según la spec
+                    3. Hooks y lifecycle del contenedor (prestart, poststart, poststop)
+                4. OCI Distribution Specification (visión general)
+                    1. Estructura de manifests, config y layers para transporte
+                    2. Referencias por tag vs por digest
+                    3. Concepto de `repository` y `artifact` dentro del spec
+                5. Portabilidad y compatibilidad
+                    1. Imágenes reutilizables entre distintos motores
+                    2. Runtimes alternativos que comparten la misma spec
+            5. Runtimes: containerd, runc, CRI-O
+                1. Stack típico de contenedores
+                    1. CLI de alto nivel (docker, podman, nerdctl, etc.)
+                    2. Engine/daemon o servicio (dockerd, containerd, CRI-O)
+                    3. Runtime de bajo nivel compatible OCI (runc, crun, kata, gVisor, etc.)
+                    4. Kernel del sistema operativo
+                2. `runc`
+                    1. Implementación de referencia de la OCI Runtime Spec
+                    2. Uso de `libcontainer` para configurar namespaces y cgroups
+                    3. Creación de contenedores a partir de bundles OCI
+                    4. Interacción con el kernel (`clone`, `unshare`, `setns`, etc.)
+                3. `containerd`
+                    1. Rol como runtime de alto nivel y gestor de contenedores
+                    2. Arquitectura básica
+                        1. Content store (blobs de imágenes)
+                        2. Snapshotters (overlayfs, btrfs, zfs, etc.)
+                        3. Shims por contenedor
+                        4. Plugins (CRI, introspección, métricas)
+                    3. Diferencia entre containerd y Docker Engine
+                        1. Docker Engine como “stack completo” que usa containerd
+                        2. Uso de containerd como runtime directo en Kubernetes
+                    4. Interacción containerd ↔ runc
+                        1. Cómo containerd invoca runc para acciones de bajo nivel
+                        2. Manejo de estado y reintentos a nivel de containerd
+                4. CRI-O
+                    1. Objetivo: runtime minimalista para Kubernetes basado en OCI
+                    2. Implementación de la Kubernetes Container Runtime Interface (CRI)
+                    3. Uso de runc/crun/kata como runtimes subyacentes
+                    4. Diseño centrado en “hacer una cosa: correr contenedores para Kubernetes”
+                5. Otros runtimes OCI relevantes (mención conceptual)
+                    1. `crun` como runtime ligero orientado a performance
+                    2. Kata Containers como contenedores sobre microVMs
+                    3. gVisor como runtime con sandboxing a nivel de syscalls
+            6. Integración con Kubernetes (ubicación en el ecosistema)
+                1. Kubernetes como orquestador, no como runtime de contenedores
+                2. Kubernetes Container Runtime Interface (CRI)
+                    1. Rol del kubelet
+                    2. CRI como contrato entre kubelet y el runtime
+                3. Runtimes usados por Kubernetes
+                    1. containerd + plugin CRI
+                    2. CRI-O como alternativa centrada en OCI
+                4. Responsabilidades del runtime en un cluster
+                    1. Descarga de imágenes (`pull`)
+                    2. Creación y destrucción de pods/containers
+                    3. Reporte de estado y métricas al kubelet
+            7. Modelos de ejecución: root vs rootless (fundamentos)
+                1. Ejecución de contenedores como root
+                    1. Acceso a todas las capacidades del kernel
+                    2. Superficie de ataque en caso de compromiso del contenedor
+                2. Ejecución rootless
+                    1. Uso de user namespaces para mapear IDs de usuario
+                    2. Limitaciones técnicas (ciertos mounts, puertos <1024, etc.)
+                    3. Implicancias de aislamiento frente al host
+            8. Limitaciones y trade-offs de los contenedores
+                1. Aislamiento basado en kernel compartido
+                    1. Comparación con el aislamiento fuerte de una VM
+                    2. Escenarios donde el modelo de contenedores no es suficiente
+                2. Dependencias del kernel host
+                    1. Funcionalidades y versiones mínimas requeridas
+                    2. Impacto de bugs o configuraciones del kernel en los contenedores
+                3. Trade-offs generales
+                    1. Beneficios de reproducibilidad vs complejidad agregada
+                    2. Aislamiento vs necesidad de herramientas del host (debuggers, IDEs)
+                    3. Multi-tenant vs sobrecarga en políticas y seguridad
+        5. Namespaces y cgroups (profundización)
             1. Namespaces de PID
             2. Namespaces de red
             3. Namespaces de montaje
@@ -654,61 +787,70 @@
             8. cgroups v2 unificado
             9. Límites de CPU / memoria / I/O por grupo
             10. Priorización y fair sharing de recursos
-        6. Construcción y gestión de imágenes
-            1. Dockerfile y builds multi-stage
-            2. Capas (layers) y union filesystems (overlayfs)
-            3. Imágenes inmutables y reproducibles
-            4. Imágenes distroless y superficie mínima
-            5. Firmas, atestación e integridad de imágenes
-            6. Registries / repositorios privados y públicos
-            7. SBOM y supply chain security
-            8. Versionado y etiquetado (tags / digests)
-            9. Reducción de tamaño y ataque de superficie
-            10. Gestión de dependencias base comunes entre servicios
-        7. Redes virtuales y SDN (Software-Defined Networking)
+        6. Construcción y gestión de imágenes (modelo conceptual)
+            1. Dockerfile y builds multi-stage como descripción declarativa de la imagen
+            2. Capas (layers) y union filesystems (overlayfs) como mecanismo de composición
+            3. Imágenes inmutables y reproducibles como objetivo de diseño
+            4. Versionado y etiquetado (tags / digests) y direccionamiento por contenido
+            5. Gestión de dependencias base comunes entre servicios
+        7. Redes virtuales y SDN (Software-Defined Networking) para contenedores
             1. Puentes virtuales y switches de software
-            2. NAT, port forwarding y conectividad externa
-            3. Redes overlay (VXLAN, GRE, Geneve)
+            2. NAT, port forwarding y conectividad externa (visión lógica)
+            3. Redes overlay (VXLAN, GRE, Geneve) como abstracción de capa 2 sobre capa 3
             4. Open vSwitch y switching programable
-            5. CNI (Container Network Interface) y plugins
-            6. Service mesh y control L7
+            5. CNI (Container Network Interface) como contrato entre kubelet y plugins
+            6. Service mesh y control L7 (modelo conceptual de malla de servicios)
             7. Balanceadores L4 / L7 internos
-            8. Políticas de red (network policies)
+            8. Políticas de red (network policies) como firewall declarativo
             9. Control de ingress / egress
             10. Segmentación multi-tenant y aislamiento de tráfico
-        8. Orquestación de contenedores
+        8. Orquestación de contenedores (fundamentos)
             1. Kubernetes y el plano de control
-            2. Scheduler de pods y asignación de nodos
-            3. Recursos declarativos (Deployment, StatefulSet, DaemonSet, Job, CronJob)
+            2. Scheduler de pods y asignación de nodos (modelo de scheduling)
+            3. Recursos declarativos
+                1. Deployments
+                2. StatefulSets
+                3. DaemonSets
+                4. Jobs y CronJobs
             4. Services, load balancing interno y DNS del cluster
-            5. ConfigMaps, Secrets y configuración dinámica
-            6. Autoscaling horizontal y vertical
-            7. Operators / CRD y extensibilidad
-            8. Afinidad, tolerations y taints
+            5. ConfigMaps, Secrets y configuración dinámica (conceptos)
+            6. Autoscaling horizontal y vertical (modelo basado en métricas)
+            7. Operators / CRD y extensibilidad del API
+            8. Afinidad, `tolerations` y `taints` (políticas de colocación)
             9. Separación control plane vs data plane
-            10. Actualizaciones rolling, canary y rollback seguro
-        9. Seguridad y aislamiento multi-tenant
-            1. seccomp y filtrado de syscalls
+            10. Patrones de actualización: rolling, canary y rollback
+        9. Seguridad y aislamiento multi-tenant (fundamentos)
+            1. `seccomp` y filtrado de syscalls (visión general)
             2. SELinux / AppArmor y control mandatorio
-            3. Linux capabilities y privilegios mínimos
+            3. Linux capabilities y principios de privilegio mínimo
             4. Runtimes rootless y espacios de usuario aislados
-            5. Admission controllers y enforcement de políticas
+            5. Admission controllers y enforcement de políticas (conceptual)
             6. gVisor / Kata Containers y sandbox por VM ligera
-            7. Firmas y validación criptográfica de imágenes
+            7. Firmas y validación criptográfica de imágenes (concepto)
             8. Prevención y detección de escapes de contenedor
             9. Políticas de red por tenant / namespace
             10. Confidential computing y aislamiento por hardware
         10. Observabilidad y debugging en entornos virtualizados
-            1. Recolección centralizada de logs de contenedores
-            2. Métricas de recursos (CPU, memoria, I/O, red)
-            3. Trazas distribuidas entre servicios
-            4. eBPF para inspección ligera del kernel
-            5. Profiling continuo de rendimiento (perf, pprof)
-            6. Contenedores de debug / inspección efímera
-            7. Port forwarding y acceso introspectivo
-            8. Health checks (liveness / readiness / startup)
-            9. Observación de eventos del scheduler / runtime
-            10. Auditoría de syscalls, cambios de política y seguridad
+            1. Estados de un contenedor y su significado
+                1. `created`, `running`, `paused`, `stopped`, `exited`
+                2. Relación de cada estado con procesos y cgroups
+            2. Información de runtime disponible
+                1. Metadatos de imagen (configuración, labels, entrypoint, etc.)
+                2. Metadatos de contenedor (estado, timestamps, exit code)
+            3. Relación entre contenedor y host para diagnóstico
+                1. Ver procesos del contenedor desde el host (namespaces PID)
+                2. Ver límites y consumos desde los cgroups
+                3. Diferencia conceptual entre observar el host vs observar el contenedor
+            4. Recolección centralizada de logs de contenedores
+            5. Métricas de recursos (CPU, memoria, I/O, red)
+            6. Trazas distribuidas entre servicios
+            7. eBPF para inspección ligera del kernel
+            8. Profiling continuo de rendimiento (`perf`, `pprof`)
+            9. Contenedores de debug / inspección efímera
+            10. Port forwarding y acceso introspectivo
+            11. Health checks (liveness / readiness / startup)
+            12. Observación de eventos del scheduler / runtime
+            13. Auditoría de syscalls, cambios de política y eventos de seguridad
     8. Almacenamiento distribuido y sistemas de archivos
         1. Modelos de almacenamiento
             1. Almacenamiento local directo (DAS)
@@ -2142,7 +2284,7 @@
             10. Protección de secretos en entornos compartidos / shells multiusuario
             11. Variables inmutables y variables de solo lectura
             12. Scripts de login vs scripts de interacción
-            13. Entorno heredado por subprocesos (parent → child)
+            13. Entorno heredado por subprocesos (parent -> child)
             14. Collisions y shadowing de PATH
             15. Archivos `/etc/environment`, `/etc/profile`, `/etc/profile.d`
             16. Configuración declarativa en contenedores (ENV, ARG)
@@ -2624,6 +2766,7 @@
             8. Uso de feature flags vs ramas de larga vida
             9. Release trains / cadencia fija de entregas
             10. Limpieza de ramas zombies / ramas huérfanas
+            11. Comparación entre Gitflow y trunk-based development (ventajas, riesgos y casos de uso)
         3. Rebase, merge, cherry-pick y manejo de trabajo en paralelo
             1. Fast-forward merge vs merge commit
             2. Rebase interactivo para limpiar historial
@@ -2657,6 +2800,7 @@
             8. Commits firmados / verificables
             9. Separar cambios funcionales y refactors en PRs distintos
             10. Asociación entre commits y trazabilidad legal / cumplimiento
+            11. Uso de convenciones como Conventional Commits para derivar tipo de cambio (major/minor/patch) y automatizar pre-releases
         6. Versionado semántico y etiquetado de lanzamientos
             1. Mayor / menor / parche
             2. Cambios incompatibles y releases mayores
@@ -2668,6 +2812,7 @@
             8. Estrategias de deprecación gradual de APIs
             9. Compatibilidad binaria / ABI en librerías
             10. Herramientas automáticas de bump de versión y tagging
+            11. Etiquetado de artefactos (imágenes, paquetes) por commit, rama y release en pipelines de CI/CD
         7. Gestión de submódulos, monorepos y multi-repos
             1. Submódulos y dependencias versionadas
             2. Sincronización de versiones entre repositorios
@@ -2694,6 +2839,10 @@
             1. Pull requests y merge requests
             2. Revisión por pares y ownership de módulos
             3. Checks automáticos en cada PR
+                1. Lint y formato
+                2. Unit tests
+                3. Análisis estático y dinámico de seguridad básico (SAST/DAST ligeros)
+                4. Gates de calidad y cobertura mínima de tests
             4. Gatekeepers y responsabilidades de aprobación
             5. Políticas para cambios urgentes
             6. Sincronización entre ramas y pipelines de CI
@@ -2701,6 +2850,12 @@
             8. Rotación de revisores y balanceo de carga de review
             9. Métricas de lead time y tiempo de revisión
             10. Pruebas de performance / carga en PRs críticos
+            11. Pipelines disparados por PR vs pipelines disparados por ramas principales
+            12. Plataformas de CI/hosting integradas (GitHub Actions, GitLab CI, Jenkins, CircleCI, Azure DevOps, Tekton Pipelines)
+            13. Entornos efímeros ligados a ramas y PR (preview environments)
+                1. Pull request envs sobre Kubernetes (namespaces dedicados por PR/branch)
+                2. Integración con GitHub/GitLab para auto-crear y auto-destruir entornos
+                3. Preview environments en plataformas PaaS (Vercel, Okteto, etc.)
         10. Políticas de revisión y ramas protegidas
             1. Ramas protegidas y restricciones de push
             2. Requisitos mínimos de revisión
@@ -2729,45 +2884,150 @@
             3. Refactors progresivos
             4. Compatibilidad transitoria
             5. Flags de migración
-    8. Devops
-        1. Entornos de desarrollo reproducibles y remotos  
-            1. Desarrollo en contenedores (devcontainers, Docker, Podman)  
-            2. Entornos efímeros por rama (preview environments)  
-            3. Dev environments remotos y cloud workspaces  
-            4. Sincronización de estado local/remoto (código, datos de prueba, secrets dummy)  
-            5. Aislamiento de recursos pesados (GPU, bases de datos, colas, cachés)  
-            6. Simulación local de servicios externos (mocks, sandboxes, emuladores)  
-            7. Políticas de consistencia entre dev / staging / prod (config, versiones, datos)  
-            8. Depuración remota con breakpoints sobre entornos cloud  
-            9. Auditoría y control de acceso a entornos compartidos  
-            10. Limpieza y rotación automática de entornos efímeros viejos  
-            11. Gestión declarativa de entornos (infra as code para dev: Docker Compose, Nix, Terraform/Terragrunt para labs)  
-            12. Buenas prácticas de datos en dev (anonymización, minimización, fixtures reproducibles)  
-        2. Contenedores para desarrollo y empaquetado básico  
-            1. Fundamentos de contenedores y runtimes OCI  
-            2. Construcción eficiente de imágenes (multi-stage, caching, minimización de capas)  
-            3. Ejecución local con Docker/Podman  
-            4. Docker Compose y entornos multi-servicio para desarrollo  
-            5. Volúmenes, redes locales y depuración en contenedores  
-            6. Empaquetado reproducible de servicios (imágenes versionadas, manifests básicos)  
-            7. Escaneo de vulnerabilidades en imágenes y hardening básico  
-            8. Gestión de registries (auth, namespaces, promoción de imágenes entre entornos)  
-            9. Patrones de configuración para contenedores (env vars, secretos, config files)  
-            10. Integración de contenedores con CI/CD (build, push, deploy desde pipelines)  
-        3. Plantillas de integración continua y entrega continua  
-            1. Pipelines de build y test  
-            2. Linting y análisis estático en CI  
-            3. Escaneos de seguridad automatizados (SAST/DAST, dependencias, contenedores)  
-            4. Pruebas unitarias, de integración y end-to-end en CI  
-            5. Publicación automática de artefactos (packs, imágenes, bins, librerías)  
-            6. Deploy automatizado en entornos intermedios (dev, qa, staging)  
-            7. Checks de calidad antes de merge (status checks requeridos, quality gates)  
-            8. Versionado automático y etiquetado de release (semver, tags, release branches)  
-            9. Deploy canario automatizado  
-            10. Rollback automático basado en alertas SLO / healthchecks  
-            11. Publicación automática de changelog / docs junto al release  
-            12. Observabilidad del pipeline de CI/CD (logs, métricas, tiempos, flakiness)  
-
+        13. GitOps y gestión declarativa de despliegues
+            1. Estado deseado almacenado en repositorios Git como fuente única de verdad
+            2. Reconciliadores que aplican cambios a la infraestructura (Argo CD, Flux)
+    8. DevOps para desarrollo
+        1. Fundamentos DevOps y flujo de entrega
+            1. Cultura y principios DevOps
+                1. Colaboración dev–ops–QA–seguridad
+                2. Entrega frecuente, feedback rápido, automatización sistemática
+                3. “Todo como código”: código, infra, config, políticas, pipelines
+            2. Conceptos clave
+                1. Integración continua (CI)
+                2. Entrega continua vs despliegue continuo (CD vs CD “full”)
+                3. Feature flags y toggles de configuración
+                4. Observabilidad desde el diseño (logs, métricas, trazas)
+            3. Tipos de entornos
+                1. Local dev, preprod/staging, producción
+                2. Ambientes de testing dedicados (QA, performance, sandbox)
+                3. Environments efímeros por feature/PR
+        2. Entornos de desarrollo reproducibles, DX y remotos
+            1. Desarrollo en contenedores
+                1. Devcontainers (VS Code, GitHub Codespaces)
+                2. Docker, Podman, nerdctl
+            2. Entornos de desarrollo estandarizados y remotos (Dev/Cloud workspaces)
+                1. Gitpod, GitHub Codespaces, Coder, JetBrains Gateway
+                2. Dev sobre clusters de Kubernetes (Telepresence, Okteto, namespaces dedicados)
+            3. Sincronización de estado local/remoto
+                1. Sincronización de código (hot reload, live sync)
+                2. Datos de prueba realistas pero anonimizados
+                3. Secrets dummy vs reales (fixtures de config, vaults de desarrollo)
+            4. Aislamiento de recursos pesados
+                1. GPU, bases de datos, colas, cachés
+                2. Namespaces y cuentas de servicio por desarrollador
+            5. Simulación local de servicios externos
+                1. Mocks HTTP (WireMock, MockServer)
+                2. Sandboxes de terceros (pasarelas de pago, proveedores externos)
+                3. Emuladores cloud (LocalStack, emuladores de Pub/Sub, S3, etc.)
+            6. Políticas de consistencia entre dev / staging / prod
+                1. Configuración alineada por entorno
+                2. Versiones mínimas de dependencias y runtimes
+                3. Datos de prueba sincronizados con migraciones de esquema
+            7. Depuración remota con breakpoints sobre entornos cloud
+                1. Debug remoto con breakpoints en pods / contenedores
+                2. Port-forwarding, sidecars de debug
+            8. Auditoría y control de acceso a entornos compartidos
+                1. Políticas de acceso por rol (RBAC)
+                2. Trazabilidad de cambios en entornos compartidos
+            9. Limpieza y rotación automática de entornos efímeros viejos
+                1. Time-to-live de entornos
+                2. Garbage collection de recursos (volúmenes, buckets temporales)
+            10. Gestión declarativa de entornos de dev
+                1. Docker Compose para labs multi-servicio
+                2. Nix/Devbox para toolchains reproducibles
+                3. Terraform/Terragrunt para labs en la nube
+            11. Buenas prácticas de datos en dev
+                1. Anonimización y minimización de datos reales
+                2. Fixtures reproducibles y seeds de bases de datos
+                3. Generación sintética de datos para performance
+            12. Herramientas típicas
+                1. VS Code Remote/Devcontainers, Gitpod, Codespaces
+                2. kind/k3d/minikube para clústeres locales de Kubernetes
+                3. Tilt, Skaffold para iteración rápida sobre Kubernetes
+            13. Gestión de dotfiles y scripts del desarrollador
+                1. Dotfiles versionados para shells, editores y CLI
+                2. Scripts de automatización de tareas (Makefile, Taskfile, npm scripts)
+                3. Herramientas de entorno (direnv, asdf, pyenv, rbenv, etc.)
+        3. Contenedores para desarrollo y empaquetado básico
+            1. Casos de uso de contenedores en desarrollo
+                1. Entornos de desarrollo aislados por proyecto
+                2. Reproducibilidad entre máquinas de distintos devs
+                3. Dependencias de sistema encapsuladas en la imagen
+                4. Portabilidad entre estaciones de trabajo y servidores
+            2. Instalación y requisitos básicos para desarrollo
+                1. Requisitos del sistema
+                    1. Kernel con namespaces y cgroups habilitados
+                    2. Soporte de OverlayFS u otro filesystem union
+                    3. Arquitecturas soportadas (x86_64, arm64 como casos principales)
+                2. Opciones de instalación de motor de contenedores
+                    1. Docker Engine en Linux, Windows, macOS (visión general)
+                    2. Podman en distribuciones Linux (daemonless)
+                    3. containerd como servicio independiente
+                3. Configuración básica post-instalación
+                    1. Servicios y units `systemd` para el runtime elegido
+                    2. Gestión de permisos:
+                        1. Grupo `docker` u otros grupos similares
+                        2. Consideraciones de seguridad del socket del runtime
+                    3. Pruebas de humo:
+                        1. Ejecutar una imagen mínima para validar la instalación
+                        2. Verificar que se crean namespaces y cgroups correctamente (nivel conceptual)
+            3. Modelos de ejecución en desarrollo: root vs rootless
+                1. Cuándo usar contenedores como root en local
+                2. Uso práctico de rootless para minimizar riesgos en la máquina del dev
+                3. Limitaciones habituales en entornos rootless (puertos bajos, montajes privilegiados, etc.)
+            4. Fundamentos prácticos de contenedores y runtimes OCI para dev
+                1. Imagen vs contenedor, capas y `entrypoint` orientado a flujos de build
+                2. Runtimes: containerd, runc, CRI-O (qué suelen encontrar los devs en clusters y entornos locales)
+            5. Construcción eficiente de imágenes
+                1. Multi-stage builds para reducir tamaño
+                2. Caching de capas y orden de instrucciones en el Dockerfile
+                3. Minimización de tamaño de imagen para ciclos rápidos de feedback
+            6. Ejecución local con Docker/Podman
+                1. Flags útiles para dev (`--rm`, `-v`, `-p`, `--network`)
+                2. Logs y `attach` interactivo
+                3. Ejecución iterativa durante el desarrollo (rebuild + rerun)
+            7. Docker Compose y entornos multi-servicio para desarrollo
+                1. Orquestar app + DB + cola + caché
+                2. Overrides por entorno (`docker-compose.override.yml`)
+                3. Uso de perfiles y variables de entorno para distintas configuraciones
+            8. Volúmenes, redes locales y depuración en contenedores
+                1. Volúmenes bind vs named para compartir código y datos
+                2. Redes `bridge`, `host`, redes custom para entornos de desarrollo
+                3. `exec` dentro del contenedor para debugging (shells, herramientas)
+            9. Empaquetado reproducible de servicios
+                1. Imágenes versionadas con tags reproducibles (por commit, tag de git, etc.)
+                2. Manifests básicos de empaquetado (Dockerfile, Compose, charts simples para pre-producción)
+            10. Escaneo de vulnerabilidades en imágenes y hardening básico
+                1. Trivy, Clair, Grype, Anchore, etc.
+                2. Uso de imágenes minimalistas/distroless en entornos de desarrollo y testing
+            11. Gestión de registries para el flujo de desarrollo
+                1. Auth, namespaces y repositorios por proyecto/equipo
+                2. Promoción de imágenes entre entornos (dev → testing → staging)
+                3. Registries típicos: Docker Hub, GHCR, GitLab Registry, Harbor, ECR, GCR, Nexus Repository, Artifactory, etc.
+            12. Patrones de configuración para contenedores (orientados a apps)
+                1. Variables de entorno, archivos de config y montaje de secretos
+                2. 12-factor app aplicado a aplicaciones en contenedores
+                3. Separar configuración de la imagen para facilitar promoción entre entornos
+            13. Integración de contenedores con CI/CD
+                1. Build & push de imágenes desde pipelines (GitLab CI, GitHub Actions, Jenkins, etc.)
+                2. Generación de SBOM y firma de imágenes (Syft, cosign/Sigstore, Notary v2) como parte del pipeline
+                3. Publicación de artefactos listos para ser consumidos por ambientes de testing y staging
+            14. Herramientas CNCF / cloud-native típicas en el ciclo de desarrollo
+                1. BuildKit, Kaniko, buildpacks para builds sin privilegios o en CI
+                2. Harbor como registry enterprise para equipos
+                3. Notation/cosign para firma y verificación de imágenes en workflows de dev/test
+        4. Introducción a CI/CD para desarrollo
+            1. Definición de pipeline y stages
+                1. build -> test -> package -> publish
+            2. Integración con repositorios
+                1. Pipelines as code (YAML, DSLs)
+            3. Artefactos de desarrollo
+                1. Builds snapshot / nightly
+                2. Publicación en registries de artefactos (Nexus, Artifactory, registries OCI)
+            4. Feedback rápido
+                1. Pipelines cortos vs pipelines largos
+                2. Caché de dependencias, Docker layer caching y builds incrementales
 
 4. Desarrollo backend y servicios
     1. Frameworks web y diseño de APIs
@@ -3323,7 +3583,7 @@
         1. Renderizado y composición de interfaz
             1. Árbol de nodos / árbol de vistas
             2. Layout responsivo (adaptación a viewport)
-            3. Flujo de composición (layout → paint → composite)
+            3. Flujo de composición (layout -> paint -> composite)
             4. Reutilización de vistas y subárboles
             5. Virtual DOM / reconciliación
             6. Server-Side Rendering (SSR)
@@ -4403,7 +4663,7 @@
             5. Daño acumulativo y degradación de rigidez
             6. Fractura dinámica y fragmentación rápida
             7. Efectos térmicos y termo-mecánicos en propagación de grietas
-            8. Modelos multiescala (microestructura → macrocomportamiento)
+            8. Modelos multiescala (microestructura -> macrocomportamiento)
             9. Simulación de impacto, penetración y balística
             10. Evaluación de vida útil y tolerancia al daño en ingeniería crítica
         4. Electromagnetismo computacional
@@ -4523,7 +4783,7 @@
             3. C++ para metaprogramación, genéricos y abstracciones sin costo
             4. C++ moderno (C++17/C++20) con plantillas y expresiones constantes evaluables en compile-time
             5. Julia como lenguaje de alto nivel con performance cercano a C
-            6. Interoperabilidad entre lenguajes (por ejemplo, C/Fortran → Python)
+            6. Interoperabilidad entre lenguajes (por ejemplo, C/Fortran -> Python)
             7. Gestión manual de memoria vs recolección de basura controlada
             8. Estabilidad numérica y reproducibilidad entre implementaciones
             9. Soporte para paralelismo nativo por lenguaje
@@ -4944,7 +5204,7 @@
             3. Reorganización de bucles para eliminar dependencias falsas
             4. Alineamiento de datos en memoria
             5. Uso de intrinsics SIMD específicos de la arquitectura
-            6. Cambiar AoS → SoA para acceso contiguo
+            6. Cambiar AoS -> SoA para acceso contiguo
             7. Desenrollado de bucles (loop unrolling)
             8. Fusión de operaciones en instrucciones FMA
             9. Verificación de resultados numéricos tras vectorizar
@@ -5089,7 +5349,7 @@
             4. Solapar transferencia de datos con cómputo
             5. Evitar offload de rutinas con poco paralelismo
             6. Mantener datos residentes en el acelerador varias etapas
-            7. Diseño de interfaces de llamada claras (host → device → host)
+            7. Diseño de interfaces de llamada claras (host -> device -> host)
             8. Reutilización de buffers en el acelerador
             9. Selección en runtime de a qué acelerador mandar cada kernel
             10. Balancear precisión numérica al migrar kernels sensibles
@@ -5117,7 +5377,7 @@
             10. Ajustes en caliente según telemetría de rendimiento
         7. Co-scheduling de múltiples aceleradores
             1. Nodos con varias GPUs trabajando en paralelo coordinado
-            2. Pipeline por etapas (GPU A → GPU B)
+            2. Pipeline por etapas (GPU A -> GPU B)
             3. Reparto de subdominios espaciales entre aceleradores
             4. Comunicación directa GPU↔GPU sin pasar por CPU
             5. Minimizar congestión del bus de interconexión
@@ -5407,7 +5667,7 @@
         5. Pipelines de análisis batch y streaming científicos
             1. Procesamiento batch de simulaciones completas ya finalizadas
             2. Procesamiento near real-time de resultados parciales
-            3. Flujos tipo “simular → analizar → decidir → retroalimentar simulación”
+            3. Flujos tipo “simular -> analizar -> decidir -> retroalimentar simulación”
             4. Tolerancia a fallos y reanudación de pipelines largos
             5. Orquestación distribuida en clúster HPC
             6. Encadenamiento de etapas heterogéneas (simulación Fortran, análisis Python)
@@ -5590,7 +5850,7 @@
             5. Análisis de incertidumbre experimental vs incertidumbre numérica
             6. Evaluación de predicción fuera del rango medido
             7. Validación cruzada entre laboratorios / experimentos
-            8. Ciclo iterativo “predecir → medir → refinar modelo”
+            8. Ciclo iterativo “predecir -> medir -> refinar modelo”
             9. Identificación de física faltante (p.ej. disipación no modelada)
             10. Aceptación del modelo para uso ingenieril / regulatorio
         3. Comparación cruzada entre códigos independientes
@@ -7263,7 +7523,7 @@
             1. Predicción puntual vs distribución completa
             2. Intervalos de predicción y cuantiles
             3. Predicción a distintos horizontes (1h, 24h, 7d)
-            4. Forecast jerárquico (categoría → producto)
+            4. Forecast jerárquico (categoría -> producto)
             5. Forecast agregable por región / canal
             6. Penalización por sobreestimación vs subestimación
             7. Métricas (MAPE, sMAPE, MASE)
@@ -7354,7 +7614,7 @@
             2. Control motor fino
             3. Políticas reactivas vs planeamiento
             4. Imitation learning / behavioral cloning
-            5. Sim2Real (transferencia simulador → mundo real)
+            5. Sim2Real (transferencia simulador -> mundo real)
             6. Seguridad física y límites de fuerza
             7. Retroalimentación sensorial ruidosa
             8. Latencia y control en tiempo real
@@ -7494,7 +7754,7 @@
             7. Seguridad y acceso por capa
             8. Uso analítico vs uso ML
             9. Catálogo centralizado de datasets productivos
-            10. Evolución histórica de warehouse → lake → lakehouse
+            10. Evolución histórica de warehouse -> lake -> lakehouse
         4. Formatos columnares y almacenamiento orientado a análisis
             1. Columnar vs row-oriented
             2. Formatos tipo Parquet / ORC
@@ -7965,7 +8225,7 @@
             9. Trade-off privacidad / performance
             10. Uso en salud y finanzas
         3. Gobernanza, trazabilidad y auditoría de datos y modelos
-            1. Linaje de datos crítico (origen → transformación → decisión)
+            1. Linaje de datos crítico (origen -> transformación -> decisión)
             2. Quién entrenó el modelo y con qué datos
             3. Historial de versiones del modelo en producción
             4. Registro de cambios de features
@@ -8053,7 +8313,7 @@
             9. Portabilidad entre entornos
             10. Conservación de experimentos históricos
         11. Gobernanza del ciclo de vida completo del dato y del modelo
-            1. Flujo dato → feature → modelo → predicción → acción
+            1. Flujo dato -> feature -> modelo -> predicción -> acción
             2. Dueños claros para cada etapa
             3. Políticas de aprobación en cada cambio
             4. Monitoreo continuo post-despliegue
@@ -8690,7 +8950,7 @@
             1. Registro de decisiones técnicas (ADR)
             2. Historial de cambios funcionales y de infraestructura
             3. Evidencia de validación y certificación
-            4. Mapeo requisito → prueba → resultado
+            4. Mapeo requisito -> prueba -> resultado
         11. Cumplimiento de marcos y certificaciones de la industria
             1. Controles y requisitos regulatorios aplicables
             2. Estándares de seguridad y privacidad de datos
@@ -8796,11 +9056,14 @@
     2. Infraestructura y operaciones
         1. Estrategias avanzadas de control de versiones y ramas
             1. Ramas de larga duración y ramas efímeras
-            2. Estrategias trunk-based y release branches
+            2. Estrategias trunk-based y release branches vs GitFlow
             3. Versionado semántico y etiquetado de releases
             4. Cherry-pick y backport controlado
             5. Políticas de revisión y protección de ramas
             6. Lineaje de cambios y auditoría de commits
+            7. Estrategias para monorepos vs multirepos (herramientas Nx, Bazel, etc.)
+            8. Convenciones de commits (Conventional Commits)
+            9. Feature flags como complemento a branching
         2. Integración continua / entrega continua en entornos reales
             1. Pipelines automatizados de build y test
             2. Validaciones de seguridad en el pipeline
@@ -8808,27 +9071,71 @@
             4. Artefactos versionados y promoción entre entornos
             5. Deploy continuo vs deploy bajo aprobación
             6. Rollback automatizado ante fallos
+            7. Pipelines multi-stage y multi-entorno
+            8. Pipelines acoplados a monorepos (matrix builds, paths filters)
+            9. Estrategias de entrega progresiva
+                1. Blue/green
+                2. Canary (Argo Rollouts, Flagger)
+                3. A/B testing
+            10. GitOps como modelo de CD
+                1. Reconciliadores (Argo CD, FluxCD), self-healing y detección de drift
+                2. Política de “no tocar cluster a mano”
+                3. Patrones multi-cluster (hub-and-spoke, etc.)
+            11. Cadena de suministro de software en CI/CD
+                1. SAST, SCA, DAST en el pipeline
+                2. SBOM en el pipeline (Syft, CycloneDX, etc.)
+                3. Firmado y verificación de artefactos (cosign/Sigstore, Notary v2, in-toto, niveles SLSA)
+                4. Publicación en repositorios de artefactos (Nexus, Artifactory, registries OCI)
+            12. Herramientas típicas
+                1. CI: Jenkins, GitLab CI, GitHub Actions, CircleCI, Tekton Pipelines
+                2. CD/GitOps: Argo CD, FluxCD, Spinnaker, Jenkins X
         3. Contenedores y definición de entornos portables
             1. Aislamiento de dependencias y librerías del sistema
             2. Imágenes reproducibles y deterministas
             3. Reducción de superficie de ataque en la imagen
-            4. Versionado y cache de capas
-            5. Inmutabilidad del runtime empaquetado
-            6. Compatibilidad multiplataforma y arquitectura CPU
+            4. Versionado y cache de capas en repositorios centralizados
+            5. Inmutabilidad del runtime empaquetado (infraestructura inmutable)
+            6. Compatibilidad multiplataforma y arquitectura CPU (multi-arch)
+            7. Imágenes distroless y rootless containers como hardening en producción
+            8. Firmado de imágenes y políticas de verificación (cosign, Notary v2)
+            9. Generación y almacenamiento de SBOM para imágenes en registries
+            10. Admission controllers para restringir qué imágenes pueden correr
         4. Despliegue de múltiples servicios coordinados
             1. Versionado independiente por servicio
             2. Contratos de API y compatibilidad hacia atrás
             3. Orquestación de despliegues dependientes
             4. Sincronización de cambios de esquema de datos
             5. Migraciones transicionales y ventanas de mantenimiento
-            6. Estrategias de despliegue gradual por servicio
+            6. Estrategias de despliegue gradual por servicio (blue/green, canary, rolling)
+            7. Contract testing (Pact, Hoverfly, etc.)
+            8. Gestión de breaking changes en APIs y esquemas
+            9. Feature flags a nivel de servicio
         5. Orquestación de contenedores y planificación de cargas
             1. Schedulers y asignación de pods/tareas
             2. Afinidad y anti-afinidad de nodos
-            3. Probes de liveness y readiness
+            3. Probes de liveness y readiness en producción
             4. Autoescalado controlado por métricas
-            5. Actualizaciones rolling y despliegues canary
-            6. Gestión de estado en cargas stateful
+            5. Actualizaciones rolling y despliegues canary operados en cluster
+            6. Gestión de estado en cargas stateful (volúmenes persistentes, StatefulSets)
+            7. Primitivas de Kubernetes
+                1. Nodes, Pods, Deployments, StatefulSets, DaemonSets
+                2. Jobs y CronJobs para batch y tareas periódicas
+            8. Requests/limits y clases de QoS
+            9. Taints/tolerations y nodos dedicados para ciertos tipos de carga
+            10. Autoescaladores
+                1. Horizontal/Vertical Pod Autoscaler
+                2. Cluster Autoscaler, Karpenter
+            11. Orquestadores y plataformas
+                1. Kubernetes (EKS, GKE, AKS, K3s, OpenShift)
+                2. Nomad, ECS, Swarm (legado)
+            12. Arquitectura y fundamentos de Kubernetes desde el punto de vista de operación
+                1. Componentes del control plane (API server, etcd, scheduler, controller manager)
+                2. Data plane: kubelet, kube-proxy y plugins CNI
+                3. Modelo declarativo y reconciliación continua de objetos
+            13. Empaquetado y despliegue en Kubernetes
+                1. Helm: charts, values, gestión de dependencias
+                2. Kustomize: overlays por entorno sin plantillas
+                3. Operadores y CRDs (Operator Pattern) para automatizar operaciones complejas
         6. Monitoreo de infraestructura y paneles de visualización
             1. Métricas de CPU, memoria, disco y red
             2. Estado de nodos, contenedores y pods
@@ -8836,6 +9143,10 @@
             4. Paneles en tiempo real y paneles ejecutivos
             5. Históricos de rendimiento para análisis de tendencias
             6. Correlación entre eventos de infraestructura y fallas
+            7. Patrones USE/RED y Golden Signals
+            8. Herramientas típicas
+                1. Prometheus (exporters, PromQL), Alertmanager, Grafana
+                2. Thanos, Mimir, Cortex para métricas a gran escala
         7. Infraestructura como código
             1. Declaratividad y convergencia de estado
             2. Versionado y auditoría de cambios infra
@@ -8843,6 +9154,16 @@
             4. Reutilización de módulos y componentes
             5. Gestión de múltiples entornos desde el mismo código
             6. Destrucción controlada y limpieza de recursos
+            7. Herramientas IaC
+                1. Terraform / OpenTofu, Terragrunt, Pulumi, Crossplane como “control plane universal” para recursos cloud
+                2. Plantillas nativas: CloudFormation, ARM, Deployment Manager
+            8. Configuración y automatización de sistemas
+                1. Ansible, Chef, Puppet, SaltStack
+                2. Construcción de imágenes de máquina inmutables (Packer, golden images AMI/VM)
+                3. Bootstrapping de instancias con cloud-init y scripts de userdata
+            9. IaC en pipelines
+                1. Plan/apply automatizado
+                2. Controles de aprobación y políticas
         8. Plataformas en la nube (cómputo, redes, almacenamiento)
             1. Máquinas virtuales y capacidad reservada
             2. Redes virtuales, subredes y reglas de ingreso
@@ -8850,6 +9171,10 @@
             4. Almacenamiento en bloque y archivos compartidos
             5. Replicación entre zonas y regiones
             6. Políticas de alta disponibilidad geográfica
+            7. Clústeres de Kubernetes gestionados
+                1. EKS, GKE, AKS, etc.
+            8. Bases de datos gestionadas
+                1. RDS, Cloud SQL, CosmosDB, etc.
         9. Almacenamiento de objetos, ejecución sin servidor, monitoreo gestionado
             1. Buckets de objetos y políticas de retención
             2. Funciones bajo demanda y cómputo sin servidor
@@ -8857,6 +9182,10 @@
             4. Integración con colas y eventos
             5. Servicios gestionados de logging y métricas
             6. Persistencia eventual y consistencia leída-despues-de-escritura
+            7. Integración FaaS + colas/streams (event-driven)
+            8. Patrones típicos
+                1. fan-in/fan-out
+                2. map-reduce serverless
         10. Gestión de configuración y secretos centralizados
             1. Variables de entorno y configuración externa
             2. Inyección dinámica de secretos en runtime
@@ -8864,6 +9193,18 @@
             4. Control de acceso basado en roles
             5. Versionado de configuración y rollback
             6. Separación configuración por entorno y por región
+            7. Secret management y KMS
+                1. HashiCorp Vault
+                2. Cloud KMS (AWS KMS, GCP KMS, Azure Key Vault)
+                3. External Secrets Operator, Sealed Secrets en Kubernetes
+                4. SOPS (Mozilla) para encriptar config en Git (GitOps de secretos)
+            8. Configuración declarativa
+                1. ConfigMaps/Secrets
+                2. Helm values
+                3. Kustomize overlays
+            9. Certificados y mTLS
+                1. cert-manager
+                2. ACME y rotación automática de certificados
         11. Monitoreo activo y alertas operacionales
             1. Probes sintéticos de disponibilidad
             2. Verificación de SLA y SLO
@@ -8871,6 +9212,14 @@
             4. Alertas por backlog de colas y congestión
             5. Alertas de costos y sobregasto proyectado
             6. Rutas de escalamiento y on-call
+            7. Modelado de SLI/SLO y error budgets (SRE)
+            8. Integración con paging
+                1. PagerDuty, Opsgenie, VictorOps, etc.
+            9. Dashboards operacionales para on-call
+            10. Ingeniería del caos (Chaos Mesh, LitmusChaos) para validar resiliencia
+            11. Gestión de incidentes
+                1. Playbooks y runbooks para on-call
+                2. Post-mortems y análisis de causa raíz
         12. Optimización de costos y escalado automático
             1. Rightsizing de instancias y contenedores
             2. Uso de instancias reservadas y spot/preemptibles
@@ -8878,6 +9227,134 @@
             4. Programación horaria de apagado de recursos
             5. Compresión y ciclo de vida de almacenamiento
             6. Reducción de duplicación de datos y tráfico innecesario
+            7. Autoscaling en Kubernetes vs serverless vs VMs
+            8. FinOps básico
+                1. Showback/chargeback
+                2. Budgets y alerts
+        13. Redes, proxys, gateways y descubrimiento de servicios
+            1. Fundamentos de redes L3/L4/L7 en cloud
+            2. Service discovery
+                1. DNS interno, registros SRV
+                2. Registries: Consul, etcd, Eureka
+            3. API gateways
+                1. Autenticación/autorización centralizada
+                2. Rate limiting, quotas, throttling
+                3. Transformación de requests/responses
+            4. Edge proxies y reverse proxies
+                1. NGINX, Envoy, HAProxy, Traefik
+            5. Ingress/Egress en Kubernetes
+            6. Herramientas típicas
+                1. Envoy Proxy
+                2. NGINX/NGINX Ingress, Traefik
+                3. Kong, Ambassador, Gloo, Tyk, AWS/GCP/Azure API Gateway
+            7. Balanceo global y CDN
+                1. Cloudflare, Fastly, CloudFront, Azure Front Door, etc.
+        14. Service mesh y gestión avanzada de tráfico interno
+            1. Concepto de service mesh: data plane vs control plane
+            2. Sidecars, proxies embebidos, modos sidecar-less/ambient mesh y tráfico este–oeste
+            3. mTLS entre servicios e identidad de workloads (SPIFFE/SPIRE)
+            4. Políticas de tráfico
+                1. Retries, timeouts, circuit breaking
+                2. Traffic shifting, canary a nivel de capa 7
+                3. Fault injection y pruebas de resiliencia en la malla
+            5. Observabilidad integrada
+                1. Métricas
+                2. Logs
+                3. Trazas
+            6. Herramientas típicas
+                1. Istio
+                2. Linkerd
+                3. Kuma, Consul Connect
+                4. Open Service Mesh
+        15. Logging y tracing distribuido (observabilidad avanzada)
+            1. Diseño de logs estructurados
+                1. Correlación con request IDs y trace IDs
+                2. Niveles de log y sampling
+            2. Pipelines de logging
+                1. Fluentd, Fluent Bit, Logstash, Vector, Promtail
+                2. Almacenamiento: Elasticsearch/OpenSearch, Loki, Cloud Logging, etc.
+            3. Trazas distribuidas
+                1. Spans, traces, contexto propagado
+                2. OpenTelemetry (OTel) como estándar unificado
+                3. Backends: Jaeger, Tempo, Zipkin, X-Ray, etc.
+                4. Propagación de contexto (W3C Trace Context)
+        16. Mensajería, colas y streaming de eventos
+            1. Patrones de comunicación asíncrona
+                1. Request/response vs fire-and-forget
+                2. Event-driven architecture (EDA)
+            2. Message brokers y colas
+                1. RabbitMQ, ActiveMQ, NATS, NATS JetStream
+                2. Conceptos: colas, exchanges, bindings, DLQ
+                3. Servicios gestionados: AWS SQS/SNS, Google Pub/Sub, Azure Service Bus, EventBridge, etc.
+            3. Streaming de eventos
+                1. Apache Kafka, Apache Pulsar, Redpanda
+                2. Topics, particiones, consumer groups
+                3. Garantías: at-most-once, at-least-once, exactly-once (best-effort)
+                4. Ecosistema Kafka: Kafka Connect, Schema Registry, Strimzi (Kafka en Kubernetes)
+            4. Procesamiento de streams
+                1. Flink, Kafka Streams, ksqlDB, Spark Structured Streaming
+            5. Patrones transaccionales
+                1. Outbox pattern, CDC (Debezium)
+                2. Idempotencia y deduplicación
+            6. Patrones de arquitectura event-driven
+                1. Event Sourcing
+                2. CQRS (Command Query Responsibility Segregation)
+        17. Scheduling y orquestación de jobs/batch
+            1. Cron clásico y systemd timers
+            2. Kubernetes CronJobs/Jobs
+            3. Orquestadores de workflows
+                1. Apache Airflow
+                2. Argo Workflows, Tekton
+                3. Prefect, Dagster, Temporal
+            4. Dependencias entre tareas, retries y backoff exponencial
+            5. Jobs de mantenimiento y housekeeping
+                1. Limpieza
+                2. Compactación
+                3. Backups
+        18. Seguridad, compliance y supply chain cloud-native
+            1. Modelo de amenazas en entornos cloud-native
+            2. Autenticación/autorización
+                1. IAM de cloud provider
+                2. RBAC/ABAC en Kubernetes y herramientas
+                3. Identity providers (IdP): Keycloak, Dex (OIDC/OAuth2, SAML) integrados con RBAC
+            3. Network policies y segmentación
+            4. Seguridad de contenedores
+                1. Escaneo de imágenes (Trivy, Clair, Grype, Anchore)
+                2. Runtime security (Falco, eBPF)
+            5. Supply chain de software
+                1. Firma de artefactos e imágenes (cosign, Sigstore)
+                2. SLSA, in-toto, verificación de provenance
+            6. Policies as code
+                1. OPA/Gatekeeper
+                2. Kyverno
+            7. Auditoría y cumplimiento
+                1. Logs de auditoría
+                2. Retención y normativas
+        19. Automatización operacional y runbooks
+            1. Runbooks operacionales
+                1. Manuales y automatizados
+                2. ChatOps (Slack/Teams + bots)
+            2. Auto-remediación
+                1. Handlers que responden a alertas
+                2. Reinicios automatizados, cordon/drain, escalado automático
+            3. Orquestación de tareas operacionales
+                1. Integración de Airflow/Argo/Temporal para tareas ops
+                2. Automatización de backups, rotación de secretos, limpieza de recursos
+            4. Integración con incident management
+                1. Creación automática de tickets/incidentes
+                2. Enriquecimiento de contexto para on-call
+        20. Plataformas internas de desarrollo (Internal Developer Platforms)
+            1. Concepto de Platform Engineering
+                1. Abstracción de la complejidad infra para los equipos de producto
+            2. Self-service para devs
+                1. Catálogo de servicios
+                2. Plantillas de repos
+                3. Stacks predefinidos
+            3. Golden paths (caminos “bendecidos”)
+                1. Stacks recomendados y soportados
+            4. Plataformas de catálogo
+                1. Backstage u otras
+            5. Integración de IDP con CI/CD, observabilidad y seguridad
 
     3. Observabilidad, logs y métricas
         1. Logging estructurado y contextualizado
