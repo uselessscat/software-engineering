@@ -2305,16 +2305,8 @@
             19. Análisis automatizado con regex y `awk/sed`  
             20. Integración con SIEM modernos (Splunk, ELK, Wazuh)  
 
-    2. Fundamentos de lenguajes de programación
-        1. Ver rutas de aprendizaje de lenguajes de programación
-            1. Python
-            2. JavaScript / TypeScript
-            3. SQL
-            4. Shell
-            5. Rust
-            6. Dart
-            7. Elixir
-        2. Compiladores, intérpretes y construcción de lenguajes
+    2. Diseño e implementación de lenguajes
+        1. Compiladores, intérpretes y construcción de lenguajes
             1. Análisis léxico, análisis sintáctico, análisis semántico
             2. Representación intermedia (IR) y optimización
             3. Generación de código y backend
@@ -2325,7 +2317,7 @@
             8. Generadores léxicos y parsers (lexer/parser generators)
             9. Optimizaciones específicas de arquitectura (registro, cache, vectorización)
             10. Administración de memoria y GC en tiempo de ejecución
-        3. Diseño de lenguajes
+        2. Diseño de lenguajes
             1. Semántica operacional, denotacional y axiomática
             2. Visibilidad y alcance léxico / dinámico
             3. Mutabilidad vs inmutabilidad
@@ -2336,84 +2328,7 @@
             8. DSLs (lenguajes específicos de dominio)
             9. Módulos, encapsulación y control explícito de interfaz pública
             10. Seguridad de memoria, aislamiento y capacidad de sandboxing
-        4. Sintaxis y estructuras básicas
-            1. Expresiones y operadores
-            2. Declaraciones y bloques
-            3. Precedencia y asociatividad
-            4. Literales y construcción de valores
-            5. Comentarios y directivas
-            6. Importación de símbolos y alcance de nombres
-            7. Sombra de variables (shadowing)
-            8. Declaración de variables con distintos niveles de mutabilidad (`const`, `let`, `var`)
-            9. Sintaxis para estructuras literales (objetos, dicts, records)
-            10. Reglas de formato/indentación significativa (offside rule)
-        5. Tipos de datos y abstracción de datos
-            1. Primitivos escalares (numéricos, booleanos, caracteres)
-            2. Estructuras compuestas (registros, structs, tuples)
-            3. Colecciones (listas, arreglos, diccionarios, mapas)
-            4. Tipos algebraicos (suma y producto)
-            5. Enumeraciones etiquetadas
-            6. Tipos abstractos de datos (ADT)
-            7. Encapsulación de representación interna
-            8. Tipos opción / tal vez (Option, Maybe)
-            9. Genéricos paramétricos en estructuras de datos reutilizables
-            10. Tipos resultado / error seguros para señalizar fallos
-        6. Control de flujo (condicionales, bucles, manejo de ramificaciones)
-            1. if / else / switch / match
-            2. while / for / foreach
-            3. Pattern matching estructural
-            4. Cortocircuito lógico
-            5. Break / continue / return
-            6. Goto y saltos estructurados
-            7. Manejo explícito de ramificaciones y guard clauses
-            8. Abstracciones de control tipo map/filter/reduce
-            9. Excepciones como salto no local
-            10. Pattern guards, backtracking y ramificación declarativa
-        7. Funciones, cierres y paso de datos
-            1. Funciones de primera clase y funciones anónimas
-            2. Cierres (closures) con captura léxica
-            3. Paso por valor, paso por referencia, paso por nombre
-            4. Currificación y aplicación parcial
-            5. Recursión directa y recursión de cola
-            6. Funciones variádicas
-            7. Callbacks y funciones de orden superior
-            8. Inlining y optimización de funciones pequeñas
-            9. Semántica de movimiento / copia (move semantics / borrow)
-            10. Paso de datos inmutable vs mutable controlado
-        8. Paradigmas funcionales
-            1. Inmutabilidad
-            2. Funciones puras
-            3. Evaluación perezosa
-            4. Pattern matching
-            5. Tipos algebraicos y sum types
-            6. Mónadas, funtores, applicatives
-            7. Efectos controlados y IO monádico
-            8. Transformaciones sin estado compartido
-            9. Estructuras de datos persistentes
-            10. Programación reactiva funcional y streams declarativos
-        9. Programación orientada a objetos (clases, interfaces, herencia, composición)
-            1. Clases y objetos
-            2. Encapsulación y visibilidad
-            3. Herencia simple y múltiple
-            4. Polimorfismo de subtipos
-            5. Interfaces y contratos
-            6. Composición sobre herencia
-            7. Mixins y rasgos (traits)
-            8. Métodos virtuales y despacho dinámico
-            9. Metaclases y reflexión orientada a objetos
-            10. Objetos inmutables y value objects (semántica por valor)
-        10. Organización en módulos y paquetes
-            1. Módulos y namespaces
-            2. Imports / exports explícitos
-            3. Control de visibilidad pública / privada / interna
-            4. Empaquetado y distribución
-            5. Versionado semántico
-            6. Resolución de dependencias
-            7. Árboles de dependencias y deduplicación
-            8. Separación lógica por capa o dominio
-            9. Publicación en registros de paquetes (npm, PyPI, crates.io)
-            10. Compatibilidad binaria / estabilidad de ABI en librerías compartidas
-        11. Tipado estático y anotaciones de tipo
+        3. Tipado estático y anotaciones de tipo
             1. Tipado estático vs tipado dinámico
             2. Inferencia de tipos
             3. Polimorfismo paramétrico
@@ -2424,40 +2339,7 @@
             8. Propagación de null safety / tipos opción
             9. Mutabilidad tipada e inmutabilidad tipada
             10. Nullability, flow-sensitive typing y refinamiento de tipos en tiempo de análisis
-        12. Manejo de errores y excepciones
-            1. Excepciones verificadas vs no verificadas
-            2. Propagación de excepciones
-            3. Tipos resultado (Result, Either)
-            4. Valores centinela y códigos de error
-            5. Panic / abortar ejecución
-            6. Reintentos y recuperación
-            7. Limpieza garantizada post-error
-            8. Retries con backoff y circuit breakers en lógica de negocio
-            9. Logging estructurado de fallos y trazas
-            10. Políticas de resiliencia y aislamiento de fallos
-        13. Gestión estructurada de recursos (por ejemplo, scopes y contextos controlados)
-            1. RAII
-            2. Destructores / finalizers
-            3. with / using / defer
-            4. Propiedad y préstamo (ownership / borrowing)
-            5. Regiones de vida (lifetimes)
-            6. Recolección de basura
-            7. Pools de recursos
-            8. Reutilización de conexiones y pools de sockets/DB
-            9. Garantías de liberación aun con excepciones
-            10. Recolección determinista vs no determinista
-        14. Iteradores, generadores y secuencias consumibles
-            1. Iteradores internos y externos
-            2. Generadores con yield
-            3. Corutinas cooperativas
-            4. Secuencias lazy
-            5. Streams y pipelines de datos
-            6. Backpressure y consumo incremental
-            7. Iteración paralela y concurrente
-            8. Iteradores infinitos / streams sin fin
-            9. Materialización diferida y batching
-            10. Generadores con control de flujo y cancelación
-        15. Metaprogramación y reflexión
+        4. Metaprogramación y reflexión
             1. Macros en tiempo de compilación
             2. Transformación de AST
             3. Reflection en tiempo de ejecución
@@ -2468,18 +2350,120 @@
             8. eval y ejecución dinámica
             9. Programación orientada a aspectos (AOP)
             10. Generación automática de SDKs / clientes a partir de contratos
-        16. Serialización y deserialización de estructuras
-            1. JSON
-            2. XML
-            3. Representaciones binarias (Protocol Buffers, MessagePack)
-            4. Marshaling / unmarshaling
-            5. Versionado de mensajes
-            6. Esquemas y validación
-            7. Compatibilidad retroactiva y hacia adelante
-            8. Normalización de datos y canonical forms
-            9. Compresión y cifrado del payload serializado
-            10. Evolución de esquema sin downtime ni pérdida de datos
-        17. Estilo, convenciones y mantenibilidad del código
+    3. Paradigmas de programación
+        1. Paradigmas funcionales
+            1. Inmutabilidad
+            2. Funciones puras
+            3. Evaluación perezosa
+            4. Pattern matching
+            5. Tipos algebraicos y sum types
+            6. Mónadas, funtores, applicatives
+            7. Efectos controlados y IO monádico
+            8. Transformaciones sin estado compartido
+            9. Estructuras de datos persistentes
+            10. Programación reactiva funcional y streams declarativos
+        2. Programación orientada a objetos (clases, interfaces, herencia, composición)
+            1. Clases y objetos
+            2. Encapsulación y visibilidad
+            3. Herencia simple y múltiple
+            4. Polimorfismo de subtipos
+            5. Interfaces y contratos
+            6. Composición sobre herencia
+            7. Mixins y rasgos (traits)
+            8. Métodos virtuales y despacho dinámico
+            9. Metaclases y reflexión orientada a objetos
+            10. Objetos inmutables y value objects (semántica por valor)
+        3. Otros paradigmas (lógico, reactivo, concurrente, etc.)
+    4. Fundamentos de lenguajes de programación
+        1. Sintaxis y estructuras básicas
+            1. Expresiones y operadores
+            2. Declaraciones y bloques
+            3. Precedencia y asociatividad
+            4. Literales y construcción de valores
+            5. Comentarios y directivas
+            6. Importación de símbolos y alcance de nombres
+            7. Sombra de variables (shadowing)
+            8. Declaración de variables con distintos niveles de mutabilidad (`const`, `let`, `var`)
+            9. Sintaxis para estructuras literales (objetos, dicts, records)
+            10. Reglas de formato/indentación significativa (offside rule)
+        2. Tipos de datos y abstracción de datos
+            1. Primitivos escalares (numéricos, booleanos, caracteres)
+            2. Estructuras compuestas (registros, structs, tuples)
+            3. Colecciones (listas, arreglos, diccionarios, mapas)
+            4. Tipos algebraicos (suma y producto)
+            5. Enumeraciones etiquetadas
+            6. Tipos abstractos de datos (ADT)
+            7. Encapsulación de representación interna
+            8. Tipos opción / tal vez (Option, Maybe)
+            9. Genéricos paramétricos en estructuras de datos reutilizables
+            10. Tipos resultado / error seguros para señalizar fallos
+        3. Control de flujo (condicionales, bucles, manejo de ramificaciones)
+            1. if / else / switch / match
+            2. while / for / foreach
+            3. Pattern matching estructural
+            4. Cortocircuito lógico
+            5. Break / continue / return
+            6. Goto y saltos estructurados
+            7. Manejo explícito de ramificaciones y guard clauses
+            8. Abstracciones de control tipo map/filter/reduce
+            9. Excepciones como salto no local
+            10. Pattern guards, backtracking y ramificación declarativa
+        4. Funciones, cierres y paso de datos
+            1. Funciones de primera clase y funciones anónimas
+            2. Cierres (closures) con captura léxica
+            3. Paso por valor, paso por referencia, paso por nombre
+            4. Currificación y aplicación parcial
+            5. Recursión directa y recursión de cola
+            6. Funciones variádicas
+            7. Callbacks y funciones de orden superior
+            8. Inlining y optimización de funciones pequeñas
+            9. Semántica de movimiento / copia (move semantics / borrow)
+            10. Paso de datos inmutable vs mutable controlado
+        5. Iteradores, generadores y secuencias consumibles
+            1. Iteradores internos y externos
+            2. Generadores con yield
+            3. Corutinas cooperativas
+            4. Secuencias lazy
+            5. Streams y pipelines de datos
+            6. Backpressure y consumo incremental
+            7. Iteración paralela y concurrente
+            8. Iteradores infinitos / streams sin fin
+            9. Materialización diferida y batching
+            10. Generadores con control de flujo y cancelación
+        6. Gestión estructurada de recursos (por ejemplo, scopes y contextos controlados)
+            1. RAII
+            2. Destructores / finalizers
+            3. with / using / defer
+            4. Propiedad y préstamo (ownership / borrowing)
+            5. Regiones de vida (lifetimes)
+            6. Recolección de basura
+            7. Pools de recursos
+            8. Reutilización de conexiones y pools de sockets/DB
+            9. Garantías de liberación aun con excepciones
+            10. Recolección determinista vs no determinista
+        7. Manejo de errores y excepciones
+            1. Excepciones verificadas vs no verificadas
+            2. Propagación de excepciones
+            3. Tipos resultado (Result, Either)
+            4. Valores centinela y códigos de error
+            5. Panic / abortar ejecución
+            6. Reintentos y recuperación
+            7. Limpieza garantizada post-error
+            8. Retries con backoff y circuit breakers en lógica de negocio
+            9. Logging estructurado de fallos y trazas
+            10. Políticas de resiliencia y aislamiento de fallos
+        8. Organización en módulos y paquetes
+            1. Módulos y namespaces
+            2. Imports / exports explícitos
+            3. Control de visibilidad pública / privada / interna
+            4. Empaquetado y distribución
+            5. Versionado semántico
+            6. Resolución de dependencias
+            7. Árboles de dependencias y deduplicación
+            8. Separación lógica por capa o dominio
+            9. Publicación en registros de paquetes (npm, PyPI, crates.io)
+            10. Compatibilidad binaria / estabilidad de ABI en librerías compartidas
+        9. Estilo, convenciones y mantenibilidad del código
             1. Convenciones de nombres
             2. Formato automático y linters
             3. Documentación integrada y autodocumentación
@@ -2490,7 +2474,15 @@
             8. Control de complejidad ciclomática
             9. Gestión de deuda técnica
             10. Automatización de refactor y actualización de sintaxis / APIs obsoletas
-    3. Herramientas y productividad técnica
+        10. Rutas de aprendizaje de lenguajes de programación
+            1. Python
+            2. JavaScript / TypeScript
+            3. SQL
+            4. Shell
+            5. Rust
+            6. Dart
+            7. Elixir
+    5. Herramientas y productividad técnica
         1. Entornos aislados y gestión de dependencias
             1. Entornos virtuales por proyecto
             2. Bloqueo de versiones y archivos de lock
@@ -2601,36 +2593,7 @@
             8. Escaneo de secretos en el commit
             9. Validación automática de formato de mensaje de commit
             10. Smoke tests locales antes de push
-        11. Plantillas de integración continua y entrega continua
-            1. Pipelines de build y test
-            2. Linting y análisis estático en CI
-            3. Escaneos de seguridad automatizados
-            4. Publicación automática de artefactos
-            5. Deploy automatizado en entornos intermedios
-            6. Checks de calidad antes de merge
-            7. Versionado automático y etiquetado de release
-            8. Deploy canario automatizado
-            9. Rollback automático basado en alertas SLO
-            10. Publicación automática de changelog / docs junto al release
-        12. Entornos de desarrollo reproducibles y remotos
-            1. Desarrollo en contenedores
-            2. Entornos efímeros por rama
-            3. Dev environments remotos y cloud workspaces
-            4. Sincronización de estado local/remoto
-            5. Aislamiento de recursos pesados (GPU, bases de datos, colas)
-            6. Simulación local de servicios externos
-            7. Políticas de consistencia entre dev / staging / prod
-            8. Depuración remota con breakpoints sobre entornos cloud
-            9. Auditoría y control de acceso a entornos compartidos
-            10. Limpieza y rotación automática de entornos efímeros viejos
-        13. Contenedores para desarrollo y empaquetado básico
-            1. Fundamentos de contenedores y runtimes OCI
-            2. Construcción eficiente de imágenes (multi-stage, caching)
-            3. Ejecución local con Docker/Podman
-            4. Docker Compose y entornos multi-servicio para desarrollo
-            5. Volúmenes, redes locales y depuración en contenedores
-            6. Empaquetado reproducible de servicios
-    4. Observabilidad de aplicaciones
+    6. Observabilidad de aplicaciones
         1. Logging estructurado y contextualizado en el código
         2. Métricas de aplicación (counters, gauges, histograms)
         3. Instrumentación OpenTelemetry para tracing
@@ -2638,7 +2601,7 @@
         5. Healthchecks, readiness y liveness a nivel de aplicación
         6. Integración con APMs y herramientas de monitoreo
         7. Pruebas y validación de observabilidad en entornos locales
-    5. Control de versiones y colaboración
+    7. Control de versiones y colaboración
         1. Fundamentos de control de versiones distribuido
             1. Commits como snapshots inmutables
             2. Árbol de commits y DAG de historial
@@ -2766,6 +2729,45 @@
             3. Refactors progresivos
             4. Compatibilidad transitoria
             5. Flags de migración
+    8. Devops
+        1. Entornos de desarrollo reproducibles y remotos  
+            1. Desarrollo en contenedores (devcontainers, Docker, Podman)  
+            2. Entornos efímeros por rama (preview environments)  
+            3. Dev environments remotos y cloud workspaces  
+            4. Sincronización de estado local/remoto (código, datos de prueba, secrets dummy)  
+            5. Aislamiento de recursos pesados (GPU, bases de datos, colas, cachés)  
+            6. Simulación local de servicios externos (mocks, sandboxes, emuladores)  
+            7. Políticas de consistencia entre dev / staging / prod (config, versiones, datos)  
+            8. Depuración remota con breakpoints sobre entornos cloud  
+            9. Auditoría y control de acceso a entornos compartidos  
+            10. Limpieza y rotación automática de entornos efímeros viejos  
+            11. Gestión declarativa de entornos (infra as code para dev: Docker Compose, Nix, Terraform/Terragrunt para labs)  
+            12. Buenas prácticas de datos en dev (anonymización, minimización, fixtures reproducibles)  
+        2. Contenedores para desarrollo y empaquetado básico  
+            1. Fundamentos de contenedores y runtimes OCI  
+            2. Construcción eficiente de imágenes (multi-stage, caching, minimización de capas)  
+            3. Ejecución local con Docker/Podman  
+            4. Docker Compose y entornos multi-servicio para desarrollo  
+            5. Volúmenes, redes locales y depuración en contenedores  
+            6. Empaquetado reproducible de servicios (imágenes versionadas, manifests básicos)  
+            7. Escaneo de vulnerabilidades en imágenes y hardening básico  
+            8. Gestión de registries (auth, namespaces, promoción de imágenes entre entornos)  
+            9. Patrones de configuración para contenedores (env vars, secretos, config files)  
+            10. Integración de contenedores con CI/CD (build, push, deploy desde pipelines)  
+        3. Plantillas de integración continua y entrega continua  
+            1. Pipelines de build y test  
+            2. Linting y análisis estático en CI  
+            3. Escaneos de seguridad automatizados (SAST/DAST, dependencias, contenedores)  
+            4. Pruebas unitarias, de integración y end-to-end en CI  
+            5. Publicación automática de artefactos (packs, imágenes, bins, librerías)  
+            6. Deploy automatizado en entornos intermedios (dev, qa, staging)  
+            7. Checks de calidad antes de merge (status checks requeridos, quality gates)  
+            8. Versionado automático y etiquetado de release (semver, tags, release branches)  
+            9. Deploy canario automatizado  
+            10. Rollback automático basado en alertas SLO / healthchecks  
+            11. Publicación automática de changelog / docs junto al release  
+            12. Observabilidad del pipeline de CI/CD (logs, métricas, tiempos, flakiness)  
+
 
 4. Desarrollo backend y servicios
     1. Frameworks web y diseño de APIs
