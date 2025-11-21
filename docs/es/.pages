@@ -13,7 +13,7 @@ nav:
     - Python: 004-python
     - Js/Ts: 005-javascript-typescript
     - Sql: 006-sql
-    - Shell: 007-shell
+    - Bash: 007-bash
     - Rust: 008-rust
     - Dart: 009-dart
     - Elixir: 010-elixir
